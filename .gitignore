@@ -1,0 +1,16 @@
+node_modules/**/*
+.expo/*
+npm-debug.*
+*.jks
+*.p12
+*.key
+*.mobileprovision
+
+# added by taylor
+.expo-shared/*
+
+yarn-error.log
+yarn.lock
+package-lock.json
+
+untracked.js
