@@ -41,8 +41,8 @@ export default class PeopleSearchNearestScreen extends React.Component {
 		})
 
 		data = {
-			lat: Storage.loc.lat,
-			lng: Storage.loc.lng,
+			lat: Storage.loc.getLat(),
+			lng: Storage.loc.getLng(),
 			radius: radius,
 		}
 

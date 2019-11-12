@@ -32,8 +32,8 @@ export default class ConnectScreen extends React.Component {
 
 	getMessages = async () => {
 		data = {
-			lat: Storage.loc.lat,
-			lng: Storage.loc.lng,
+			lat: Storage.loc.getLat(),
+			lng: Storage.loc.getLng(),
 			radius: this.state.radius,
 		}
 

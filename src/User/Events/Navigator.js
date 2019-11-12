@@ -1,41 +1,40 @@
 import * as React from "react"
 import { Button, Text, View, Image, ScrollView } from "react-native"
 import { Ionicons } from '@expo/vector-icons';
-import { createStackNavigator } from "react-navigation-stack"
 import { createMaterialTopTabNavigator } from "react-navigation-tabs"
 
 import Blanket from "../../styles/blanket.js"
 
 
-class TrainersScreen extends React.Component {
+class CalendarScreen extends React.Component {
 	render() {
 		return (
 			<View style={{ flex: 1, alignItems: "center", justifyContent: "center"}}>
-				<Text>Trainers Screen</Text>
+				<Text>Events Calendar Screen</Text>
 			</View>
 		)
 	}
 }
 
 
-class MessagesScreen extends React.Component {
+class ListScreen extends React.Component {
 	render() {
 		return (
 			<View style={{ flex: 1, alignItems: "center", justifyContent: "center"}}>
-				<Text>Messages Screen</Text>
+				<Text>Events List Screen</Text>
 			</View>
 		)
 	}
 }
 
 
-const ScheduleNavigator =	createMaterialTopTabNavigator(
+const EventsNavigator =	createMaterialTopTabNavigator(
 	{
-		Trainers: {
-			screen: TrainersScreen
+		Calendar: {
+			screen: CalendarScreen
 		},
-		Messages: {
-			screen: MessagesScreen
+		List: {
+			screen: ListScreen
 		},
 
 	},
@@ -48,4 +47,4 @@ const ScheduleNavigator =	createMaterialTopTabNavigator(
 )
 
 
-export default ScheduleNavigator
+export default EventsNavigator

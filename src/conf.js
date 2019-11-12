@@ -16,6 +16,9 @@ export const conf = {
 
 	"kapiImages": "makeThisURL",
 
+	defaultLat: 40.7228,
+	defaultLng: -74.0000,
+
 	tzFormat: "standard",
 
 	"ACCEPTED": "ACCEPTED",

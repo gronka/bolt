@@ -7,8 +7,8 @@ import { createBottomTabNavigator } from "react-navigation-tabs"
 import ViewConvoScreen from "./Conversations/ViewConvoScreen.js"
 import ViewProfileScreen from "./ViewProfileScreen.js"
 import CommunityNavigator from "./Community/Navigator.js"
-import ScheduleNavigator from "./Schedule/Navigator.js"
-import LessonsNavigator from "./Lessons/Navigator.js"
+import EventsNavigator from "./Events/Navigator.js"
+import MapNavigator from "./Map/Navigator.js"
 import ConversationsNavigator from "./Conversations/Navigator.js"
 
 
@@ -36,7 +36,7 @@ class DashboardScreen extends React.Component {
 		return (
 			<View style={{ flex: 1, alignItems: "center", justifyContent: "center"}}>
 
-				<Text>Player Dashboard Screen</Text>
+				<Text>User Dashboard Screen</Text>
 			</View>
 		)
 	}
@@ -85,12 +85,12 @@ const CommunityStack = createStackNavigator(
 )
 
 
-const ScheduleStack = createStackNavigator(
+const EventsStack = createStackNavigator(
 	{
-		Schedule: {
-			screen: ScheduleNavigator,
+		Events: {
+			screen: EventsNavigator,
 			navigationOptions: {
-				title: "Schedule",
+				title: "Events",
 			}
 		}
 	},
@@ -102,12 +102,12 @@ const ScheduleStack = createStackNavigator(
 )
 
 
-const LessonsStack = createStackNavigator(
+const MapStack = createStackNavigator(
 	{
-		Lessons: {
-			screen: LessonsNavigator,
+		Map: {
+			screen: MapNavigator,
 			navigationOptions: {
-				title: "Lessons",
+				title: "Map",
 			}
 		}
 	},
@@ -136,7 +136,7 @@ const ConversationsStack = createStackNavigator(
 )
 
 
-const PlayerNavigator = createBottomTabNavigator(
+const UserNavigator = createBottomTabNavigator(
 	{
 		Dashboard: {
 			screen: DashboardStack,
@@ -152,17 +152,10 @@ const PlayerNavigator = createBottomTabNavigator(
 			}
 		},
 
-		Schedule: {
-			screen: ScheduleStack,
+		Events: {
+			screen: EventsStack,
 			navigationOptions: {
-				title: "Schedule",
-			}
-		},
-
-		Lessons: {
-			screen: LessonsStack,
-			navigationOptions: {
-				title: "Lessons",
+				title: "Events",
 			}
 		},
 
@@ -172,10 +165,18 @@ const PlayerNavigator = createBottomTabNavigator(
 				title: "Conversations",
 			}
 		},
+
+		Map: {
+			screen: MapStack,
+			navigationOptions: {
+				title: "Map",
+			}
+		},
+
 	},
 
 	{
-		initialRouteName: "Dashboard",
+		initialRouteName: "Map",
 		navigationOptions: ({ navigation }) => {
 			const {routeName} = navigation.state.routes[navigation.state.index]
 			return {
@@ -186,4 +187,4 @@ const PlayerNavigator = createBottomTabNavigator(
 )
 
 
-export default PlayerNavigator
+export default UserNavigator

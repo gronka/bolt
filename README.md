@@ -3,6 +3,35 @@
 * green: 429633
 
 
+## Design
+* Dash
+  * Things you might like
+  * Group and Event announcements
+    * Favorite group/event announcements
+    * Changed dates
+  * Other notifications:
+    * follows
+    * notification clear button?
+* Community
+  * Group announcements
+  * Groups
+  * Find Groups
+  * People Following
+  * People Search
+* Events
+  * Calendar/Agenda view
+: * [ ] Search events(?)
+* Map
+
+Manage:
+* Dash
+* My Profile
+  * Privacy/blocking
+* Payments
+* Manage Events
+* Manage Groups
+
+
 ## TODO: stripe
 * Options: tipsi/webview/personal integration	
 	* https://github.com/expo/stripe-expo/blob/master/index.js

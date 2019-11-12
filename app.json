@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "flick",
-    "slug": "flick2",
+    "name": "bolt",
+    "slug": "bolt_slug",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": [

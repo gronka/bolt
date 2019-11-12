@@ -15,8 +15,8 @@ import {
 
 import Blanket from "./styles/blanket.js"
 import { HEIGHT, WIDTH } from "./conf.js"
-import PlayerNavigator from "./Player/Navigator.js"
-import PlayerSettingsNavigator from "./PlayerSettings/Navigator.js"
+import UserNavigator from "./User/Navigator.js"
+import ManageNavigator from "./Manage/Navigator.js"
 import TrainerNavigator from "./Trainer/Navigator.js"
 import PaymentNavigator from "./Payment/Navigator.js"
 import Storage from "./stores/Storage.js"
@@ -96,19 +96,19 @@ class SignOutScreen extends React.Component {
 
 const AppNavigator = createDrawerNavigator(
 	{
-		"Player Dashboard": {
-			screen: PlayerNavigator,
+		"User Dashboard": {
+			screen: UserNavigator,
 			navigationOptions: {
 				// TODO: set notifications on the drawer icons
 				drawerIcon: <Ionicons name="md-person" size={24}/>
 			},
 		},
 
-		"Player Settings": {
-			screen: PlayerSettingsNavigator,
+		"Manage Settings": {
+			screen: ManageNavigator,
 			navigationOptions: {
 				// TODO: set notifications on the drawer icons
-				drawerLabel: "          My Settings",
+				drawerLabel: "          Manage Settings",
 				drawerIcon: <Ionicons style={{marginLeft: "auto"}} name="md-settings" size={24}/>
 			},
 		},
@@ -122,7 +122,7 @@ const AppNavigator = createDrawerNavigator(
 		},
 
 		"Trainer Settings": {
-			screen: PlayerNavigator,
+			screen: UserNavigator,
 			navigationOptions: {
 				// TODO: set notifications on the drawer icons
 				drawerLabel: "          Trainer Settings",

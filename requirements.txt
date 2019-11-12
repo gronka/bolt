@@ -1,3 +1,4 @@
 react-native-phone-input
+react-native-maps
 base-64
 debug

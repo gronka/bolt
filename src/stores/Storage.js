@@ -29,8 +29,9 @@ class Location {
 	// TODO: implement geolocation.watchPosition
 	timestamp = 0.0
 	speed = 0
-	lat = -999.9
-	lng = -999.9
+	// TODO: localize the default lat/lng somehow
+	lat = conf.defaultLat
+	lng = conf.defaultLng
 	enabled = false
 
 	async update() {
@@ -49,8 +50,6 @@ class Location {
 	}
 
 	mustUpdate() {
-		// TODO: separate function for mustUpdate and isValid?
-
 		if (isNullFromStorage(this.lat) ||
 				isNullFromStorage(this.lng) ||
 			  isNullFromStorage(this.timestamp)) {
@@ -67,12 +66,26 @@ class Location {
 		return false
 	}
 
-	isValid() {
-		if (this.lat === -999.9 || this.lng === -999.9) {
-			return false
+	setLat(p) {
+		if (p == null) {
+			return
 		}
-		return true
+		this.lat = p
 	}
+	getLat() {
+		return this.lat
+	}
+
+	setLng(p) {
+		if (p == null) {
+			return
+		}
+		this.lng = p
+	}
+	getLng() {
+		return this.lng
+	}
+
 }
 
 
@@ -92,7 +105,7 @@ class Storage {
 	getUserUuid() {
 		return this.userUuid
 	}
-
+17
 	isSignedIn() {
 		if (this.userUuid) {
 			return true
@@ -135,8 +148,8 @@ class Storage {
 			this.userUuid = userUuid
 			this.jwt  = await AsyncStorage.getItem("jwt")  // jwtProxy
 
-			this.loc.lat  = await AsyncStorage.getItem("lat")  
-			this.loc.lng  = await AsyncStorage.getItem("lng")  
+			this.loc.setLat(await AsyncStorage.getItem("lat"))
+			this.loc.setLng(await AsyncStorage.getItem("lng"))
 			this.loc.timestamp  = await AsyncStorage.getItem("locTimestamp")  
 			if (this.loc.mustUpdate()) {
 				this.loc.update()
