@@ -2,7 +2,6 @@ import React from "react"
 import {
 	FlatList,
 	ScrollView,
-	StyleSheet,
 	Text,
 	TouchableOpacity,
 	View,
@@ -10,53 +9,11 @@ import {
 import { Ionicons } from "@expo/vector-icons"
 
 import Agenda from "./Agenda.js"
-import Storage from "../stores/Storage.js"
-
-
-function dateToString(date) {
-
-}
-
-
-export default class PlannerScreen extends React.Component {
-	constructor(props) {
-		super(props)
-
-		defaultDate = new Date()
-		day = defaultDate.getDate()
-		month = defaultDate.getMonth()
-		year = defaultDate.getFullYear()
-		
-		this.state = {
-			day: day,
-			month: month,
-			year: year,
-		}
-	}
-
-	render() {
-		return (
-			<ScrollView>
-				<Calendar 
-					userUuid={Storage.userUuid}
-					day={this.state.day}
-					month={this.state.month}
-					year={this.state.year}
-				/>
-				<Agenda 
-					userUuid={this.props.userUuid}
-					day={this.state.day}
-					month={this.state.month}
-					year={this.state.year}
-				/>
-			</ScrollView>
-		)
-	}
-}
+import Storage from "../../stores/Storage.js"
 
 
 // TODO: timezone dropdown
-class Calendar extends React.Component {
+export default class Calendar extends React.Component {
 	constructor(props) {
 		super(props)
 
@@ -179,7 +136,7 @@ class DayGrid extends React.Component {
 					keyExtractor={this._keyExtractor}
 					renderItem={this._renderItem}
 					numColumns={7}
-					columnWrapperStyle={styles.dayGridWrapper}
+					columnWrapperStyle={{ justifyContent: "space-around", paddingBottom: 12}}
 				/>
 			</View>
 		)
@@ -200,11 +157,3 @@ class DayItem extends React.Component {
 		)
 	}
 }
-
-
-const styles = StyleSheet.create({
-	dayGridWrapper: {
-		justifyContent: "space-around",
-		paddingBottom: 12,
-	},
-})

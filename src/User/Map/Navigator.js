@@ -7,6 +7,7 @@ import { createMaterialTopTabNavigator } from "react-navigation-tabs"
 
 import Storage from "../../stores/Storage.js"
 import { EventMapData } from "../../stores/MapData.js"
+import { RestaurantMapData } from "../../stores/MapData.js"
 
 
 // TODO: could give iOS users apple maps option
@@ -21,8 +22,8 @@ class EventsMap extends React.Component {
 				initialRegion={{
 					latitude: EventMapData.getLat(),
 					longitude: EventMapData.getLng(),
-					latitudeDelta: 0.0230,
-					longitudeDelta: 0.0105,
+					latitudeDelta: EventMapData.defaultLatDelta,
+					longitudeDelta: EventMapData.defaultLngDelta,
 				}}
 			/>
 		)
@@ -33,9 +34,16 @@ class EventsMap extends React.Component {
 class RestaurantsMap extends React.Component {
 	render() {
 		return (
-			<View style={{ flex: 1, alignItems: "center", justifyContent: "center"}}>
-				<Text>Restaurants Screen</Text>
-			</View>
+			<MapView
+				style={{ flex: 1 }}
+				provider="google"
+				initialRegion={{
+					latitude: RestaurantMapData.getLat(),
+					longitude: RestaurantMapData.getLng(),
+					latitudeDelta: RestaurantMapData.defaultLatDelta,
+					longitudeDelta: RestaurantMapData.defaultLngDelta,
+				}}
+			/>
 		)
 	}
 }

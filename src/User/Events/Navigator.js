@@ -1,17 +1,16 @@
-import * as React from "react"
+import React from "react"
 import { Button, Text, View, Image, ScrollView } from "react-native"
 import { Ionicons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from "react-navigation-tabs"
 
-import Blanket from "../../styles/blanket.js"
+import CalendarView from "../../components/Planner/CalendarView.js"
 
 
 class CalendarScreen extends React.Component {
 	render() {
 		return (
-			<View style={{ flex: 1, alignItems: "center", justifyContent: "center"}}>
-				<Text>Events Calendar Screen</Text>
-			</View>
+			<CalendarView
+			/>
 		)
 	}
 }

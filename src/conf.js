@@ -18,6 +18,8 @@ export const conf = {
 
 	defaultLat: 40.7228,
 	defaultLng: -74.0000,
+	defaultLatDelta: 0.0230,
+	defaultLngDelta: 0.0105,
 
 	tzFormat: "standard",
 

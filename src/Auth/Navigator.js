@@ -20,8 +20,6 @@ import VerifyPhoneScreen from "./VerifyPhoneScreen.js"
 import Ax from "../stores/Ax.js"
 import Storage from "../stores/Storage.js"
 
-import SchedulerScreen from "./SchedulerScreen.js"
-
 
 class SelectAuthScreen extends React.Component {
 	render() {
@@ -64,10 +62,6 @@ class SelectAuthScreen extends React.Component {
 					onPress={() => this.props.navigation.navigate("PhoneVerification")}
 				/>
 
-				<Button 
-					title="Scheduler" 
-					onPress={() => this.props.navigation.navigate("Scheduler")}
-				/>
 			</View>
 		)
 	}
@@ -237,9 +231,6 @@ const AuthNavigator = createStackNavigator(
 			}
 		},
 
-		Scheduler: {
-			screen: SchedulerScreen,
-		},
 	},
 	{
 		initialRouteName: "SelectAuth",

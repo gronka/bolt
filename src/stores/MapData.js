@@ -3,25 +3,16 @@ import { conf } from "../conf.js"
 
 
 class MapData {
-	lat = conf.defaultLat
-	lng = conf.defaultLng
+	lat = Storage.loc.getLat()
+	lng = Storage.loc.getLng()
+	defaultLatDelta = conf.defaultLatDelta
+	defaultLngDelta = conf.defaultLngDelta
 
 	getLat() {
-		console.log("getting lat")
-		console.log("this.lat: " + this.lat)
-		console.log("Storage.loc.getLat(): " + this.lat)
-		if (this.lat === conf.defaultLat) {
-			console.log("returning Storage.loc.lat")
-			return Storage.loc.getLat()
-		}
-		console.log("returning this.lat")
 		return this.lat
 	}
 
 	getLng() {
-		if (this.lng === conf.defaultLng) {
-			return Storage.loc.getLng()
-		}
 		return this.lng
 	}
 }

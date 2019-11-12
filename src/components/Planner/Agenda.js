@@ -1,14 +1,13 @@
 import React from "react"
 import {
 	FlatList,
-	StyleSheet,
 	ScrollView,
 	Text,
 	TouchableOpacity,
 	View,
 } from "react-native"
 
-import AgendaCache from "../stores/AgendaCache.js"
+import AgendaCache from "../../stores/AgendaCache.js"
 
 
 export default class Agenda extends React.Component {
@@ -125,10 +124,3 @@ class AgendaRow extends React.Component {
 		)
 	}
 }
-
-
-const styles = StyleSheet.create({
-	agendaFlatList: {
-		//justifyContent: "space-around",
-	}
-})
