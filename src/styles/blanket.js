@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native"
 import Constants from 'expo-constants'
 
-import { WIDTH, HEIGHT } from "../conf.js"
+import { conf, WIDTH, HEIGHT } from "../conf.js"
 
 
 const Blanket = StyleSheet.create({
@@ -58,6 +58,54 @@ const Blanket = StyleSheet.create({
 		borderWidth: 0.5,
 		borderColor: "#3CF",
 		backgroundColor: "#646464",
+	},
+
+	textInputLabel: {
+		fontSize: 18,
+		color: "#999",
+		marginHorizontal: 8,
+		marginTop: 8,
+	},
+
+	textInput: {
+		fontSize: 18,
+		marginHorizontal: 12,
+	},
+
+	textInputModal: {
+		margin: 20,
+		fontSize: 20,
+	},
+
+	buttonModal: {
+		flex: 1,
+		margin: 20,
+		fontSize: 20,
+		padding: 10,
+		height: 50, 
+    width: 100,
+    alignItems:'center',
+    justifyContent:'center',
+		borderRadius: 8,
+		borderWidth: 0.5,
+		borderColor: conf["blue"],
+		backgroundColor: conf["blue"],
+	},
+
+	buttonModalText: {
+		color: "white",
+	},
+
+	warning: {
+		color: "#e60000",
+		marginHorizontal: 12,
+	},
+
+	datePickerText: {
+		padding: 12,
+		fontSize: 16,
+		//padding: 8,
+		textAlign: "center",
 	},
 })
 

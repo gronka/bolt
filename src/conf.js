@@ -35,6 +35,9 @@ export const conf = {
 
 	"BLUE": "#428AF8",
 	"LIGHT_GRAY": "#D3D3D3",
+	"green": "#429633",
+	"brown": "#A0522D",
+	"blue": "#3cf",
 
 	"REDIRECT": "REDIRECT",
 

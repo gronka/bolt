@@ -1,9 +1,10 @@
 import React from "react"
 import { Button, Text, View, Image, ScrollView } from "react-native"
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons'
 import { createMaterialTopTabNavigator } from "react-navigation-tabs"
 
 import CalendarView from "../../components/Planner/CalendarView.js"
+import CreateEventScreen from "../../components/Events/CreateEventScreen.js"
 
 
 class CalendarScreen extends React.Component {
@@ -29,15 +30,22 @@ class ListScreen extends React.Component {
 
 const EventsNavigator =	createMaterialTopTabNavigator(
 	{
+		CreateEvent: {
+			screen: CreateEventScreen,
+			navigationOptions: {
+				title: "Add your event",
+			}
+		},
 		Calendar: {
-			screen: CalendarScreen
+			screen: CalendarScreen,
 		},
 		List: {
-			screen: ListScreen
+			screen: ListScreen,
 		},
 
 	},
 	{
+		initialRouteName: "CreateEvent",
 		lazy: true,
 		tabBarOptions: {
 			upperCaseLabel: false,

@@ -176,7 +176,8 @@ const UserNavigator = createBottomTabNavigator(
 	},
 
 	{
-		initialRouteName: "Map",
+		lazy: true,
+		initialRouteName: "Events",
 		navigationOptions: ({ navigation }) => {
 			const {routeName} = navigation.state.routes[navigation.state.index]
 			return {
