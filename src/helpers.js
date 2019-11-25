@@ -36,6 +36,7 @@ export const post = async (component, endpoint, data, onResponse) => {
 				onResponse(resp)
 			} else {
 				Log.warn("Response rejected: " + JSON.stringify(resp.status))
+				console.log("Response rejected: " + JSON.stringify(resp.status))
 				FlashMsgs.unpackFlashMsgs(err.response.data)
 			}
 		})

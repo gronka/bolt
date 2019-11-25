@@ -1,5 +1,6 @@
 import React from "react"
 import { 
+	FlatList,
 	Modal,
 	StyleSheet,
 	Text, 
@@ -12,7 +13,10 @@ import MapView, { Marker } from "react-native-maps"
 import { EventMapData } from "../../stores/MapData.js"
 import Storage from "../../stores/Storage.js"
 import Blanket from "../../styles/blanket.js"
-
+import { 
+	AddressDataObj,
+	PlacesAutocompleteOneshotter,
+} from "../../lib/RequestHandlers.js"
 import { 
 	AddressValue,
 	LatValue,
@@ -39,11 +43,6 @@ export default class AddressWithMapInput extends React.Component {
 	}
 
 	incrementUpdates = () => { this.setState({ updates: this.state.updates + 1 }) }
-	
-	updateAddress = (p) => {
-		this.address.setAndValidate(p)
-		this.incrementUpdates()
-	}
 
 	onRegionChangeComplete = () => {
 		// TODO: this
@@ -59,7 +58,9 @@ export default class AddressWithMapInput extends React.Component {
 	enableAddressLookup = ()  => { this.setState({ addressLookup: true }) }
 	addressCancel = () => { this.setState({ addressLookup: false }) }
 
-	addressSave = () => {
+	addressSave = (p) => {
+		this.address.setAndValidate(p)
+		this.incrementUpdates()
 		this.setState({ addressLookup: false })
 	}
 
@@ -109,7 +110,8 @@ export default class AddressWithMapInput extends React.Component {
 class AddressLookupModal extends React.Component {
 	constructor(props) {
 		super(props)
-		this.address = new AddressValue("")
+		this.oneshotter = PlacesAutocompleteOneshotter
+		this.addressDataObj = new AddressDataObj()
 
 		this.state = {
 			loading: false,
@@ -126,17 +128,46 @@ class AddressLookupModal extends React.Component {
 	}
 
 	save = () => {
-		this.props.onSave()
+		this.props.onSave(this.addressDataObj)
 	}
 
-	updateAddress = () => {
-		this.address.setAndValidate(p)
+	updateAddress = (p) => {
+		this.addressDataObj.setAddress(p)
 		this.incrementUpdates()
 
-		if (this.address.value.length > 2) {
-			// TODO: api request
+		if (this.addressDataObj.getAddress().length > 2) {
+			this.apiCall()
 		}
 	}
+
+	apiCall = async (p) => {
+		const uuid = this.addressDataObj.getUuid()
+		const data = this.addressDataObj.asPlacesAutocompleteJson()
+		try {
+			const request = await this.oneshotter.request(uuid, data)
+			console.log("======RESPONSE======")
+			console.log(JSON.stringify(request.response))
+			this.setState({ results: request.response.data.b.predictions })
+		} catch(err) {
+			console.log("======ERROR======")
+			console.log(err)
+		}
+	}
+
+	//apiCall = (p) => {
+		//const uuid = this.addressDataObj.getUuid()
+		//const data = this.addressDataObj.asPlacesAutocompleteJson()
+		//this.oneshotter.request(uuid, data)
+			//.then( (response) => {
+				//console.log("======RESPONSE======")
+				////console.log(response)
+				//console.log(response.data.b)
+				//this.setState({ results: response.data.b.predictions })
+			//})
+			//.catch( (err) => {
+				//console.log(err)
+			//})
+	//}
 
 	render() {
 		return(
@@ -164,6 +195,10 @@ class AddressLookupModal extends React.Component {
 								onChangeText={ (p) => this.updateAddress(p) }
 							/>
 
+							<AddressFlatList
+								addresses={this.state.results}
+							/>
+
 						</View>
 					</Modal>
 				}
@@ -178,35 +213,31 @@ class AddressFlatList extends React.Component {
 		super(props)
 	}
 
-	_keyExtractor = (user, index) => user.userUuid
+	_keyExtractor = (address, index) => address.place_id
 
 	_renderItem = ({item}) => {
-		const user = item
+		const address = item
 		return (
-			<PersonResult 
-				userUuid={user.userUuid}
-				key={user.userUuid}
-				navigation={this.props.navigation}
-			/>
+			<View>
+				<Text>{address.description}</Text>
+			</View>
 		)
 	}
 
 	_listEmptyComponent = () => {
-		return (<Text>No search results</Text>)
+		return (<Text>Start typing to find places!</Text>)
 	}
 
 	render() {
 		return (
 			<View style={{flex: 1}}>
-			<FlatList
-				data={this.props.results}
-				renderItem={this._renderItem}
-				keyExtractor={this._keyExtractor}
-				ListEmptyComponent={this._listEmptyComponent}
-				onRefresh={this.onRefresh}
-				refreshing={this.state.refreshing}
-			/>
-					</View>
+				<FlatList
+					data={this.props.addresses}
+					renderItem={this._renderItem}
+					keyExtractor={this._keyExtractor}
+					ListEmptyComponent={this._listEmptyComponent}
+				/>
+			</View>
 		)
 	}
 }
