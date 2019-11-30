@@ -113,9 +113,7 @@ class VerifyPhoneScreen extends React.Component {
 						<Text>Submit</Text>
 					</TouchableOpacity>
 
-					{this.state.loading &&
-						<LoadingModal />
-					}
+					<LoadingModal visible={this.state.loading} />
 
 				</View>
 			</KeyboardAvoidingView>

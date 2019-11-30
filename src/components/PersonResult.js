@@ -105,10 +105,6 @@ const styles = StyleSheet.create({
 		borderBottomColor: "gray",
 	},
 
-	name: {
-		height: 40,
-	},
-
 	profileImageView: {
 		width: 40,
 		marginRight: 8,

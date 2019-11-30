@@ -125,9 +125,7 @@ class LoginForm extends React.Component {
 						<Text>{this.props.title}</Text>
 					</TouchableOpacity>
 
-					{this.state.loading &&
-						<LoadingModal />
-					}
+					<LoadingModal visible={this.state.loading} />
 
 					{this.state.failed &&
 						<Text>Failed to sign in.</Text>

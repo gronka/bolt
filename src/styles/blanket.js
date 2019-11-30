@@ -67,9 +67,21 @@ const Blanket = StyleSheet.create({
 		marginTop: 8,
 	},
 
+	textInputTextIcon: {
+		fontSize: 18,
+		marginHorizontal: 2,
+		marginTop: 8,
+	},
+
 	textInput: {
 		fontSize: 18,
 		marginHorizontal: 12,
+	},
+
+	textInputPlaceholder: {
+		fontSize: 18,
+		marginHorizontal: 12,
+		color: "#CCC",
 	},
 
 	textInputModal: {
@@ -79,7 +91,7 @@ const Blanket = StyleSheet.create({
 
 	buttonModal: {
 		flex: 1,
-		margin: 20,
+		margin: 10,
 		fontSize: 20,
 		padding: 10,
 		height: 50, 

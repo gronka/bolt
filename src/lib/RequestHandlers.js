@@ -1,13 +1,6 @@
 import { conf } from "../conf.js"
 import Ax from "../stores/Ax.js"
-
-import { 
-	AddressValue,
-	TitleValue,
-	VenueValue,
-	LatValue,
-	LngValue,
-} from "./DataValues.js"
+import FlashMsgs from "../stores/FlashMsgs.js"
 
 
 class OneshotterTrafficController {
@@ -26,6 +19,26 @@ class OneshotterTrafficController {
 			const dummy = await this._sendRequest(uuid)
 		}
 		return this.requests[uuid]
+	}
+
+	async requestWithLoading(uuid, data, component) {
+		component.setState({
+			loading: true
+		})
+
+		var response = await this.request(uuid, data)
+
+		console.log(response)
+		if (response.code !== 200) {
+			FlashMsgs.append("Request might have failed, you might have to try again.")
+			this.requests[uuid] = null
+		}
+
+		component.setState({
+			loading: false
+		})
+
+		return response
 	}
 
 	cancelRequest(uuid) {
@@ -90,52 +103,14 @@ class RequestHandler {
 }
 
 
-class RequestDataObject {
+export class RequestDataObject {
 	getUuid() {
 		throw("this function must be overwritten")
 	}
 }
 
 
-export class AddressDataObj extends RequestDataObject {
-	address = new AddressValue("")
-	lat = new LatValue(0)
-	lng = new LngValue(0)
-	// matched let's us know if lat/lng matches google maps address
-	matches = ""
+export const PlacesAutocompleteOneshotter = new OneshotterTrafficController("/places/predictions")
+export const PlacesLookupOneshotter = new OneshotterTrafficController("/places/lookup.byPlaceId")
 
-	getUuid() {
-		return this.getInput() + this.getLatLngString()
-	}
-
-	getInput() {
-		// input is for google places autocomplete
-		return this.address.value
-	}
-
-	getLatLngString() {
-		// latLngString is for google places autocomplete
-		if (this.lat.value !== 0 && this.lng.value !== 0){
-			return this.lat.value + "," + this.lng.value
-		}
-		return ""
-	}
-
-	setAddress(p) { this.address.setAndValidate(p) }
-	getAddress() { return this.address.value }
-
-	setLat(p) { this.lat.setAndValidate(p) }
-	getLat() { return this.lat.value }
-	setLng(p) { this.lng.setAndValidate(p) }
-	getLng() { return this.lng.value }
-
-	asPlacesAutocompleteJson() {
-		return {
-			input: this.getInput(),
-			latLngString: this.getLatLngString(),
-		}
-	}
-}
-
-
-export const PlacesAutocompleteOneshotter = new OneshotterTrafficController("/places/autocomplete")
+export const AddVenueController = new OneshotterTrafficController("/places/lookup.byPlaceId")

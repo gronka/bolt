@@ -18,7 +18,7 @@ class LoadingModal extends React.Component {
 	render() {
 		return (
 			<Modal 
-				visible={true}
+				visible={this.props.visible}
 				transparent={true}
 			>
 				<View style={styles.modalBackground}>

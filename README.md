@@ -44,10 +44,12 @@ Manage:
 
 ## Style
 * Future TODOs should be styled with FUTURE
+* Loading indicator/user input freeze on all async functions
 
 ## TODO: inputs
 * convert all component inputs to be controlled
 * input validation
+* TextInput has various input autocompletion options, such as name
 
 
 ## TODO: architecture

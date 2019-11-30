@@ -9,8 +9,9 @@ import {
 } from "react-native"
 import DateTimePicker from "react-native-modal-datetime-picker"
 import { Ionicons } from '@expo/vector-icons'
+import { createStackNavigator } from "react-navigation-stack"
 
-import AddressWithMapInput from "./AddressWithMapInput.js"
+import ManageVenuesStack from "./ManageVenuesStack.js"
 
 import Storage from "../../stores/Storage.js"
 
@@ -24,7 +25,7 @@ import {
 } from "../../lib/DataValues.js"
 
 
-export default class CreateEventScreen extends React.Component {
+class CreateEventScreen extends React.Component {
 	constructor(props) {
 		super(props)
 
@@ -66,20 +67,17 @@ export default class CreateEventScreen extends React.Component {
 					<Text style={Blanket.warning}>{this.title.validator.description}</Text>
 				}
 
-				<Text style={Blanket.textInputLabel}>Venue:</Text>
-				<TextInput
-					style={Blanket.textInput}
-					placeholder="Venue"
-					onChangeText={ (p) => this.updateVenue(p) }
-				/>
-				{this.venue.showWarning() && 
-					<Text style={Blanket.warning}>{this.venue.validator.description}</Text>
-				}
-
-
-				<AddressWithMapInput />
-
 				<DateRangeInput />
+
+				<Text style={Blanket.textInputLabel}>Venue:</Text>
+
+				<TouchableOpacity onPress={ () => this.props.navigation.navigate("ManageVenuesStack") }>
+					<Text style={Blanket.textInputPlaceholder}>Venue</Text>
+				</TouchableOpacity>
+
+				<Text>replace this with something that simply shows map and address</Text>
+				<Text>change style after venue selected</Text>
+				<Text>set timezone of event to timezone of venue</Text>
 
 			</ScrollView>
 		)
@@ -163,3 +161,20 @@ class DateRangeInput extends React.Component {
 		)
 	}
 }
+
+
+const CreateEventStack = createStackNavigator(
+	{
+		CreateEventScreen: {
+			screen: CreateEventScreen,
+			navigationOptions: { header: null },
+		},
+		ManageVenuesStack: {
+			screen: ManageVenuesStack,
+			navigationOptions: { header: null },
+		},
+	}
+)
+
+
+export default CreateEventStack

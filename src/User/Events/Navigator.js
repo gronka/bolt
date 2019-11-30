@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { createMaterialTopTabNavigator } from "react-navigation-tabs"
 
 import CalendarView from "../../components/Planner/CalendarView.js"
-import CreateEventScreen from "../../components/Events/CreateEventScreen.js"
+import CreateEventStack from "../../components/Events/CreateEventStack.js"
 
 
 class CalendarScreen extends React.Component {
@@ -30,8 +30,8 @@ class ListScreen extends React.Component {
 
 const EventsNavigator =	createMaterialTopTabNavigator(
 	{
-		CreateEvent: {
-			screen: CreateEventScreen,
+		CreateEventStack: {
+			screen: CreateEventStack,
 			navigationOptions: {
 				title: "Add your event",
 			}
@@ -45,7 +45,7 @@ const EventsNavigator =	createMaterialTopTabNavigator(
 
 	},
 	{
-		initialRouteName: "CreateEvent",
+		initialRouteName: "CreateEventStack",
 		lazy: true,
 		tabBarOptions: {
 			upperCaseLabel: false,
