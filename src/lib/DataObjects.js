@@ -26,6 +26,7 @@ export class AddressDataObject extends RequestDataObject {
 		//distanceMeters = 0  // might not actually be useful (yet)
 		this.ggName = ""
 		this.mapsUrl = ""
+		this.tzOffset = 0
 	}
 
 	reinit() {
@@ -66,7 +67,7 @@ export class AddressDataObject extends RequestDataObject {
 	setLng(p) { this.lng.setAndValidate(p) }
 	getLng() { return this.lng.value }
 
-	asPlacesAutocompleteJson() {
+	asMapsacAutocompleteJson() {
 		return {
 			input: this.getInput(),
 			latLngString: this.getLatLngString(),
@@ -88,7 +89,7 @@ export class AddressDataObject extends RequestDataObject {
 		}
 	}
 
-	setFromPlaces(place) {
+	setFromMapsac(place) {
 		const lat = place.geometry.location.lat
 		const lng = place.geometry.location.lng
 
@@ -102,6 +103,7 @@ export class AddressDataObject extends RequestDataObject {
 		this.ggName = place.name
 		this.ggPlaceId = place.place_id
 		this.mapsUrl = place.url
+		this.tzOffset = place.utc_offset
 
 		this.hasLocation = true
 	}

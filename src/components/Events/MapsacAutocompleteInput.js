@@ -12,20 +12,22 @@ import { withNavigation } from "react-navigation"
 import Storage from "../../stores/Storage.js"
 import Blanket from "../../styles/blanket.js"
 import { 
-	PlacesAutocompleteOneshotter,
-	PlacesLookupOneshotter,
-} from "../../lib/RequestHandlers.js"
+	MapsacAutocompleteOneshotter,
+	MapsacLookupOneshotter,
+} from "../../lib/Globals.js"
 import { NewTacObj } from "../../lib/Globals.js"
+import LoadingModal from "../LoadingModal.js"
 
 
-class PlacesAutocompleteInput extends React.Component {
+class MapsacAutocompleteInput extends React.Component {
 	constructor(props) {
 		super(props)
-		this.oneshotter = PlacesAutocompleteOneshotter
-		this.lookupOneshotter = PlacesLookupOneshotter
+		this.oneshotter = MapsacAutocompleteOneshotter
+		this.lookupOneshotter = MapsacLookupOneshotter
 		this.addressDataObj = NewTacObj
 
 		this.state = {
+			loading: false,
 			address: "",
 			updates: 0,
 			results: [],
@@ -41,7 +43,7 @@ class PlacesAutocompleteInput extends React.Component {
 
 		if (this.addressDataObj.getAddress().length > 2) {
 			const uuid = this.addressDataObj.getUuid()
-			const data = this.addressDataObj.asPlacesAutocompleteJson()
+			const data = this.addressDataObj.asMapsacAutocompleteJson()
 			try {
 				const request = await this.oneshotter.request(uuid, data)
 				this.setState({ results: request.response.data.b.predictions })
@@ -57,9 +59,9 @@ class PlacesAutocompleteInput extends React.Component {
 		try {
 			const data = { placeId: address.place_id}
 			console.log(data)
-			const request = await this.lookupOneshotter.request(address.place_id, data)
+			const request = await this.lookupOneshotter.requestWithLoading(address.place_id, data, this)
 			placeData = request.response.data.b.place
-			this.addressDataObj.setFromPlaces(placeData)
+			this.addressDataObj.setFromMapsac(placeData)
 			console.log(this.addressDataObj.getAddress())
 			this.setState({ address: this.addressDataObj.getAddress() })
 
@@ -95,7 +97,7 @@ class PlacesAutocompleteInput extends React.Component {
 		}
 
 		return (
-			<View style={ styles.addressResult }>
+			<View style={ Blanket.addressResult }>
 				<TouchableOpacity style={{ flex: 1 }} onPress={ selectThisAddress }>
 					<Text style={{ fontSize: 16 }}>{address.description}</Text>
 					<View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end"}}>
@@ -108,7 +110,7 @@ class PlacesAutocompleteInput extends React.Component {
 
 	_listEmptyComponent = () => {
 		return (
-			<View style={ styles.addressResult }>
+			<View style={ Blanket.addressResult }>
 				<Text style={{ fontSize: 16 }}>Start typing for location suggestions</Text>
 			</View>
 		)
@@ -117,28 +119,30 @@ class PlacesAutocompleteInput extends React.Component {
 	render() {
 		return(
 			<View>
-					<Text style={Blanket.textInputLabel}>Address:</Text>
-					<TextInput
-						style={Blanket.textInput}
-						value={ this.state.address }
-						multiline={true}
-						placeholder="Address"
-						onChangeText={ (p) => this.updatePredictions(p) }
-					/>
+				<LoadingModal visible={this.state.loading} />
 
-					<View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-						<Text style={Blanket.textInputLabel}>Suggestions:</Text>
-						<TouchableOpacity onPress={ this.ignoreSuggestions }>
-							<Text style={{...Blanket.textInputLabel, 
-								color: "red", fontSize: 14 }}>Ignore Suggestions ></Text>
-						</TouchableOpacity>
-					</View>
-					<FlatList
-						data={this.state.results}
-						renderItem={this._renderItem}
-						keyExtractor={this._keyExtractor}
-						ListEmptyComponent={this._listEmptyComponent}
-					/>
+				<Text style={Blanket.textInputLabel}>Address:</Text>
+				<TextInput
+					style={Blanket.textInput}
+					value={ this.state.address }
+					multiline={true}
+					placeholder="Address"
+					onChangeText={ (p) => this.updatePredictions(p) }
+				/>
+
+				<View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+					<Text style={Blanket.textInputLabel}>Suggestions:</Text>
+					<TouchableOpacity onPress={ this.ignoreSuggestions }>
+						<Text style={{...Blanket.textInputLabel, 
+							color: "red", fontSize: 14 }}>Ignore Suggestions ></Text>
+					</TouchableOpacity>
+				</View>
+				<FlatList
+					data={this.state.results}
+					renderItem={this._renderItem}
+					keyExtractor={this._keyExtractor}
+					ListEmptyComponent={this._listEmptyComponent}
+				/>
 
 
 			</View>
@@ -147,19 +151,4 @@ class PlacesAutocompleteInput extends React.Component {
 }
 
 
-const styles = StyleSheet.create({
-	addressResult: {
-		marginHorizontal: 10,
-		paddingVertical: 10,
-		height: 60,
-		borderTopWidth: 1,
-		borderTopColor: "#DDD",
-	},
-
-	name: {
-		height: 40,
-	},
-})
-
-
-export default withNavigation(PlacesAutocompleteInput)
+export default withNavigation(MapsacAutocompleteInput)

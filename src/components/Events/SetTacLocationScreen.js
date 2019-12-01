@@ -13,9 +13,12 @@ import { EventMapData } from "../../stores/MapData.js"
 
 import Storage from "../../stores/Storage.js"
 import Blanket from "../../styles/blanket.js"
-import { asLocation, NewTacObj } from "../../lib/Globals.js"
+import { 
+	asLocation, 
+	NewTacObj,
+	AddTacController,
+} from "../../lib/Globals.js"
 import LoadingModal from "../LoadingModal.js"
-import { AddTacController } from "../../lib/RequestHandlers.js"
 
 
 class SetTacLocationScreen extends React.Component {
@@ -61,8 +64,6 @@ class SetTacLocationScreen extends React.Component {
 		var loc = asLocation(this.cachedLat, this.cachedLng)
 		region = {
 			...loc,
-			//latitude: loc.latitude,
-			//longitude: loc.longitude,
 			latitudeDelta: EventMapData.defaultLatDelta/2,
 			longitudeDelta: EventMapData.defaultLngDelta,
 		}
@@ -74,7 +75,7 @@ class SetTacLocationScreen extends React.Component {
 		}) 
 	}
 
-	saveLocation = (p) => {
+	saveManualLocation = (p) => {
 		this.cachedLat = this.state.markerLoc.latitude
 		this.cachedLng = this.state.markerLoc.longitude
 		this.setState({ 
@@ -99,7 +100,7 @@ class SetTacLocationScreen extends React.Component {
 
 	render() {
 		return(
-			<View>
+			<View style={{ flex: 1 }}>
 				<LoadingModal visible={this.state.loading} />
 				{this.state.manualLocation ? (
 					<View>
@@ -140,7 +141,7 @@ class SetTacLocationScreen extends React.Component {
 				)}
 
 				<MapView
-					style={{ height: 400, marginTop: 10 }}
+					style={{ flex: 1, marginTop: 10 }}
 					ref={ ref => {this.map = ref} }
 					provider="google"
 					zoomEnabled={this.state.manualLocation}

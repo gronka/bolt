@@ -62,7 +62,7 @@ const Blanket = StyleSheet.create({
 
 	textInputLabel: {
 		fontSize: 18,
-		color: "#999",
+		color: "#666",
 		marginHorizontal: 8,
 		marginTop: 8,
 	},
@@ -102,6 +102,22 @@ const Blanket = StyleSheet.create({
 		borderWidth: 0.5,
 		borderColor: conf["blue"],
 		backgroundColor: conf["blue"],
+	},
+
+	addressResult: {
+		marginHorizontal: 10,
+		paddingVertical: 10,
+		height: 60,
+		borderTopWidth: 1,
+		borderTopColor: "#DDD",
+	},
+
+	flatRow: {
+		marginHorizontal: 10,
+		paddingVertical: 10,
+		minHeight: 60,
+		borderTopWidth: 1,
+		borderTopColor: "#DDD",
 	},
 
 	buttonModalText: {

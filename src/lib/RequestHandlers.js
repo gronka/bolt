@@ -3,7 +3,7 @@ import Ax from "../stores/Ax.js"
 import FlashMsgs from "../stores/FlashMsgs.js"
 
 
-class OneshotterTrafficController {
+export class OneshotterTrafficController {
 	// Note: a oneshotter is a controller in which a data request against the API
 	// will always return the same result. This allows us to simply logic and
 	// number of network requests because results never become invalid
@@ -34,7 +34,7 @@ class OneshotterTrafficController {
 		try {
 			response = await this.request(uuid, data)
 			console.log(response.response.s)
-			if (response.response.status >= 301) {
+			if (response.response.status >= 300) {
 				FlashMsgs.addFlash("Request might have failed, you might have to try again.")
 				this.requests[uuid] = null
 			}
@@ -122,9 +122,3 @@ export class RequestDataObject {
 		throw("this function must be overwritten")
 	}
 }
-
-
-export const PlacesAutocompleteOneshotter = new OneshotterTrafficController("/mapsac/predictions")
-export const PlacesLookupOneshotter = new OneshotterTrafficController("/mapsac/lookup.byPlaceId")
-
-export const AddTacController = new OneshotterTrafficController("/tac/add")

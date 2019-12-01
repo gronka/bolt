@@ -57,10 +57,10 @@ class CreateEventScreen extends React.Component {
 	render() {
 		return(
 			<ScrollView>
-				<Text style={Blanket.textInputLabel}>Title:</Text>
+				<Text style={Blanket.textInputLabel}>Event name:</Text>
 				<TextInput
 					style={Blanket.textInput}
-					placeholder="Title"
+					placeholder="Event name"
 					onChangeText={ (p) => this.updateTitle(p) }
 				/>
 				{this.title.showWarning() && 
@@ -69,10 +69,10 @@ class CreateEventScreen extends React.Component {
 
 				<DateRangeInput />
 
-				<Text style={Blanket.textInputLabel}>Place name:</Text>
+				<Text style={Blanket.textInputLabel}>Tac (location):</Text>
 
 				<TouchableOpacity onPress={ () => this.props.navigation.navigate("ManageTacsStack") }>
-					<Text style={Blanket.textInputPlaceholder}>Pick your tac (place)</Text>
+					<Text style={Blanket.textInputPlaceholder}>Pick the location</Text>
 				</TouchableOpacity>
 
 				<Text>replace this with something that simply shows map and address</Text>
