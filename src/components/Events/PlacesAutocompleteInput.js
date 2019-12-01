@@ -15,7 +15,7 @@ import {
 	PlacesAutocompleteOneshotter,
 	PlacesLookupOneshotter,
 } from "../../lib/RequestHandlers.js"
-import { NewVenueObj } from "../../lib/Globals.js"
+import { NewTacObj } from "../../lib/Globals.js"
 
 
 class PlacesAutocompleteInput extends React.Component {
@@ -23,7 +23,7 @@ class PlacesAutocompleteInput extends React.Component {
 		super(props)
 		this.oneshotter = PlacesAutocompleteOneshotter
 		this.lookupOneshotter = PlacesLookupOneshotter
-		this.addressDataObj = NewVenueObj
+		this.addressDataObj = NewTacObj
 
 		this.state = {
 			address: "",
@@ -68,15 +68,15 @@ class PlacesAutocompleteInput extends React.Component {
 			console.log(err)
 		}
 
-		this.props.navigation.navigate("SetVenueLocation")
+		this.props.navigation.navigate("SetTacLocation")
 	}
 
 	ignoreSuggestions = () => {
-		const venue = this.addressDataObj.getVenue()
+		const name = this.addressDataObj.getName()
 		this.addressDataObj.reinitToUserLoc()
-		this.addressDataObj.setVenue(venue)
+		this.addressDataObj.setName(name)
 		this.addressDataObj.setAddress(this.state.address)
-		this.props.navigation.navigate("SetVenueLocation")
+		this.props.navigation.navigate("SetTacLocation")
 	}
 
 	/*
@@ -97,7 +97,7 @@ class PlacesAutocompleteInput extends React.Component {
 		return (
 			<View style={ styles.addressResult }>
 				<TouchableOpacity style={{ flex: 1 }} onPress={ selectThisAddress }>
-					<Text style={{ fontSize: 16 }}>{address.description} ></Text>
+					<Text style={{ fontSize: 16 }}>{address.description}</Text>
 					<View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end"}}>
 						<Text style={{ fontSize: 14 }}>{renderDistanceText}</Text>
 					</View>

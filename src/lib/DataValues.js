@@ -39,7 +39,7 @@ export class TitleValue extends DataValue {
 }
 
 
-export class VenueValue extends DataValue {
+export class NameValue extends DataValue {
 	constructor(value) {
 		super()
 		this.value = value

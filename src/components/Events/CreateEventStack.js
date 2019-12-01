@@ -11,7 +11,7 @@ import DateTimePicker from "react-native-modal-datetime-picker"
 import { Ionicons } from '@expo/vector-icons'
 import { createStackNavigator } from "react-navigation-stack"
 
-import ManageVenuesStack from "./ManageVenuesStack.js"
+import ManageTacsStack from "./ManageTacsStack.js"
 
 import Storage from "../../stores/Storage.js"
 
@@ -19,7 +19,7 @@ import Blanket from "../../styles/blanket.js"
 import { 
 	AddressValue,
 	TitleValue,
-	VenueValue,
+	NameValue,
 	LatValue,
 	LngValue,
 } from "../../lib/DataValues.js"
@@ -32,7 +32,7 @@ class CreateEventScreen extends React.Component {
 		// Note: to avoid data duplication, we simply increment state.updates in
 		// order to refresh the view
 		this.title = new TitleValue("")
-		this.venue = new VenueValue("")
+		this.name = new NameValue("")
 		this.address = new AddressValue("")
 
 		this.state = {
@@ -49,8 +49,8 @@ class CreateEventScreen extends React.Component {
 		this.incrementUpdates()
 	}
 
-	updateVenue = (p) => {
-		this.venue.setAndValidate(p)
+	updateName = (p) => {
+		this.name.setAndValidate(p)
 		this.incrementUpdates()
 	}
 
@@ -69,10 +69,10 @@ class CreateEventScreen extends React.Component {
 
 				<DateRangeInput />
 
-				<Text style={Blanket.textInputLabel}>Venue:</Text>
+				<Text style={Blanket.textInputLabel}>Place name:</Text>
 
-				<TouchableOpacity onPress={ () => this.props.navigation.navigate("ManageVenuesStack") }>
-					<Text style={Blanket.textInputPlaceholder}>Venue</Text>
+				<TouchableOpacity onPress={ () => this.props.navigation.navigate("ManageTacsStack") }>
+					<Text style={Blanket.textInputPlaceholder}>Pick your tac (place)</Text>
 				</TouchableOpacity>
 
 				<Text>replace this with something that simply shows map and address</Text>
@@ -169,8 +169,8 @@ const CreateEventStack = createStackNavigator(
 			screen: CreateEventScreen,
 			navigationOptions: { header: null },
 		},
-		ManageVenuesStack: {
-			screen: ManageVenuesStack,
+		ManageTacsStack: {
+			screen: ManageTacsStack,
 			navigationOptions: { header: null },
 		},
 	}

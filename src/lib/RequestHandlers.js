@@ -12,6 +12,10 @@ class OneshotterTrafficController {
 		this.requests = {}
 	}
 
+	reinit() {
+		this.requests = {}
+	}
+
 	async request(uuid, data) {
 		// If a similar request exists, don't add this one
 		if (this.requests[uuid] == null) {
@@ -26,17 +30,27 @@ class OneshotterTrafficController {
 			loading: true
 		})
 
-		var response = await this.request(uuid, data)
-
-		console.log(response)
-		if (response.code !== 200) {
-			FlashMsgs.append("Request might have failed, you might have to try again.")
+		var response = {}
+		try {
+			response = await this.request(uuid, data)
+			console.log(response.response.s)
+			if (response.response.status >= 301) {
+				FlashMsgs.addFlash("Request might have failed, you might have to try again.")
+				this.requests[uuid] = null
+			}
+		} catch (err) {
+			console.log(err)
+			FlashMsgs.addFlash("Request failed - please try again")
 			this.requests[uuid] = null
+			component.setState({
+				loading: false
+			})
+			throw(err)
+		} finally {
+			component.setState({
+				loading: false
+			})
 		}
-
-		component.setState({
-			loading: false
-		})
 
 		return response
 	}
@@ -110,7 +124,7 @@ export class RequestDataObject {
 }
 
 
-export const PlacesAutocompleteOneshotter = new OneshotterTrafficController("/places/predictions")
-export const PlacesLookupOneshotter = new OneshotterTrafficController("/places/lookup.byPlaceId")
+export const PlacesAutocompleteOneshotter = new OneshotterTrafficController("/mapsac/predictions")
+export const PlacesLookupOneshotter = new OneshotterTrafficController("/mapsac/lookup.byPlaceId")
 
-export const AddVenueController = new OneshotterTrafficController("/places/lookup.byPlaceId")
+export const AddTacController = new OneshotterTrafficController("/tac/add")

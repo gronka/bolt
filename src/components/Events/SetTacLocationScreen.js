@@ -8,19 +8,20 @@ import {
 	View, 
 } from "react-native"
 import { withNavigation } from "react-navigation"
-
 import MapView, { Marker } from "react-native-maps"
 import { EventMapData } from "../../stores/MapData.js"
+
 import Storage from "../../stores/Storage.js"
 import Blanket from "../../styles/blanket.js"
-import { asLocation, NewVenueObj } from "../../lib/Globals.js"
+import { asLocation, NewTacObj } from "../../lib/Globals.js"
 import LoadingModal from "../LoadingModal.js"
+import { AddTacController } from "../../lib/RequestHandlers.js"
 
 
-class SetVenueLocationScreen extends React.Component {
+class SetTacLocationScreen extends React.Component {
 	constructor(props) {
 		super(props)
-		this.addressDataObj = NewVenueObj
+		this.addressDataObj = NewTacObj
 
 		// default case is that we are verifying location not manually setting it
 		var manualLocation = false
@@ -81,11 +82,19 @@ class SetVenueLocationScreen extends React.Component {
 		})
 	}
 
-	yes = () => {
+	yes = async () => {
 		this.addressDataObj.setLat(this.state.markerLoc.latitude)
 		this.addressDataObj.setLng(this.state.markerLoc.longitude)
 
-		// TODO: send create venue request
+		// TODO: send create Tac request
+		const uuid = this.addressDataObj.getUuid()
+		const data = this.addressDataObj.asAddTacJson()
+		try {
+			await AddTacController.requestWithLoading(uuid, data, this)
+			this.props.navigation.navigate("SelectTac")
+		} catch(err) {
+			// don't navigate/do anything
+		}
 	}
 
 	render() {
@@ -94,7 +103,7 @@ class SetVenueLocationScreen extends React.Component {
 				<LoadingModal visible={this.state.loading} />
 				{this.state.manualLocation ? (
 					<View>
-						<Text style={Blanket.textInputLabel}>Set venue location:</Text>
+						<Text style={Blanket.textInputLabel}>Set Tac location:</Text>
 						<View style={{ flexDirection: "row" }}>
 							<TouchableOpacity style={Blanket.buttonModal} 
 								onPress={this.cancelManualLocation}>
@@ -113,7 +122,7 @@ class SetVenueLocationScreen extends React.Component {
 						<Text style={Blanket.textInputLabel}>Is this location correct?</Text>
 						<View style={{ flexDirection: "row"}}>
 							<TouchableOpacity style={Blanket.buttonModal} 
-								onPress={() => this.props.navigation.navigate("AddVenue")}>
+								onPress={() => this.props.navigation.navigate("AddTac")}>
 								<Text style={Blanket.buttonModalText}>Go Back</Text>
 							</TouchableOpacity>
 
@@ -156,4 +165,4 @@ class SetVenueLocationScreen extends React.Component {
 }
 
 
-export default withNavigation(SetVenueLocationScreen)
+export default withNavigation(SetTacLocationScreen)

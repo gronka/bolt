@@ -9,4 +9,4 @@ export function asLocation(lat, lng) {
 }
 
 
-export const NewVenueObj = new AddressDataObject()
+export const NewTacObj = new AddressDataObject()

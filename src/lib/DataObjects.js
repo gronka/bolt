@@ -2,7 +2,7 @@ import { RequestDataObject } from "./RequestHandlers.js"
 import { 
 	AddressValue,
 	TitleValue,
-	VenueValue,
+	NameValue,
 	LatValue,
 	LngValue,
 } from "./DataValues.js"
@@ -15,7 +15,7 @@ export class AddressDataObject extends RequestDataObject {
 		this.address = new AddressValue("")
 		this.lat = new LatValue(0)
 		this.lng = new LngValue(0)
-		this.venue = new VenueValue("")
+		this.name = new NameValue("")
 		this.hasLocation = false
 
 		// properties to match google maps
@@ -55,8 +55,8 @@ export class AddressDataObject extends RequestDataObject {
 		return ""
 	}
 
-	setVenue(p) { this.venue.setAndValidate(p) }
-	getVenue() { return this.venue.value }
+	setName(p) { this.name.setAndValidate(p) }
+	getName() { return this.name.value }
 
 	setAddress(p) { this.address.setAndValidate(p) }
 	getAddress() { return this.address.value }
@@ -73,6 +73,21 @@ export class AddressDataObject extends RequestDataObject {
 		}
 	}
 
+	asAddTacJson() {
+		return {
+			name: this.getName(),
+			address: this.getAddress(),
+			lat: this.getLat(),
+			lng: this.getLng(),
+			ggPlaceId: this.ggPlaceId,
+			ggName: this.ggName,
+			ggFormattedAddress: this.ggFormattedAddress,
+			ggLat: this.ggLat,
+			ggLng: this.ggLat,
+			mapsUrl: this.mapsUrl,
+		}
+	}
+
 	setFromPlaces(place) {
 		const lat = place.geometry.location.lat
 		const lng = place.geometry.location.lng
@@ -84,6 +99,7 @@ export class AddressDataObject extends RequestDataObject {
 		this.ggFormattedAddress = place.formatted_address
 		this.ggLat = lat
 		this.ggLng = lng
+		this.ggName = place.name
 		this.ggPlaceId = place.place_id
 		this.mapsUrl = place.url
 
