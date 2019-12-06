@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react"
 import { 
 	Button, 
 	Image, 
@@ -13,7 +13,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 
 import { conf } from "../conf.js"
-import { get, post } from "../helpers.js"
+import { get, post } from "../lib/network.js"
 import Ax from "../stores/Ax.js"
 import FlashMsgs from "../stores/FlashMsgs.js"
 import ProfileCache from "../stores/ProfileCache.js"

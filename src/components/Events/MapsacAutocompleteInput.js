@@ -14,8 +14,8 @@ import Blanket from "../../styles/blanket.js"
 import { 
 	MapsacAutocompleteOneshotter,
 	MapsacLookupOneshotter,
-} from "../../lib/Globals.js"
-import { NewTacObj } from "../../lib/Globals.js"
+	NewTacObj,
+} from "../../stores/Globals.js"
 import LoadingModal from "../LoadingModal.js"
 
 
@@ -24,7 +24,7 @@ class MapsacAutocompleteInput extends React.Component {
 		super(props)
 		this.oneshotter = MapsacAutocompleteOneshotter
 		this.lookupOneshotter = MapsacLookupOneshotter
-		this.addressDataObj = NewTacObj
+		this.addressObj = NewTacObj
 
 		this.state = {
 			loading: false,
@@ -38,12 +38,12 @@ class MapsacAutocompleteInput extends React.Component {
 
 	updatePredictions = async (p) => {
 		this.setState({ address: p })
-		this.addressDataObj.setAddress(p)
+		this.addressObj.setAddress(p)
 		this.incrementUpdates()
 
-		if (this.addressDataObj.getAddress().length > 2) {
-			const uuid = this.addressDataObj.getUuid()
-			const data = this.addressDataObj.asMapsacAutocompleteJson()
+		if (this.addressObj.getAddress().length > 2) {
+			const uuid = this.addressObj.getUuid()
+			const data = this.addressObj.asMapsacAutocompleteJson()
 			try {
 				const request = await this.oneshotter.request(uuid, data)
 				this.setState({ results: request.response.data.b.predictions })
@@ -61,24 +61,33 @@ class MapsacAutocompleteInput extends React.Component {
 			console.log(data)
 			const request = await this.lookupOneshotter.requestWithLoading(address.place_id, data, this)
 			placeData = request.response.data.b.place
-			this.addressDataObj.setFromMapsac(placeData)
-			console.log(this.addressDataObj.getAddress())
-			this.setState({ address: this.addressDataObj.getAddress() })
+			this.addressObj.setFromMapsac(placeData)
+			console.log(this.addressObj.getAddress())
+			this.setState({ address: this.addressObj.getAddress() })
 
 		} catch(err) {
 			console.log("======ERROR======")
 			console.log(err)
 		}
 
-		this.props.navigation.navigate("SetTacLocation")
+		this.checkAndProceedToSetLocation()
 	}
 
 	ignoreSuggestions = () => {
-		const name = this.addressDataObj.getName()
-		this.addressDataObj.reinitToUserLoc()
-		this.addressDataObj.setName(name)
-		this.addressDataObj.setAddress(this.state.address)
-		this.props.navigation.navigate("SetTacLocation")
+		const name = this.addressObj.getName()
+		// need to clear google data
+		this.addressObj.reinitToUserLoc()
+		this.addressObj.setName(name)
+		this.addressObj.setAddress(this.state.address)
+		this.checkAndProceedToSetLocation()
+	}
+
+	checkAndProceedToSetLocation = () => {
+		if (this.addressObj.isValidForSetLocation()) {
+			this.props.navigation.navigate("SetTacLocation")
+		} else {
+			// do nothing
+		}
 	}
 
 	/*

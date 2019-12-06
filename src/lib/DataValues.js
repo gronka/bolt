@@ -3,8 +3,18 @@ import {
 } from "./Validation.js"
 
 export class DataValue {
-	constructor() {
-		this.value = "notset"
+	// value: value to set
+	// defaultType: if not null, set to default value of this type
+	constructor(defaultType) {
+		if (defaultType === "date") {
+			this.value = new Date()
+		}
+		if (defaultType === "text") {
+			this.value = ""
+		}
+		if (defaultType === "number") {
+			this.value = 0
+		}
 		this.validator = new Validator()
 	}
 
@@ -15,6 +25,15 @@ export class DataValue {
 	setAndValidate(value) {
 		this.value = value
 		this.validate()
+	}
+
+	get() {
+		return this.value
+	}
+
+	isValid() {
+		this.validate()
+		return this.validator.isValid
 	}
 
 	showWarning() {
@@ -28,9 +47,8 @@ export class DataValue {
 
 
 export class TitleValue extends DataValue {
-	constructor(value) {
-		super()
-		this.value = value
+	constructor() {
+		super("text")
 	}
 
 	validate() {
@@ -40,9 +58,8 @@ export class TitleValue extends DataValue {
 
 
 export class NameValue extends DataValue {
-	constructor(value) {
-		super()
-		this.value = value
+	constructor() {
+		super("text")
 	}
 
 	validate() {
@@ -52,20 +69,28 @@ export class NameValue extends DataValue {
 
 
 export class AddressValue extends DataValue {
-	constructor(value) {
-		super()
-		this.value = value
+	constructor() {
+		super("text")
 	}
 
 	validate() {
-		this.validator.validateString(this.value, 3, 60)
+		this.validator.validateString(this.value, 5, 200)
+	}
+}
+
+export class QuickInfoValue extends DataValue {
+	constructor() {
+		super("text")
+	}
+
+	validate() {
+		this.validator.validateString(this.value, 5, 140)
 	}
 }
 
 export class LatValue extends DataValue {
-	constructor(value) {
-		super()
-		this.value = value
+	constructor() {
+		super("number")
 	}
 
 	validate() {
@@ -74,9 +99,8 @@ export class LatValue extends DataValue {
 }
 
 export class LngValue extends DataValue {
-	constructor(value) {
-		super()
-		this.value = value
+	constructor() {
+		super("number")
 	}
 
 	validate() {
@@ -84,16 +108,16 @@ export class LngValue extends DataValue {
 	}
 }
 
-export class AddressObj {
-	lat = 0
-	lng = 0
-	address = ""
-	// status values:
-	// 0: not set
-	// 10: all good
-	// 20: lat/lng do not match address result (user edited)
-	// 21: lat/lng do not match venue (possible user edit)
-	// 22: lat/lng does not match venue nor address
-	// 30: lat/lng lookup failed
-	status = 0
+export class DateValue extends DataValue {
+	constructor() {
+		super("date")
+	}
+
+	validate() {
+		this.validator.validateTime(this.value, 0, 0)
+	}
+
+	asUTC() {
+		return this.value.getTime()
+	}
 }

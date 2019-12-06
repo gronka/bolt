@@ -12,7 +12,7 @@ import {
 import { Ionicons } from "@expo/vector-icons"
 
 import Blanket from "../../styles/blanket.js"
-import { post } from "../../helpers.js"
+import { post } from "../../lib/network.js"
 import Storage from "../../stores/Storage.js"
 import ConvoSummaryCache from "../../stores/ConvoSummaryCache.js"
 

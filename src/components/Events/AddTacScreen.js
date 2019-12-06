@@ -1,19 +1,17 @@
 import React from "react"
 import { 
-	FlatList,
 	Text, 
 	TextInput, 
 	TouchableOpacity,
 	View, 
 } from "react-native"
-import { createStackNavigator } from "react-navigation-stack"
 
 import Blanket from "../../styles/blanket.js"
 import Storage from "../../stores/Storage.js"
-import { post } from "../../helpers.js"
+import { post } from "../../lib/network.js"
 import MapsacAutocompleteInput from "./MapsacAutocompleteInput.js"
 
-import { NewTacObj, GetTacsController } from "../../lib/Globals.js"
+import { NewTacObj, GetTacsController } from "../../stores/Globals.js"
 
 
 class AddTacScreen extends React.Component {
@@ -22,8 +20,8 @@ class AddTacScreen extends React.Component {
 
 		// TODO: check that not accessing NewTacObj directly does not lead to memory
 		// leaks
-		this.addressDataObj = NewTacObj
-		this.addressDataObj.reinitToUserLoc()
+		this.addressObj = NewTacObj
+		this.addressObj.reinitToUserLoc()
 
 		this.state = {
 			updates: 0,
@@ -33,7 +31,7 @@ class AddTacScreen extends React.Component {
 	incrementUpdates = () => { this.setState({ updates: this.state.updates + 1 }) }
 
 	updateName = (p) => { 
-		this.addressDataObj.setName(p) 
+		this.addressObj.setName(p) 
 		this.incrementUpdates()
 	}
 
@@ -46,8 +44,8 @@ class AddTacScreen extends React.Component {
 					placeholder="Name your tac - or use the venue name :|"
 					onChangeText={ (p) => this.updateName(p) }
 				/>
-				{this.addressDataObj.name.showWarning() && 
-					<Text style={Blanket.warning}>{this.addressDataObj.name.validator.description}</Text>
+				{this.addressObj.name.showWarning() && 
+					<Text style={Blanket.warning}>{this.addressObj.name.validator.description}</Text>
 				}
 
 				<MapsacAutocompleteInput />

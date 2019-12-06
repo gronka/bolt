@@ -67,6 +67,12 @@ const Blanket = StyleSheet.create({
 		marginTop: 8,
 	},
 
+	textForLabel:
+		fontSize: 18,
+		color: "black",
+		marginHorizontal: 12,
+	},
+
 	textInputTextIcon: {
 		fontSize: 18,
 		marginHorizontal: 2,

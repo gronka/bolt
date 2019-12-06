@@ -9,33 +9,33 @@ import {
 } from "react-native"
 import { withNavigation } from "react-navigation"
 import MapView, { Marker } from "react-native-maps"
-import { EventMapData } from "../../stores/MapData.js"
 
+import { EventMapData } from "../../stores/MapData.js"
 import Storage from "../../stores/Storage.js"
 import Blanket from "../../styles/blanket.js"
+import { asLocation } from "../../lib/helpers.js"
 import { 
-	asLocation, 
 	NewTacObj,
 	AddTacController,
-} from "../../lib/Globals.js"
+} from "../../stores/Globals.js"
 import LoadingModal from "../LoadingModal.js"
 
 
 class SetTacLocationScreen extends React.Component {
 	constructor(props) {
 		super(props)
-		this.addressDataObj = NewTacObj
+		this.addressObj = NewTacObj
 
 		// default case is that we are verifying location not manually setting it
 		var manualLocation = false
-		if (!this.addressDataObj.hasLocation) {
+		if (!this.addressObj.hasLocation) {
 			manualLocation = true
-			this.addressDataObj.setLat(Storage.loc.getLat())
-			this.addressDataObj.setLng(Storage.loc.getLng())
+			this.addressObj.setLat(Storage.loc.getLat())
+			this.addressObj.setLng(Storage.loc.getLng())
 		}
 
-		this.initialLat = this.addressDataObj.getLat()
-		this.initialLng = this.addressDataObj.getLng()
+		this.initialLat = this.addressObj.getLat()
+		this.initialLng = this.addressObj.getLng()
 		this.cachedLat = this.initialLat
 		this.cachedLng = this.initialLng
 		var center = asLocation(this.initialLat, this.initialLng)
@@ -84,12 +84,12 @@ class SetTacLocationScreen extends React.Component {
 	}
 
 	yes = async () => {
-		this.addressDataObj.setLat(this.state.markerLoc.latitude)
-		this.addressDataObj.setLng(this.state.markerLoc.longitude)
+		this.addressObj.setLat(this.state.markerLoc.latitude)
+		this.addressObj.setLng(this.state.markerLoc.longitude)
 
 		// TODO: send create Tac request
-		const uuid = this.addressDataObj.getUuid()
-		const data = this.addressDataObj.asAddTacJson()
+		const uuid = this.addressObj.getUuid()
+		const data = this.addressObj.asAddTacJson()
 		try {
 			await AddTacController.requestWithLoading(uuid, data, this)
 			this.props.navigation.navigate("SelectTac")
@@ -141,7 +141,7 @@ class SetTacLocationScreen extends React.Component {
 				)}
 
 				<MapView
-					style={{ flex: 1, marginTop: 10 }}
+					style={{ flex: 1, minHeight: 300, marginTop: 10 }}
 					ref={ ref => {this.map = ref} }
 					provider="google"
 					zoomEnabled={this.state.manualLocation}

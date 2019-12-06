@@ -1,11 +1,4 @@
 import React from "react"
-import { 
-	FlatList,
-	Text, 
-	TextInput, 
-	TouchableOpacity,
-	View, 
-} from "react-native"
 import { createStackNavigator } from "react-navigation-stack"
 
 import SetTacLocationScreen from "./SetTacLocationScreen.js"

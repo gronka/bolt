@@ -1,17 +1,21 @@
-import { RequestDataObject } from "./RequestHandlers.js"
+import { RequestObject } from "./RequestHandlers.js"
 import { 
 	AddressValue,
-	TitleValue,
-	NameValue,
 	LatValue,
 	LngValue,
+	NameValue,
+	QuickInfoValue,
+	DateValue,
+	TitleValue,
 } from "./DataValues.js"
 import Storage from "../stores/Storage.js"
+import FlashMsgs from "../stores/FlashMsgs.js"
 
 
-export class AddressDataObject extends RequestDataObject {
+export class AddressObject extends RequestObject {
 	constructor() {
 		super()
+		this.uuid = ""
 		this.address = new AddressValue("")
 		this.lat = new LatValue(0)
 		this.lng = new LngValue(0)
@@ -56,6 +60,19 @@ export class AddressDataObject extends RequestDataObject {
 		return ""
 	}
 
+	isValidForSetLocation() {
+		if (!this.name.isValid()) {
+			FlashMsgs.addFlash("Name is not valid.", "error")
+			return false
+		}
+
+		if (!this.address.isValid()) {
+			FlashMsgs.addFlash("Address is not valid.", "error")
+			return false
+		}
+		return true
+	}
+
 	setName(p) { this.name.setAndValidate(p) }
 	getName() { return this.name.value }
 
@@ -80,12 +97,14 @@ export class AddressDataObject extends RequestDataObject {
 			address: this.getAddress(),
 			lat: this.getLat(),
 			lng: this.getLng(),
+			latLngString: this.getLatLngString(),
 			ggPlaceId: this.ggPlaceId,
 			ggName: this.ggName,
 			ggFormattedAddress: this.ggFormattedAddress,
 			ggLat: this.ggLat,
 			ggLng: this.ggLat,
 			mapsUrl: this.mapsUrl,
+			tzOffset: this.tzOffset,
 		}
 	}
 

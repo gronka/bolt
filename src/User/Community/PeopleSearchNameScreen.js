@@ -11,7 +11,8 @@ import {
 } from "react-native"
 import { Ionicons } from '@expo/vector-icons';
 
-import { cleanResults, post } from "../../helpers.js"
+import { cleanResults } from "../../lib/helpers.js"
+import { post } from "../../lib/network.js"
 import PersonResult from "../../components/PersonResult.js"
 import PeopleFlatList from "../../components/PeopleFlatList.js"
 import Blanket from "../../styles/blanket.js"

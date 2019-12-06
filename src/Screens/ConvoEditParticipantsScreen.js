@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react"
 import { 
 	Button, 
 	FlatList,
@@ -15,9 +15,6 @@ import { Ionicons } from "@expo/vector-icons"
 
 import Blanket from "../styles/blanket.js"
 import PeopleSearchNameScreen from "../User/Community/PeopleSearchNameScreen.js"
-//import { post } from "../../helpers.js"
-//import Storage from "../../stores/Storage.js"
-//import ConvoSummaryCache from "../../stores/ConvoSummaryCache.js"
 
 
 export default class ConvoEditParticipantsScreen extends React.Component {

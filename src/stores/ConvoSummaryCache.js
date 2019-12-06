@@ -1,4 +1,4 @@
-import { post } from "../helpers.js"
+import { post } from "../lib/network.js"
 
 
 class ConvoSummaryCache {

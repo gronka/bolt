@@ -2,7 +2,6 @@ import React from "react"
 import { 
 	FlatList,
 	Text, 
-	TextInput, 
 	TouchableOpacity,
 	View, 
 } from "react-native"
@@ -11,11 +10,15 @@ import { withNavigation, withNavigationFocus } from "react-navigation"
 
 import Blanket from "../../styles/blanket.js"
 import Storage from "../../stores/Storage.js"
-import { post } from "../../helpers.js"
+import { post } from "../../lib/network.js"
 import MapsacAutocompleteInput from "./MapsacAutocompleteInput.js"
 import SetTacLocationScreen from "./SetTacLocationScreen.js"
 
-import { NewTacObj, GetTacsController } from "../../lib/Globals.js"
+import { 
+	GetTacsController,
+	NewEventObj,
+	NewTacObj, 
+} from "../../stores/Globals.js"
 
 
 class SelectTacScreen extends React.Component {
@@ -24,6 +27,7 @@ class SelectTacScreen extends React.Component {
 		this.endpoint = "tac/get.byUserUuid"
 
 		this.state = {
+			updates: 0,
 			results: [],
 			refreshing: false,
 		}
@@ -35,27 +39,16 @@ class SelectTacScreen extends React.Component {
 	}  
 
 	componentDidUpdate(prevProps) {
-    if (prevProps.isFocused !== this.props.isFocused) {
+    if (this.props.isFocused && prevProps.isFocused !== this.props.isFocused) {
 			this.getTacs()
     }
   }
 
 	selectTac(tac) {
-		// TODO: this
-		this.props.navigation.navigate("CreateEventStack")
+		NewEventObj.setFromTac(tac)
+		this.props.navigation.navigate("CreateEventScreen")
 	}
 
-	onRefresh() {
-		this.setState({
-			refreshing: true,
-		})
-
-		this.getTacs()
-
-		this.setState({
-			refreshing: false,
-		})
-	}
 
 	getTacs = async () => {
 		data  = {
@@ -81,11 +74,11 @@ class SelectTacScreen extends React.Component {
 
 	_renderItem = ({item}) => {
 		const tac = item
-		selectThisTac = () => { this.selectTac(tac) }
+		selectRow = () => { this.selectTac(tac) }
 
 		return (
 			<View style={ Blanket.flatRow }>
-				<TouchableOpacity style={{ flex: 1 }} onPress={ selectThisTac }>
+				<TouchableOpacity style={{ flex: 1 }} onPress={ selectRow }>
 					<Text style={{ fontSize: 16 }}>{tac.name}</Text>
 					<Text style={{ fontSize: 16 }}>{tac.address}</Text>
 				</TouchableOpacity>
@@ -96,16 +89,27 @@ class SelectTacScreen extends React.Component {
 	_listEmptyComponent = () => {
 		return (
 			<View style={ Blanket.flatRow }>
-				<Text style={{ fontSize: 16 }}>Nothing here - try adding a tac!</Text>
+				<Text style={{ fontSize: 16 }}>Nothing here - add a tac!</Text>
 			</View>
 		)
+	}
+
+	_onRefresh() {
+		this.setState({
+			refreshing: true,
+		})
+
+		this.getTacs()
+
+		this.setState({
+			refreshing: false,
+		})
 	}
 
 	render() {
 		return(
 			<View style={{ flex: 1 }}>
 				<View style={{ flexDirection: "row", flex: 1, justifyContent: "space-between", maxHeight: 66 }}>
-
 					<Text style={Blanket.textInputLabel}>Pick your tac:</Text>
 
 					<TouchableOpacity onPress={ () => this.props.navigation.navigate("AddTac") }>
@@ -118,7 +122,7 @@ class SelectTacScreen extends React.Component {
 					renderItem={this._renderItem}
 					keyExtractor={this._keyExtractor}
 					ListEmptyComponent={this._listEmptyComponent}
-					onRefresh={() => this.onRefresh}
+					onRefresh={() => this._onRefresh}
 					refreshing={this.state.refreshing}
 				/>
 

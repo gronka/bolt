@@ -10,6 +10,7 @@ export class OneshotterTrafficController {
 	constructor(endpoint) {
 		this.endpoint = endpoint
 		this.requests = {}
+		this.activeUuid = ""
 	}
 
 	reinit() {
@@ -17,12 +18,14 @@ export class OneshotterTrafficController {
 	}
 
 	async request(uuid, data) {
+		this.activeUuid = uuid
 		// If a similar request exists, don't add this one
 		if (this.requests[uuid] == null) {
 			this.requests[uuid] = new RequestHandler(this.endpoint, data)
 			const dummy = await this._sendRequest(uuid)
 		}
-		return this.requests[uuid]
+		// return the active uuid to return the most recently requested result
+		return this.requests[this.activeUuid]
 	}
 
 	async requestWithLoading(uuid, data, component) {
@@ -117,7 +120,7 @@ class RequestHandler {
 }
 
 
-export class RequestDataObject {
+export class RequestObject {
 	getUuid() {
 		throw("this function must be overwritten")
 	}

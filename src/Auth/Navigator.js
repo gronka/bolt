@@ -13,7 +13,7 @@ import { createStackNavigator } from "react-navigation-stack"
 import { decode as atob } from "base-64"
 
 import { conf } from "../conf.js"
-import { submitWithLoading } from "../helpers.js"
+import { submitWithLoading } from "../lib/network.js"
 import EmailSignUpScreen from "./EmailSignUp.js"
 import EmailSignInScreen from "./EmailSignIn.js"
 import VerifyPhoneScreen from "./VerifyPhoneScreen.js"

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { 
 	KeyboardAvoidingView,
 	Button,
@@ -17,7 +17,7 @@ import { conf } from "../conf.js"
 import Blanket from "../styles/blanket.js"
 import LoadingModal from "../components/LoadingModal.js"
 import Storage from "../stores/Storage.js"
-import { submitWithLoading } from "../helpers.js"
+import { submitWithLoading } from "../lib/network.js"
 
 
 class LoginForm extends React.Component {

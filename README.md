@@ -1,3 +1,7 @@
+# TODO: global
+* setState is asynchronous, so make sure we don't set values directly from state
+* refactor globals to root dir, remove stores dir, put everything in lib
+
 # Colors
 * brown: A0522D
 * green: 429633

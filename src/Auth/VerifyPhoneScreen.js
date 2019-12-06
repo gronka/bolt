@@ -10,7 +10,7 @@ import {
 import Constants from "expo-constants"
 
 import { conf } from "../conf.js"
-import { submitWithLoading } from "../helpers.js"
+import { submitWithLoading } from "../lib/network.js"
 import LoadingModal from "../components/LoadingModal.js"
 import Ax from "../stores/Ax.js"
 import FlashMsgs from "../stores/FlashMsgs.js"
