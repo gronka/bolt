@@ -1,7 +1,9 @@
-import Ctx from "./Ctx.js"
+import InitialCtx from "./Ctx.js"
+export const Ctx = InitialCtx
 
-import { Blanket } from "./styles/Blanket.js"
-export Blanket
+import { BlanketStyle, ColorStyle } from "./styles/Blanket.js"
+export const Blanket = BlanketStyle
+export const Colors = ColorStyle
 
 
 import { Dimensions } from "react-native"
@@ -9,15 +11,15 @@ export const WIDTH = Dimensions.get("window").width
 export const HEIGHT = Dimensions.get("window").width
 
 
-import { AddressObject } from "../lib/AddressObject.js"
-import { EventObject } from "../lib/EventObject.js"
+import { AddressObject } from "./lib/objects/AddressObject.js"
+import { EventObject } from "./lib/objects/EventObject.js"
 export const NewTacObj = new AddressObject(Ctx)
 export const NewEventObj = new EventObject(Ctx)
 export const ViewEventObj = new EventObject(Ctx)
 export const EditEventObj = new EventObject(Ctx)
 
 
-import { OneshotterTrafficController } from "../lib/RequestHandlers.js"
+import { OneshotterTrafficController } from "./lib/RequestHandlers.js"
 export const MapsacAutocompleteOneshotter = new OneshotterTrafficController(Ctx, "/mapsac/predictions")
 export const MapsacLookupOneshotter = new OneshotterTrafficController(Ctx, "/mapsac/lookup.byPlaceId")
 

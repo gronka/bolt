@@ -26,8 +26,9 @@ export class Convo {
 	last_message_time = ""
 	msg_count = 0  // for scrolling
 	// TODO: do we need a latest message type?
+	
 	constructor(Ctx) {
-		super(Ctx)
+		this.Ctx = Ctx
 	}
 
 	unpackItemFromApi(body) {

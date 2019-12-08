@@ -1,7 +1,8 @@
-class ConvoSummaryCache {
+export class ConvoSummaryCacher {
 	_recentConvos = {}
 	recentConvosSorted = []
 	lastUpdateTime = {}
+
 	constructor(Ctx) {
 		this.Ctx = Ctx
 	}

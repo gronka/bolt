@@ -39,27 +39,17 @@ const Static = {
 
 	"FAILED_TO_LOAD": "Failed to load",
 	"REDIRECT": "REDIRECT",
-
-	"BLUE": "#428AF8",
-	"LIGHT_GRAY": "#D3D3D3",
-	"green": "#429633",
-	"brown": "#A0522D",
-	"blue": "#3cf",
-
 }
 
 
-class Ctx {
+class Context {
 	constructor(Ax, Conf, FlashMsgs, Storage, Static) {
-
 		this.Ax = Ax
 		this.Conf = Conf
 		this.FlashMsgs = FlashMsgs
 		this.Storage = Storage
 		this.Static = Static
-
 	}
-
 }
 
 
@@ -72,23 +62,25 @@ class Configuration {
 		this.tzFormat = "standard"
 
 		this.Static = Static
-
 	}
-
 }
 
 // These objects have no dependencies
 const Conf = new Configuration(Static)
 
-import FlashMsgs from "./lib/services/FlashMsgs.js"
-const FlashMsgs = new FlashMsgs()
+import { FlashMsgsService } from "./lib/services/FlashMsgs.js"
+const FlashMsgs = new FlashMsgsService()
 
 // These objects have dependencies
-import Storage from "./lib/services/Storage.js"
-const Storage = new Storage(Static)
+import { StorageService } from "./lib/services/Storage.js"
+const Storage = new StorageService(Static)
 
-import { AX } from "./lib/services/Ax.js"
-const Ax = new Ax(Static, FlashMsgs)
+import { AxService } from "./lib/services/Ax.js"
+const Ax = new AxService(Static, FlashMsgs)
 
-const singleton = new Ctx(Ax, Conf, FlashMsgs, Storage, Static)
+// Initialize necessary data
+Storage.loadFromDisk()
+Ax.remakeAxios(Storage.jwt)
+
+const singleton = new Context(Ax, Conf, FlashMsgs, Storage, Static)
 export default singleton

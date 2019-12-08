@@ -81,7 +81,7 @@ class Location {
 }
 
 
-class Storage {
+export class StorageService {
 	constructor(Static) {
 		// Items to save to disk
 		this.userUuid = ""

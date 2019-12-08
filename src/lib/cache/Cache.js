@@ -1,6 +1,3 @@
-import { Ctx }	from '../../Globals.js'
-
-
 // TODO: should there be a lock so 2 versions of the same query don't run at
 // once?
 // REQUIREMENTS:

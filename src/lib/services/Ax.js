@@ -13,7 +13,7 @@ class Command {
 	}
 }
 
-class Ax {
+export class AxService {
 	constructor(Static, FlashMsgs) {
 		this.Static = Static
 		this.FlashMsgs = FlashMsgs

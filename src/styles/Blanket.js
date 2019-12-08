@@ -1,10 +1,17 @@
 import { StyleSheet } from "react-native"
 import Constants from 'expo-constants'
 
-import { conf, WIDTH, HEIGHT } from "../conf.js"
+
+export const ColorStyle = {
+	"BLUE": "#428AF8",
+	"LIGHT_GRAY": "#D3D3D3",
+	"green": "#429633",
+	"brown": "#A0522D",
+	"blue": "#3cf",
+}
 
 
-const Blanket = StyleSheet.create({
+export const BlanketStyle = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -106,8 +113,8 @@ const Blanket = StyleSheet.create({
     justifyContent:'center',
 		borderRadius: 8,
 		borderWidth: 0.5,
-		borderColor: conf["blue"],
-		backgroundColor: conf["blue"],
+		borderColor: ColorStyle["blue"],
+		backgroundColor: ColorStyle["blue"],
 	},
 
 	addressResult: {
@@ -142,5 +149,3 @@ const Blanket = StyleSheet.create({
 		textAlign: "center",
 	},
 })
-
-export default Blanket

@@ -1,7 +1,7 @@
 import { showMessage, hideMessage } from "react-native-flash-message"
 
 
-class FlashMsgs {
+export class FlashMsgsService {
 	msgs = []
 
 	addFlash(msg, severity) {
@@ -28,7 +28,3 @@ class FlashMsgs {
 	}
 
 }
-
-
-const singleton = new FlashMsgs()
-export default singleton

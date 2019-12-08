@@ -1,4 +1,4 @@
-import { RequestObject } from "./RequestHandlers.js"
+import { RequestObject } from "../RequestHandlers.js"
 import { 
 	AddressValue,
 	LatValue,

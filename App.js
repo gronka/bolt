@@ -19,9 +19,6 @@ const RootNavigator = createAppContainer(BaseNavigator)
 export default class RootApp extends React.Component {
 	constructor(props) {
 		super(props)
-
-		Ctx.Storage.loadFromDisk()
-		Ctx.Ax.remakeAxios(Storage.jwt)
 	}
 
 	render() {
