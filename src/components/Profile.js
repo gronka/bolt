@@ -8,8 +8,7 @@ import {
 } from "react-native"
 import { Ionicons } from '@expo/vector-icons';
 
-import ProfileCache from "../stores/ProfileCache.js"
-import Storage from "../stores/Storage.js"
+import { Ctx, ProfileCache } from "../Globals.js"
 
 
 class Profile extends React.Component {
@@ -47,7 +46,7 @@ class Profile extends React.Component {
 	}
 
 	render() {
-		const myProfile = (this.props.userUuid == Storage.userUuid) ? true : false
+		const myProfile = (this.props.userUuid == Ctx.Storage.userUuid) ? true : false
 
 		return (
 			<ScrollView>

@@ -11,11 +11,10 @@ import {
 } from "react-native"
 import { Ionicons } from '@expo/vector-icons';
 
+import { Ctx } from "../../Globals.js"
 import { cleanResults } from "../../lib/helpers.js"
-import { post } from "../../lib/network.js"
 import PersonResult from "../../components/PersonResult.js"
 import PeopleFlatList from "../../components/PeopleFlatList.js"
-import Blanket from "../../styles/blanket.js"
 
 
 export default class PeopleSearchNameScreen extends React.Component {
@@ -51,7 +50,7 @@ export default class PeopleSearchNameScreen extends React.Component {
 			})
 		}
 
-		post(this, this.endpoint, data, onResponse)
+		Ctx.Ax.blindPost(this.endpoint, data, onResponse)
 		// TODO: sort results by multiple matched results
 		// TODO: sort results by nearest
 		// TODO: highlight matching results that match search text

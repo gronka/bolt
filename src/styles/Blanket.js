@@ -67,7 +67,7 @@ const Blanket = StyleSheet.create({
 		marginTop: 8,
 	},
 
-	textForLabel:
+	textForLabel: {
 		fontSize: 18,
 		color: "black",
 		marginHorizontal: 12,

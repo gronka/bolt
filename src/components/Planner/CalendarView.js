@@ -5,9 +5,9 @@ import {
 } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 
+import { Ctx } from "../../Globals.js"
 import Agenda from "./Agenda.js"
 import Calendar	 from "./Calendar.js"
-import Storage from "../../stores/Storage.js"
 
 
 export default class CalendarView extends React.Component {
@@ -30,7 +30,7 @@ export default class CalendarView extends React.Component {
 		return (
 			<ScrollView>
 				<Calendar 
-					userUuid={Storage.userUuid}
+					userUuid={Ctx.Storage.userUuid}
 					day={this.state.day}
 					month={this.state.month}
 					year={this.state.year}

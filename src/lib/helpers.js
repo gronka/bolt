@@ -31,3 +31,22 @@ export function getRandomColor() {
   }
   return color
 }
+
+
+export function makeTimeLabel(format, time, tzOffset) {
+		var timeLabel = ""
+		var localTime = time + tzOffset
+		var hour = localTime.getHours()
+		var minute = localTime.getMinutes()
+		if (format === "standard") {
+					var suffix = " AM"
+					if (hour > 12) {
+									suffix = " PM"
+									hour = hour - 12
+								}
+					timeLabel = hour + ":" + minute + suffix
+				} else {
+							timeLabel = hour + ":" + minute
+						}
+		return timeLabel
+}

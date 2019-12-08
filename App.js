@@ -1,14 +1,12 @@
-import * as React from 'react'
+import React from 'react'
 import { View } from "react-native"
 import { createAppContainer } from 'react-navigation'
 import FlashMessage from "react-native-flash-message"
 
 import BaseNavigator from "./src/BaseNavigator.js"
 
-// Initialize stores
-import Ax from "./src/stores/Ax.js"
-import FlashMsgs from "./src/stores/FlashMsgs.js"
-import Storage from "./src/stores/Storage.js"
+// Initialize global data stores
+import Ctx from "./src/Globals.js"
 
 //// Optimizes memory use and performance
 import { useScreens } from "react-native-screens"
@@ -22,8 +20,8 @@ export default class RootApp extends React.Component {
 	constructor(props) {
 		super(props)
 
-		Storage.loadFromDisk()
-		Ax.remakeAxios(Storage.jwt)
+		Ctx.Storage.loadFromDisk()
+		Ctx.Ax.remakeAxios(Storage.jwt)
 	}
 
 	render() {

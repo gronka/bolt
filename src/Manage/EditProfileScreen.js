@@ -12,20 +12,16 @@ import {
 } from "react-native"
 import { Ionicons } from '@expo/vector-icons';
 
-import { conf } from "../conf.js"
-import { get, post } from "../lib/network.js"
-import Ax from "../stores/Ax.js"
-import FlashMsgs from "../stores/FlashMsgs.js"
-import ProfileCache from "../stores/ProfileCache.js"
-import { Profile } from "../stores/ProfileCache.js"
-import Storage from "../stores/Storage.js"
-import Blanket from "../styles/blanket.js"
+import { 
+	Blanket,
+	Ctx,
+	ProfileCache,
+} from "../Globals.js"
 
 
 class EditProfileScreen extends React.Component {
 	constructor(props) {
 		super(props)
-		this.profile = new Profile()
 		this.endpoint = "/user/field.update"
 
 		this.state = {
@@ -39,7 +35,7 @@ class EditProfileScreen extends React.Component {
 	}
 
 	loadProfile = async () => {
-		this.profile = await ProfileCache.getItem(Storage.userUuid)
+		this.profile = await ProfileCache.getItem(Ctx.Storage.userUuid)
 		this.setState({
 			updates: this.state.updates + 1,
 			fullname: this.profile.fullname,
@@ -68,10 +64,9 @@ class EditProfileScreen extends React.Component {
 				<EditableField
 					style={{flex: 1}}
 					updates={this.state.updates}
-					itemUuid={Storage.userUuid}
+					itemUuid={Ctx.Storage.userUuid}
 					cache={ProfileCache}
 					endpoint={ProfileCache.updateFieldUrl}
-					uuidName={ProfileCache.uuidName}
 					name="fullname"
 					value={this.state.fullname}
 					placeholder="My name"
@@ -80,10 +75,9 @@ class EditProfileScreen extends React.Component {
 				<EditableField
 					style={{flex: 1}}
 					updates={this.state.updates}
-					itemUuid={Storage.userUuid}
+					itemUuid={Ctx.Storage.userUuid}
 					cache={ProfileCache}
 					endpoint={this.endpoint}
-					uuidName={ProfileCache.uuidName}
 					name="hometown"
 					value={this.state.hometown}
 					placeholder="My hometown"
@@ -92,10 +86,9 @@ class EditProfileScreen extends React.Component {
 				<EditableField
 					style={{flex: 1}}
 					updates={this.state.updates}
-					itemUuid={Storage.userUuid}
+					itemUuid={Ctx.Storage.userUuid}
 					cache={ProfileCache}
 					endpoint={this.endpoint}
-					uuidName={ProfileCache.uuidName}
 					name="about"
 					value={this.state.about}
 					placeholder="About me"
@@ -150,9 +143,9 @@ class EditableField extends React.Component {
 			value: this.state.value,
 		}
 
-		Ax.ax.post(this.props.endpoint, data)
+		Ctx.Ax.blindPost(this.props.endpoint, data)
 		.then((resp) =>{
-			if (resp.data.i === conf["ACCEPTED"]) {
+			if (resp.data.i === Ctx.Static["ACCEPTED"]) {
 				this.setState({
 					editMode: false,
 					savedValue: this.state.value,
@@ -170,7 +163,7 @@ class EditableField extends React.Component {
 	}
 
 	updateFailed = () => {
-		FlashMsgs.addFlash("Update failed", "error")
+		Ctx.FlashMsgs.addFlash("Update failed", "error")
 		this.setState({
 			editMode: false,
 			value: this.state.savedValue,

@@ -1,7 +1,4 @@
 import { AsyncStorage } from "react-native"
-import { NavigationActions } from "react-navigation"
-
-import { conf } from "../conf.js"
 
 
 function isNullFromStorage(value) {
@@ -17,22 +14,17 @@ function isNullFromStorage(value) {
 }
 
 
-class Command {
-	contructor(kind="", instruction="") {
-		this.kind = kind
-		this.instruction = instruction
-	}
-}
-
-
 class Location {
 	// TODO: implement geolocation.watchPosition
 	timestamp = 0.0
 	speed = 0
 	// TODO: localize the default lat/lng somehow
-	lat = conf.defaultLat
-	lng = conf.defaultLng
 	enabled = false
+
+	constructor(Static) {
+		this.lat = Static.defaultLat
+		this.lng = Static.defaultLng
+	}
 
 	async update() {
 		await navigator.geolocation.getCurrentPosition(
@@ -90,16 +82,14 @@ class Location {
 
 
 class Storage {
-	constructor() {
+	constructor(Static) {
 		// Items to save to disk
 		this.userUuid = ""
 		this.jwt = ""
 		this.language = ""
 
-		this.loc = new Location()
+		this.loc = new Location(Static)
 
-		// Items that do not need to be saved
-		this.command = new Command()
 	}
 
 	getUserUuid() {
@@ -113,34 +103,6 @@ class Storage {
 		return false
 	}
 
-	getCommand() {
-		return this.command
-	}
-
-	unpackCommand(b) {
-		if (b.command != null) {
-			if (b.command !== "") {
-				this.command = new Command()
-				this.command.kind = b.command.kind
-				this.command.instruction = b.command.instruction
-			}
-		}
-	}
-
-	processCommand(nav) {
-		if (this.command.kind === conf["REDIRECT"]) {
-			//alert(this.command.instruction)
-			nav.navigate(this.command.instruction)
-		}
-
-		// TODO: should we perform this action if command doesn't exist?
-		//const ALL_COMMANDS = Object.values(conf["COMMANDS"])
-		//if (! (ALL_COMMANDS.indexOf(this.command) > -1) ) {
-			//// RELEASE_CHECK: should we do something more severe if the command is
-			//// not recognized?
-			//this.command = ""
-		//}
-	}
 
 	async loadFromDisk() {
 		const userUuid = await AsyncStorage.getItem("userUuid")
@@ -174,11 +136,7 @@ class Storage {
 	async signOut() {
 		this.jwt = ""  // jwtProxy
 		this.userUuid = ""
-		this.command = new Command()
+		this.Ctx.Ax.signOut()
 		await AsyncStorage.clear()
 	}
 }
-
-
-const singleton = new Storage()
-export default singleton

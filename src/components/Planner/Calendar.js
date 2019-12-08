@@ -8,7 +8,7 @@ import {
 } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 
-import CalendarCache from "../../stores/CalendarCache.js"
+import { CalendarCache } from "../../Globals.js"
 
 
 // TODO: timezone dropdown

@@ -7,7 +7,7 @@ import {
 } from "react-native"
 import DateTimePicker from "react-native-modal-datetime-picker"
 
-import Blanket from "../styles/blanket.js"
+import { Blanket } from "../Globals.js"
 
 
 class DateRangeInput extends React.Component {

@@ -9,13 +9,12 @@ import {
 } from "react-native"
 import { withNavigation } from "react-navigation"
 
-import Storage from "../../stores/Storage.js"
-import Blanket from "../../styles/blanket.js"
 import { 
+	Blanket,
 	MapsacAutocompleteOneshotter,
 	MapsacLookupOneshotter,
 	NewTacObj,
-} from "../../stores/Globals.js"
+} from "../../Globals.js"
 import LoadingModal from "../LoadingModal.js"
 
 

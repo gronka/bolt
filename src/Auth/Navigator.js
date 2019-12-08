@@ -12,13 +12,10 @@ import { withNavigationFocus } from "react-navigation"
 import { createStackNavigator } from "react-navigation-stack"
 import { decode as atob } from "base-64"
 
-import { conf } from "../conf.js"
-import { submitWithLoading } from "../lib/network.js"
+import { Ctx } from "../Globals.js"
 import EmailSignUpScreen from "./EmailSignUp.js"
 import EmailSignInScreen from "./EmailSignIn.js"
 import VerifyPhoneScreen from "./VerifyPhoneScreen.js"
-import Ax from "../stores/Ax.js"
-import Storage from "../stores/Storage.js"
 
 
 class SelectAuthScreen extends React.Component {
@@ -106,7 +103,7 @@ class FakeSignInScreen extends React.Component {
 	}
 
 	_signInAsync = async () => {
-		await Storage.signIn("fakeUserUuid", "fakeJwt")
+		await Ctx.Storage.signIn("fakeUserUuid", "fakeJwt")
 		this.props.navigation.navigate("App")
 	}
 
@@ -148,18 +145,18 @@ class FakeSignInAsOneComp extends React.Component {
 
 		onResponse = (resp) => {
 			console.log(JSON.stringify(resp.data))
-			if (resp.data.i === conf["INFO_ACCEPTED"]) {
+			if (resp.data.i === Ctx.Static["INFO_ACCEPTED"]) {
 				var jwt = resp.data.b.jwt
 				var claims = JSON.parse(atob(jwt.split('.')[1]))
 
-				Storage.signIn(claims.userUuid, jwt)
-				Ax.remakeAxios(jwt)
+				Ctx.Storage.signIn(claims.userUuid, jwt)
+				Ctx.Ax.remakeAxios(jwt)
 			}
 
-			Storage.processCommand(this.props.navigation)
+			Ctx.Ax(this.props.navigation)
 		}
 
-		submitWithLoading(this, endpoint, data, onResponse)
+		Ctx.Ax.submitWithLoading(this, endpoint, data, onResponse)
 	}
 
 	render() {

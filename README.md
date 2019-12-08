@@ -1,6 +1,7 @@
 # TODO: global
 * setState is asynchronous, so make sure we don't set values directly from state
 * refactor globals to root dir, remove stores dir, put everything in lib
+* should we move all disk access to Ctx.js in the Configuration class?
 
 # Colors
 * brown: A0522D

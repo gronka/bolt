@@ -8,13 +8,11 @@ import {
 	DateValue,
 	TitleValue,
 } from "./DataValues.js"
-import Storage from "../stores/Storage.js"
-import FlashMsgs from "../stores/FlashMsgs.js"
 
 
 export class EventObject extends RequestObject {
-	constructor() {
-		super()
+	constructor(Ctx) {
+		super(Ctx)
 		this.title = new TitleValue()
 		this.address = new AddressValue()
 		this.lat = new LatValue()
@@ -33,15 +31,15 @@ export class EventObject extends RequestObject {
 	}
 
 	canUserOrganize() {
-		if (this.admins.indexOf(Storage.UserUuid) > -1 || 
-				this.organizers.indexOf(Storage.UserUuid) > -1) {
+		if (this.admins.indexOf(this.Ctx.Storage.UserUuid) > -1 || 
+				this.organizers.indexOf(this.Ctx.Storage.UserUuid) > -1) {
 			return true
 		}
 		return false
 	}
 
 	canUserAdmin() {
-		if (this.admins.indexOf(Storage.UserUuid) > -1) {
+		if (this.admins.indexOf(this.Ctx.Storage.UserUuid) > -1) {
 			return true
 		}
 		return false
@@ -111,37 +109,37 @@ export class EventObject extends RequestObject {
 
 	isValidForCreate() {
 		if (!this.title.isValid()) {
-			FlashMsgs.addFlash("Title is invalid", "error")
+			this.Ctx.FlashMsgs.addFlash("Title is invalid", "error")
 			return false
 		}
 
 		if (!this.address.isValid()) {
-			FlashMsgs.addFlash("Address is invalid", "error")
+			this.Ctx.FlashMsgs.addFlash("Address is invalid", "error")
 			return false
 		}
 
 		if (!this.lat.isValid()) {
-			FlashMsgs.addFlash("Latitude is invalid. Try again or tell support.", "error")
+			this.Ctx.FlashMsgs.addFlash("Latitude is invalid. Try again or tell support.", "error")
 			return false
 		}
 
 		if (!this.lng.isValid()) {
-			FlashMsgs.addFlash("Longitude is invalid. Try again or tell support.", "error")
+			this.Ctx.FlashMsgs.addFlash("Longitude is invalid. Try again or tell support.", "error")
 			return false
 		}
 
 		if (!this.tacName.isValid()) {
-			FlashMsgs.addFlash("Tac name is invalid. Try again or tell support.", "error")
+			this.Ctx.FlashMsgs.addFlash("Tac name is invalid. Try again or tell support.", "error")
 			return false
 		}
 
 		if (this.startTime.asUTC() <= this.startTime.asUTC()) {
-			FlashMsgs.addFlash("Event cannot end before it begins!", "error")
+			this.Ctx.FlashMsgs.addFlash("Event cannot end before it begins!", "error")
 			return false
 		}
 
 		if (!this.quickInfo.isValid()) {
-			FlashMsgs.addFlash("Quick info is invalid. Try again.", "error")
+			this.Ctx.FlashMsgs.addFlash("Quick info is invalid. Try again.", "error")
 			return false
 		}
 

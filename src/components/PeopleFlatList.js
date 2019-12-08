@@ -7,7 +7,6 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 
 import { cleanResults } from "../lib/helpers.js"
-import { post } from "../lib/network.js"
 import PersonResult from "./PersonResult.js"
 
 

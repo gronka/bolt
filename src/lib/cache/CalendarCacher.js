@@ -1,8 +1,15 @@
-import Cache from './lib/Cache'
+import Cache from './Cache'
 //import EventListCache from './EventListCache'
 
 
-class ProfileCache extends Cache {
+export class CalendarCache extends Cache {
+	constructor(Ctx) {
+		super(Ctx, Calendar, "/calendar/get")
+	}
+}
+
+class Calendar {
+
 }
 
 
@@ -50,10 +57,3 @@ export class Profile {
 	}
 
 }
-
-
-const singleton = new ProfileCache(Profile, 
-																	 "/user/get", 
-																	 "/user/field.update",
-																	"userUuid")
-export default singleton

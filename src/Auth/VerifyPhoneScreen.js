@@ -9,13 +9,8 @@ import {
 } from "react-native"
 import Constants from "expo-constants"
 
-import { conf } from "../conf.js"
-import { submitWithLoading } from "../lib/network.js"
+import { Ctx, Blanket } from "../Globals.js"
 import LoadingModal from "../components/LoadingModal.js"
-import Ax from "../stores/Ax.js"
-import FlashMsgs from "../stores/FlashMsgs.js"
-import Storage from "../stores/Storage.js"
-import Blanket from "../styles/blanket.js"
 
 
 class VerifyPhoneScreen extends React.Component {
@@ -42,8 +37,8 @@ class VerifyPhoneScreen extends React.Component {
 
 		onResponse = (resp) => {
 			console.log(JSON.stringify(resp.data))
-			if (resp.data.i === conf["ACCEPTED"]) {
-				FlashMsgs.addFlash("We sent you a new phone verification code", "info")
+			if (resp.data.i === Ctx.Static["ACCEPTED"]) {
+				Ctx.FlashMsgs.addFlash("We sent you a new phone verification code", "info")
 			} 
 		}
 
@@ -74,8 +69,8 @@ class VerifyPhoneScreen extends React.Component {
 		}
 
 		onResponse = (resp) => {
-			if (resp.data.i === conf["ACCEPTED"]) {
-				Storage.processCommand(this.props.navigation)
+			if (resp.data.i === Ctx.Static["ACCEPTED"]) {
+				Ctx.Ax.processCommand(this.props.navigation)
 
 			} else {
 				this.setState({
@@ -84,7 +79,7 @@ class VerifyPhoneScreen extends React.Component {
 			}
 		}
 
-		submitWithLoading(this, endpoint, data, onResponse)
+		Ctx.Ax.submitWithLoading(this, endpoint, data, onResponse)
 	}
 
 	render() {

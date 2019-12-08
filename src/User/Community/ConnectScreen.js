@@ -10,8 +10,7 @@ import {
 } from "react-native"
 import { Ionicons } from '@expo/vector-icons';
 
-import { post } from "../../lib/network.js"
-import Storage from "../../stores/Storage.js"
+import { Ctx } from "../../Globals.js"
 
 
 export default class ConnectScreen extends React.Component {
@@ -32,8 +31,8 @@ export default class ConnectScreen extends React.Component {
 
 	getMessages = async () => {
 		data = {
-			lat: Storage.loc.getLat(),
-			lng: Storage.loc.getLng(),
+			lat: Ctx.Storage.loc.getLat(),
+			lng: Ctx.Storage.loc.getLng(),
 			radius: this.state.radius,
 		}
 
@@ -52,7 +51,7 @@ export default class ConnectScreen extends React.Component {
 			refreshing: false,
 		})
 
-		post(this, this.endpoint, data, onResponse)
+		Ctx.Ax.blindPost(this.endpoint, data, onResponse)
 		return
 	}
 

@@ -10,14 +10,14 @@ import {
 import { withNavigation } from "react-navigation"
 import MapView, { Marker } from "react-native-maps"
 
-import { EventMapData } from "../../stores/MapData.js"
-import Storage from "../../stores/Storage.js"
-import Blanket from "../../styles/blanket.js"
-import { asLocation } from "../../lib/helpers.js"
 import { 
-	NewTacObj,
 	AddTacController,
-} from "../../stores/Globals.js"
+	Blanket,
+	Ctx,
+	EventMapData,
+	NewTacObj,
+} from "../../Globals.js"
+import { asLocation } from "../../lib/helpers.js"
 import LoadingModal from "../LoadingModal.js"
 
 
@@ -30,8 +30,8 @@ class SetTacLocationScreen extends React.Component {
 		var manualLocation = false
 		if (!this.addressObj.hasLocation) {
 			manualLocation = true
-			this.addressObj.setLat(Storage.loc.getLat())
-			this.addressObj.setLng(Storage.loc.getLng())
+			this.addressObj.setLat(Ctx.Storage.loc.getLat())
+			this.addressObj.setLng(Ctx.Storage.loc.getLng())
 		}
 
 		this.initialLat = this.addressObj.getLat()

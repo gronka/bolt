@@ -1,13 +1,9 @@
-import { conf } from "../conf.js"
-import Ax from "../stores/Ax.js"
-import FlashMsgs from "../stores/FlashMsgs.js"
-
-
 export class OneshotterTrafficController {
 	// Note: a oneshotter is a controller in which a data request against the API
 	// will always return the same result. This allows us to simply logic and
 	// number of network requests because results never become invalid
-	constructor(endpoint) {
+	constructor(Ctx, endpoint) {
+		this.Ctx = Ctx
 		this.endpoint = endpoint
 		this.requests = {}
 		this.activeUuid = ""
@@ -38,12 +34,12 @@ export class OneshotterTrafficController {
 			response = await this.request(uuid, data)
 			console.log(response.response.s)
 			if (response.response.status >= 300) {
-				FlashMsgs.addFlash("Request might have failed, you might have to try again.")
+				this.Ctx.FlashMsgs.addFlash("Request might have failed, you might have to try again.")
 				this.requests[uuid] = null
 			}
 		} catch (err) {
 			console.log(err)
-			FlashMsgs.addFlash("Request failed - please try again")
+			this.Ctx.FlashMsgs.addFlash("Request failed - please try again")
 			this.requests[uuid] = null
 			component.setState({
 				loading: false
@@ -70,14 +66,14 @@ export class OneshotterTrafficController {
 		if (req.status !== "cancelled") {
 			req.status = "waitingResponse"
 			try {
-				resp = await Ax.ax.post(req.endpoint, req.data)
+				resp = await this.Ctx.Ax.post(req.endpoint, req.data)
 			} catch(err) {
 				console.log(err)
-				FlashMsgs.addFlash(req.errorMsg, "error")
+				this.Ctx.FlashMsgs.addFlash(req.errorMsg, "error")
 				req.status = "failed"
 			}
 
-			if (resp.data.i === conf["ACCEPTED"]) {
+			if (resp.data.i === this.Ctx.Static["ACCEPTED"]) {
 				if (req.status === "waitingResponse") {
 					// Note: we might not want to save the response if the uuid does not
 					// exist. However, for a oneshotter I think it won't matter
@@ -121,7 +117,8 @@ class RequestHandler {
 
 
 export class RequestObject {
-	getUuid() {
+	getUuid(Ctx) {
+		this.Ctx = Ctx
 		throw("this function must be overwritten")
 	}
 }

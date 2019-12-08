@@ -11,11 +11,10 @@ import {
 } from "react-native"
 import { Ionicons } from '@expo/vector-icons';
 
+import { Ctx } from "../../Globals.js"
 import { cleanResults } from "../../lib/helpers.js"
-import { post } from "../../lib/network.js"
 import PersonResult from "../../components/PersonResult.js"
 import PeopleFlatList from "../../components/PeopleFlatList.js"
-import Storage from "../../stores/Storage.js"
 
 
 export default class PeopleSearchNearestScreen extends React.Component {
@@ -42,8 +41,8 @@ export default class PeopleSearchNearestScreen extends React.Component {
 		})
 
 		data = {
-			lat: Storage.loc.getLat(),
-			lng: Storage.loc.getLng(),
+			lat: Ctx.Storage.loc.getLat(),
+			lng: Ctx.Storage.loc.getLng(),
 			radius: radius,
 		}
 
@@ -60,7 +59,7 @@ export default class PeopleSearchNearestScreen extends React.Component {
 			})
 		}
 
-		post(this, this.endpoint, data, onResponse)
+		Ctx.blindPost(this.endpoint, data, onResponse)
 		return
 	}
 
@@ -104,7 +103,7 @@ export default class PeopleSearchNearestScreen extends React.Component {
 
 				</View>
 
-				{!Storage.loc.enabled &&
+				{!Ctx.Storage.loc.enabled &&
 				<Text>Location services must be enabled. TODO: add link to enable</Text>
 				}
 

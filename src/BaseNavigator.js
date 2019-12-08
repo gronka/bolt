@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { 
 	ActivityIndicator, 
 	StatusBar,
@@ -6,10 +6,9 @@ import {
 } from "react-native"
 import { createSwitchNavigator } from "react-navigation"
 
+import { Ctx } from "./Globals.js"
 import AppNavigator from "./AppNavigator.js"
 import AuthNavigator from "./Auth/Navigator.js"
-import { conf } from "./conf.js"
-import Storage from "./stores/Storage.js"
 
 
 class AuthLoadingScreen extends React.Component {
@@ -20,7 +19,7 @@ class AuthLoadingScreen extends React.Component {
 
 	_bootstrapAsync = async () => {
 		var navigateTo = ""
-		if (Storage.isSignedIn()) {
+		if (Ctx.Storage.isSignedIn()) {
 			navigateTo = "App"
 		} else {
 			navigateTo = "Auth"

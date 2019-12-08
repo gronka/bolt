@@ -1,8 +1,12 @@
-import Cache from './lib/Cache'
-import { conf } from "../conf.js"
+import Cache from './Cache.js'
+import { makeTimeLabel } from "../helpers.js"
 
 
-class AgendaCache extends Cache {
+export class AgendaCacher extends Cache {
+	constructor(Ctx) {
+		super(Ctx, Agenda, "/agenda/get")
+	}
+
 	// Note: an AgendaCache uuid is a combination of the userUuid and the date 
 	// of the agenda
 	async getAgenda(userUuid, year, month, day) {
@@ -10,7 +14,7 @@ class AgendaCache extends Cache {
 		//this.getItem(agendaUuid)
 		var agenda = new Agenda()
 		//console.log(agenda)
-		var item = new AgendaItem()
+		var item = new AgendaItem(this.Ctx)
 		item.status = 2
 		agenda.items.push(item)
 		agenda.items.push(item)
@@ -28,26 +32,9 @@ class Agenda {
 	}
 }
 
-function makeTimeLabel(format, time, tzOffset) {
-	var timeLabel = ""
-	var localTime = time + tzOffset
-	var hour = localTime.getHours()
-	var minute = localTime.getMinutes()
-	if (format === "standard") {
-		var suffix = " AM"
-		if (hour > 12) {
-			suffix = " PM"
-			hour = hour - 12
-		}
-		timeLabel = hour + ":" + minute + suffix
-	} else {
-		timeLabel = hour + ":" + minute
-	}
-	return timeLabel
-}
-
 class AgendaItem {
-	constructor() {
+	constructor(Ctx) {
+		this.Ctx = Ctx
 		this.time = new Date()
 		this.timeLabel = this.time.getHours() + ":" + this.time.getMinutes()
 		this.apptUuid = "apptUuidNotSet"
@@ -61,15 +48,7 @@ class AgendaItem {
 		this.endTime = item.endTime
 		this.tzOffset = item.tzOffset
 
-		this.startTimeLabel = makeTimeLabel(conf.tzFormat, this.startTime, this.tzOffset)
-		this.endTimeLabel = makeTimeLabel(conf.tzFormat, this.endTime, this.tzOffset)
+		this.startTimeLabel = makeTimeLabel(this.Ctx.Conf.tzFormat, this.startTime, this.tzOffset)
+		this.endTimeLabel = makeTimeLabel(this.Ctx.Conf.tzFormat, this.endTime, this.tzOffset)
 	}
 }
-
-
-const singleton = new AgendaCache(
-	Agenda, 
-	"/user/get", 
-	"/user/field.update",
-	"userUuid")
-export default singleton

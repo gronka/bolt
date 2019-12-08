@@ -8,17 +8,16 @@ import {
 import { createStackNavigator } from "react-navigation-stack"
 import { withNavigation, withNavigationFocus } from "react-navigation"
 
-import Blanket from "../../styles/blanket.js"
-import Storage from "../../stores/Storage.js"
-import { post } from "../../lib/network.js"
 import MapsacAutocompleteInput from "./MapsacAutocompleteInput.js"
 import SetTacLocationScreen from "./SetTacLocationScreen.js"
 
 import { 
+	Blanket,
+	Ctx,
 	GetTacsController,
 	NewEventObj,
 	NewTacObj, 
-} from "../../stores/Globals.js"
+} from "../../Globals.js"
 
 
 class SelectTacScreen extends React.Component {
@@ -52,7 +51,7 @@ class SelectTacScreen extends React.Component {
 
 	getTacs = async () => {
 		data  = {
-			requesteeUuid: Storage.userUuid,
+			requesteeUuid: Ctx.Storage.userUuid,
 		}
 
 		onResponse = (resp) => {
@@ -62,7 +61,7 @@ class SelectTacScreen extends React.Component {
 			})
 		}
 
-		post(this, this.endpoint, data, onResponse)
+		Ctx.Ax.blindPost(this, this.endpoint, data, onResponse)
 		return
 
 	}

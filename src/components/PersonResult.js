@@ -7,7 +7,7 @@ import {
 	View,
 } from "react-native"
 
-import ProfileCache from "../stores/ProfileCache.js"
+import { ProfileCache } from "../Globals.js"
 
 
 export default class PersonResult extends React.Component {

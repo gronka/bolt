@@ -6,12 +6,13 @@ import {
 	View, 
 } from "react-native"
 
-import Blanket from "../../styles/blanket.js"
-import Storage from "../../stores/Storage.js"
-import { post } from "../../lib/network.js"
 import MapsacAutocompleteInput from "./MapsacAutocompleteInput.js"
 
-import { NewTacObj, GetTacsController } from "../../stores/Globals.js"
+import { 
+	Blanket,
+	GetTacsController,
+	NewTacObj, 
+} from "../../Globals.js"
 
 
 class AddTacScreen extends React.Component {

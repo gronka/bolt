@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react"
 import { 
 	Image, 
 	ScrollView,
@@ -13,13 +13,15 @@ import {
   DrawerNavigatorItems,
 } from 'react-navigation-drawer';
 
-import Blanket from "./styles/blanket.js"
-import { HEIGHT, WIDTH } from "./conf.js"
+import { 
+	Blanket,
+	Ctx,
+	WIDTH,
+} from "./Globals.js"
 import UserNavigator from "./User/Navigator.js"
 import ManageNavigator from "./Manage/Navigator.js"
 import TrainerNavigator from "./Trainer/Navigator.js"
 import PaymentNavigator from "./Payment/Navigator.js"
-import Storage from "./stores/Storage.js"
 
 import Hidden from "./components/Hidden.js"
 import ConvoEditParticipantsScreen from "./Screens/ConvoEditParticipantsScreen.js"
@@ -80,7 +82,7 @@ class SignOutScreen extends React.Component {
 	}
 
 	_signOutAsync = async () => {
-		await Storage.signOut()
+		await Ctx.Storage.signOut()
 		this.props.navigation.navigate("Auth")
 	}
 

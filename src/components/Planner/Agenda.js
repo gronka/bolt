@@ -7,7 +7,7 @@ import {
 	View,
 } from "react-native"
 
-import AgendaCache from "../../stores/AgendaCache.js"
+import { AgendaCache } from "../../Globals.js"
 
 
 export default class Agenda extends React.Component {

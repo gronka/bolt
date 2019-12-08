@@ -6,8 +6,7 @@ import {
 	View, 
 } from "react-native"
 
-import Blanket from "../../styles/blanket.js"
-import { post } from "../../lib/network.js"
+import { Blanket, Ctx } from "../../Globals.js"
 
 
 export default class ListEvents extends React.Component {
@@ -41,7 +40,7 @@ export default class ListEvents extends React.Component {
 			})
 		}
 
-		post(this, this.endpoint, data, onResponse)
+		Ctx.Ax.blindPost(this.endpoint, data, onResponse)
 		return
 
 	}

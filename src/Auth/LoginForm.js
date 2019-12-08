@@ -12,12 +12,8 @@ import PhoneInput from "react-native-phone-input"
 import { decode as atob } from "base-64"
 import { withNavigation } from "react-navigation"
 
-import Ax from "../stores/Ax.js"
-import { conf } from "../conf.js"
-import Blanket from "../styles/blanket.js"
+import { Ctx } from "../Globals.js"
 import LoadingModal from "../components/LoadingModal.js"
-import Storage from "../stores/Storage.js"
-import { submitWithLoading } from "../lib/network.js"
 
 
 class LoginForm extends React.Component {
@@ -36,7 +32,7 @@ class LoginForm extends React.Component {
 	}
 
 	componentDidMount() {
-		Storage.signOut()
+		Ctx.Storage.signOut()
 	}
 
 	changePhoneNumber = v => {
@@ -64,18 +60,18 @@ class LoginForm extends React.Component {
 
 		onResponse = (resp) => {
 			console.log(JSON.stringify(resp.data))
-			if (resp.data.i === conf["INFO_ACCEPTED"]) {
+			if (resp.data.i === Ctx.Static["INFO_ACCEPTED"]) {
 				var jwt = resp.data.b.jwt
 				var claims = JSON.parse(atob(jwt.split('.')[1]))
 
-				Storage.signIn(claims.userUuid, jwt)
-				Ax.remakeAxios(jwt)
+				Ctx.Storage.signIn(claims.userUuid, jwt)
+				Ctx.Ax.remakeAxios(jwt)
 			}
 
-			Storage.processCommand(this.props.navigation)
+			Ctx.Ax.processCommand(this.props.navigation)
 		}
 
-		submitWithLoading(this, endpoint, data, onResponse)
+		Ctx.Ax.submitWithLoading(this, endpoint, data, onResponse)
 	}
 
 	render() {

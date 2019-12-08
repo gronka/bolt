@@ -11,10 +11,11 @@ import {
 } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 
-import Blanket from "../../styles/blanket.js"
-import { post } from "../../lib/network.js"
-import Storage from "../../stores/Storage.js"
-import ConvoSummaryCache from "../../stores/ConvoSummaryCache.js"
+import {
+	Blanket,
+	ConvoSummaryCache,
+	Ctx,
+} from "../../Globals.js"
 
 
 export default class ConvosScreen extends React.Component {
@@ -34,7 +35,7 @@ export default class ConvosScreen extends React.Component {
 
 	getRecentConvos = async () => {
 		data  = {
-			apparentUuid: Storage.userUuid,
+			apparentUuid: Ctx.Storage.userUuid,
 		}
 
 		this.setState({
@@ -52,7 +53,7 @@ export default class ConvosScreen extends React.Component {
 			refreshing: false,
 		})
 
-		post(this, this.endpoint, data, onResponse)
+		Ctx.Ax.blindPost(this, this.endpoint, data, onResponse)
 		return
 	}
 

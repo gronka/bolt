@@ -1,14 +1,12 @@
-import { post } from "../lib/network.js"
-
-
-class ConvoCache {
+export class ConvoCacher {
 	// TODO: allow updating from push notifications
 	convos = {}
 	mostRecentTimestamp = {}
 	lastViewed = {}
 	flaggedForRefresh = new Set([])
 
-	constructor() {
+	constructor(Ctx) {
+		this.Ctx = Ctx
 	}
 
 	async pullMsgRange(convoUuid, startId, endId) {
@@ -28,6 +26,9 @@ export class Convo {
 	last_message_time = ""
 	msg_count = 0  // for scrolling
 	// TODO: do we need a latest message type?
+	constructor(Ctx) {
+		super(Ctx)
+	}
 
 	unpackItemFromApi(body) {
 		let convo = body.convo
@@ -46,10 +47,6 @@ export class Convo {
 			this.unpackItemFromApi(resp.b)
 		}
 
-		post(this, "/convo/get.recent", data, onResponse)
+		this.Ctx.blindPost("/convo/get.recent", data, onResponse)
 	}
 }
-
-
-const singleton = new ConvoCache()
-export default singleton

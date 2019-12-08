@@ -1,10 +1,10 @@
-import { post } from "../lib/network.js"
-
-
 class ConvoSummaryCache {
 	_recentConvos = {}
 	recentConvosSorted = []
 	lastUpdateTime = {}
+	constructor(Ctx) {
+		this.Ctx = Ctx
+	}
 
 	// TODO: how to handle paging?
 	async pullRecentConvos() {
@@ -20,7 +20,7 @@ class ConvoSummaryCache {
 			lastUpdateTime = Date.now()
 		}
 
-		post(this, "/convo/get.recent", data, onResponse)
+		this.Ctx.blindPost("/convo/get.recent", data, onResponse)
 		return this.getRecentConvosSorted()
 	}
 
@@ -38,7 +38,3 @@ class ConvoSummaryCache {
 		return this.recentConvosSorted
 	}
 }
-
-
-const singleton = new ConvoSummaryCache()
-export default singleton

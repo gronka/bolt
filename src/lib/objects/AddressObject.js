@@ -1,4 +1,4 @@
-import { RequestObject } from "./RequestHandlers.js"
+import { RequestObject } from "../RequestHandlers.js"
 import { 
 	AddressValue,
 	LatValue,
@@ -8,13 +8,11 @@ import {
 	DateValue,
 	TitleValue,
 } from "./DataValues.js"
-import Storage from "../stores/Storage.js"
-import FlashMsgs from "../stores/FlashMsgs.js"
 
 
 export class AddressObject extends RequestObject {
-	constructor() {
-		super()
+	constructor(Ctx) {
+		super(Ctx)
 		this.uuid = ""
 		this.address = new AddressValue("")
 		this.lat = new LatValue(0)
@@ -39,8 +37,8 @@ export class AddressObject extends RequestObject {
 
 	reinitToUserLoc() {
 		this.reinit()
-		this.setLat(Storage.loc.getLat())
-		this.setLng(Storage.loc.getLng())
+		this.setLat(Ctx.Storage.loc.getLat())
+		this.setLng(Ctx.Storage.loc.getLng())
 	}
 
 	getUuid() {
@@ -62,12 +60,12 @@ export class AddressObject extends RequestObject {
 
 	isValidForSetLocation() {
 		if (!this.name.isValid()) {
-			FlashMsgs.addFlash("Name is not valid.", "error")
+			this.Ctx.FlashMsgs.addFlash("Name is not valid.", "error")
 			return false
 		}
 
 		if (!this.address.isValid()) {
-			FlashMsgs.addFlash("Address is not valid.", "error")
+			this.Ctx.FlashMsgs.addFlash("Address is not valid.", "error")
 			return false
 		}
 		return true
