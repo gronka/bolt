@@ -1,7 +1,6 @@
 import React from "react"
 
 import Profile from "../components/Profile.js"
-import Storage from "../stores/Storage.js"
 
 
 class ViewProfileScreen extends React.Component {

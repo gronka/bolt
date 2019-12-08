@@ -13,7 +13,7 @@ import {
 import SafeAreaView from "react-native-safe-area-view"
 import { Ionicons } from "@expo/vector-icons"
 
-import Blanket from "../styles/blanket.js"
+import { Blanket } from "../Globals.js"
 import PeopleSearchNameScreen from "../User/Community/PeopleSearchNameScreen.js"
 
 

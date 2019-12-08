@@ -1,8 +1,6 @@
-import * as React from "react"
+import React from "react"
 import { Button, Text, View, Image, StyleSheet } from "react-native"
 import { Ionicons } from '@expo/vector-icons';
-
-import Blanket from "../../styles/blanket.js"
 
 
 export default class PeopleScreen extends React.Component {

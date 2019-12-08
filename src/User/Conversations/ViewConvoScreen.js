@@ -1,7 +1,6 @@
 import React from "react"
 
 import Convo from "./Convo.js"
-import Storage from "../../stores/Storage.js"
 
 
 class ViewConvoScreen extends React.Component {

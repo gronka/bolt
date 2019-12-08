@@ -8,8 +8,7 @@ import {
 } from "react-native"
 import { Ionicons } from '@expo/vector-icons';
 
-import ConvoCache from "../../stores/ConvoCache.js"
-import Storage from "../../stores/Storage.js"
+import { Ctx, ConvoCache } from "../../Globals.js"
 
 
 class Convo extends React.Component {
@@ -47,7 +46,7 @@ class Convo extends React.Component {
 	}
 
 	render() {
-		const myConvo = (this.props.userUuid == Storage.userUuid) ? true : false
+		const myConvo = (this.props.userUuid == Ctx.Storage.userUuid) ? true : false
 
 		return (
 			<View>

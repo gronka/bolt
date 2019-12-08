@@ -4,7 +4,7 @@ import { WebView } from 'react-native-webview'
 import { PropTypes } from 'prop-types'
 import { withNavigationFocus } from "react-navigation"
 
-import { conf } from "../conf.js"
+import { Ctx } from "../Globals.js"
 
 
 class StripeCheckout extends Component {
@@ -29,7 +29,7 @@ class StripeCheckout extends Component {
 				useWebKit={false}
         scrollEnabled={false}
         bounces={false}
-				source={{ uri: conf.kapi + "/patron/addCreditCardScreen" }}
+				source={{ uri: Ctx.Static.kapi + "/patron/addCreditCardScreen" }}
 				ref={ (comp) => {this.webView = comp} }
       />
     )

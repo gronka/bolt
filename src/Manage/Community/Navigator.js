@@ -1,10 +1,9 @@
-import * as React from "react"
+import React from "react"
 import { Button, Text, View, Image, ScrollView } from "react-native"
 import { Ionicons } from '@expo/vector-icons';
 import { createStackNavigator } from "react-navigation-stack"
 import { createMaterialTopTabNavigator } from "react-navigation-tabs"
 
-import Blanket from "../../styles/blanket.js"
 import PeopleScreen from "./PeopleScreen.js"
 
 

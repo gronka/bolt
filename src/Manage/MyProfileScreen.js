@@ -1,7 +1,7 @@
-import * as React from "react"
+import React from "react"
 
+import { Ctx } from "../Globals.js"
 import Profile from "../components/Profile.js"
-import Storage from "../stores/Storage.js"
 
 
 class MyProfileScreen extends React.Component {
@@ -30,7 +30,7 @@ class MyProfileScreen extends React.Component {
 	render() {
 		return (
 			<Profile
-				userUuid={Storage.userUuid}
+				userUuid={Ctx.Storage.userUuid}
 				onLoad={this.setTitle}
 			/>
 		)

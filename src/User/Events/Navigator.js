@@ -1,10 +1,10 @@
 import React from "react"
 import { createMaterialTopTabNavigator } from "react-navigation-tabs"
 
+import { Ctx } from "../../Globals.js"
 import CalendarView from "../../components/Planner/CalendarView.js"
 import CreateEventStack from "../../components/Events/CreateEventStack.js"
 import ListEvents from "./ListEvents.js"
-import Storage from "../../stores/Storage.js"
 
 
 class CalendarScreen extends React.Component {
@@ -21,7 +21,7 @@ class ListAttendingScreen extends React.Component {
 	render() {
 		return (
 			<ListEvents
-				userUuid={Storage.userUuid}
+				userUuid={Ctx.Storage.userUuid}
 			/>
 		)
 	}

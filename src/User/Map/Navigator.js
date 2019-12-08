@@ -5,9 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { createStackNavigator } from "react-navigation-stack"
 import { createMaterialTopTabNavigator } from "react-navigation-tabs"
 
-import Storage from "../../stores/Storage.js"
-import { EventMapData } from "../../stores/MapData.js"
-import { RestaurantMapData } from "../../stores/MapData.js"
+import { EventMapData, RestaurantMapData } from "../../Globals.js"
 
 
 // TODO: could give iOS users apple maps option

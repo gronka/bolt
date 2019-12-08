@@ -9,11 +9,13 @@ import {
 import MapView, { Marker } from "react-native-maps"
 import { withNavigation, withNavigationFocus } from "react-navigation"
 
-import Blanket from "../../styles/blanket.js"
-import { EventMapData } from "../../stores/MapData.js"
-import { ViewEventObj } from "../../stores/Globals.js"
+import { 
+	Blanket, 
+	CreateEventController,
+	EventMapData,
+	ViewEventObj,
+} from "../../Globals.js"
 import LoadingModal from "../LoadingModal.js"
-import { CreateEventController } from "../../stores/Globals.js"
 
 
 class ViewEventScreen extends React.Component {

@@ -5,7 +5,7 @@ import { getActiveChildNavigationOptions } from "react-navigation"
 import { createStackNavigator } from "react-navigation-stack"
 import { createBottomTabNavigator } from "react-navigation-tabs"
 
-import Blanket from "../styles/blanket.js"
+import { Blanket } from "../Globals.js"
 
 
 class TrainerProfile extends React.Component {
