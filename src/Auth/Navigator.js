@@ -153,7 +153,7 @@ class FakeSignInAsOneComp extends React.Component {
 				Ctx.Ax.remakeAxios(jwt)
 			}
 
-			Ctx.Ax(this.props.navigation)
+			Ctx.Ax.processCommand(this.props.navigation)
 		}
 
 		Ctx.Ax.submitWithLoading(this, endpoint, data, onResponse)

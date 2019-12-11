@@ -14,9 +14,9 @@ import {
 	CreateEventController,
 	EventMapData, 
 	NewEventObj,
-} from "../../Globals.js"
-import DateRangeInput from "../DateRangeInput.js"
-import LoadingModal from "../LoadingModal.js"
+} from "../../../Globals.js"
+import DateRangeInput from "./DateRangeInput.js"
+import LoadingModal from "../../../components/LoadingModal.js"
 
 
 class CreateEventScreen extends React.Component {
@@ -120,7 +120,9 @@ class CreateEventScreen extends React.Component {
 					<Text style={Blanket.warning}>{this.newEvent.quickInfo.validator.description}</Text>
 				}
 
-				<DateRangeInput />
+				<DateRangeInput 
+					event={this.newEvent}
+				/>
 
 				{!this.state.tacSelected ? (
 					<View>

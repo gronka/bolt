@@ -14,9 +14,9 @@ import {
 	EditEventController,
 	EditEventObj,
 	EventMapData, 
-} from "../../Globals.js"
-import DateRangeInput from "../DateRangeInput.js"
-import LoadingModal from "../LoadingModal.js"
+} from "../../../Globals.js"
+import DateRangeInput from "./DateRangeInput.js"
+import LoadingModal from "../../../components/LoadingModal.js"
 
 
 class EditEventScreen extends React.Component {

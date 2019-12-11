@@ -53,7 +53,7 @@ export default class ConvosScreen extends React.Component {
 			refreshing: false,
 		})
 
-		Ctx.Ax.blindPost(this, this.endpoint, data, onResponse)
+		Ctx.Ax.blindPost(this.endpoint, data, onResponse)
 		return
 	}
 

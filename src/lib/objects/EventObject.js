@@ -101,8 +101,8 @@ export class EventObject extends RequestObject {
 			tacName: this.getTacName(),
 			lat: this.getLat(),
 			lng: this.getLng(),
-			startTime: this.startTime.asUTC(),
-			endTime: this.endTime.asUTC(),
+			startTime: this.startTime.asUtc(),
+			endTime: this.endTime.asUtc(),
 			tzOffset: this.getTzOffset(),
 		}
 	}
@@ -133,7 +133,9 @@ export class EventObject extends RequestObject {
 			return false
 		}
 
-		if (this.startTime.asUTC() <= this.startTime.asUTC()) {
+		const startUtc = this.startTime.asUtc()
+		const endUtc = this.endTime.asUtc()
+		if (startUtc >= endUtc) {
 			this.Ctx.FlashMsgs.addFlash("Event cannot end before it begins!", "error")
 			return false
 		}

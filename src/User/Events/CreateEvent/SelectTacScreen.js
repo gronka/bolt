@@ -17,7 +17,7 @@ import {
 	GetTacsController,
 	NewEventObj,
 	NewTacObj, 
-} from "../../Globals.js"
+} from "../../../Globals.js"
 
 
 class SelectTacScreen extends React.Component {
@@ -61,7 +61,7 @@ class SelectTacScreen extends React.Component {
 			})
 		}
 
-		Ctx.Ax.blindPost(this, this.endpoint, data, onResponse)
+		Ctx.Ax.blindPost(this.endpoint, data, onResponse)
 		return
 
 	}

@@ -117,7 +117,7 @@ export class DateValue extends DataValue {
 		this.validator.validateTime(this.value, 0, 0)
 	}
 
-	asUTC() {
+	asUtc() {
 		return this.value.getTime()
 	}
 }

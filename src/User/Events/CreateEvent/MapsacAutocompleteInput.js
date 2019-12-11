@@ -14,8 +14,8 @@ import {
 	MapsacAutocompleteOneshotter,
 	MapsacLookupOneshotter,
 	NewTacObj,
-} from "../../Globals.js"
-import LoadingModal from "../LoadingModal.js"
+} from "../../../Globals.js"
+import LoadingModal from "../../../components/LoadingModal.js"
 
 
 class MapsacAutocompleteInput extends React.Component {

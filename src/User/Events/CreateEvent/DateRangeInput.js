@@ -7,7 +7,7 @@ import {
 } from "react-native"
 import DateTimePicker from "react-native-modal-datetime-picker"
 
-import { Blanket } from "../Globals.js"
+import { Blanket } from "../../../Globals.js"
 
 
 class DateRangeInput extends React.Component {
@@ -19,7 +19,7 @@ class DateRangeInput extends React.Component {
 		startDate.setMinutes(0)
 		endDate.setMinutes(0)
 		startDate.setHours(startDate.getHours() + 1)
-		endDate.setHours(endDate.getHours() + 3)
+		endDate.setHours(startDate.getHours() + 2)
 
 		// tzOffset references the tzOffset at the event location
 		//this.tzOffsetMm = props.tzOffset
@@ -40,6 +40,7 @@ class DateRangeInput extends React.Component {
 	}
 	handleStartDatePicked = date => {
 		this.setState({ startDate: date})
+		this.props.event.setStartTime(date)
 		this.hideStartDatePicker()
 	}
 
@@ -51,6 +52,7 @@ class DateRangeInput extends React.Component {
 	}
 	handleEndDatePicked = date => {
 		this.setState({ endDate: date})
+		this.props.event.setEndTime(date)
 		this.hideEndDatePicker()
 	}
 
@@ -77,6 +79,7 @@ class DateRangeInput extends React.Component {
 
 				<DateTimePicker 
 					mode={"datetime"}
+					date={this.state.endDate}
 					isVisible={this.state.endDatePickerVisible}
 					onConfirm={this.handleEndDatePicked}
 					onCancel={this.hideEndDatePicker}

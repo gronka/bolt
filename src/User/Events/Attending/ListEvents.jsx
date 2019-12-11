@@ -5,11 +5,12 @@ import {
 	TouchableOpacity,
 	View, 
 } from "react-native"
+import { withNavigation } from "react-navigation"
 
-import { Blanket, Ctx } from "../../Globals.js"
+import { Blanket, Ctx, NavHelper } from "../../../Globals.js"
 
 
-export default class ListEvents extends React.Component {
+class ListEvents extends React.Component {
 	constructor(props) {
 		super(props)
 		this.ofUser = this.props.userUuid
@@ -46,7 +47,8 @@ export default class ListEvents extends React.Component {
 	}
 
 	selectEvent(event) {
-		this.props.navigation.navigate("ViewEventScreen", {event: event})
+		NavHelper.setEvent(event)
+		this.props.navigation.navigate("ViewEventScreen")
 	}
 
 	/*
@@ -107,3 +109,6 @@ export default class ListEvents extends React.Component {
 		)
 	}
 }
+
+
+export default withNavigation(ListEvents)

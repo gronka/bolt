@@ -117,8 +117,11 @@ class RequestHandler {
 
 
 export class RequestObject {
-	getUuid(Ctx) {
+	constructor(Ctx) {
 		this.Ctx = Ctx
+	}
+
+	getUuid(Ctx) {
 		throw("this function must be overwritten")
 	}
 }

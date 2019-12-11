@@ -1,10 +1,9 @@
 export class MapDataCacher {
-	contructor(Ctx) {
+	constructor(Ctx) {
 		this.lat = Ctx.Storage.loc.getLat()
 		this.lng = Ctx.Storage.loc.getLng()
 		this.defaultLatDelta = Ctx.Conf.defaultLatDelta
 		this.defaultLngDelta = Ctx.Conf.defaultLngDelta
-
 	}
 
 	getLat() {

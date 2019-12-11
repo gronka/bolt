@@ -54,7 +54,7 @@ class Context {
 
 
 class Configuration {
-	constuctor(Static) {
+	constructor(Static) {
 		this.defaultLat = Static.defaultLat
 		this.defaultLng = Static.defaultLng
 		this.defaultLatDelta = Static.defaultLatDelta
@@ -82,5 +82,5 @@ const Ax = new AxService(Static, FlashMsgs)
 Storage.loadFromDisk()
 Ax.remakeAxios(Storage.jwt)
 
-const singleton = new Context(Ax, Conf, FlashMsgs, Storage, Static)
-export default singleton
+const Ctx = new Context(Ax, Conf, FlashMsgs, Storage, Static)
+export default Ctx

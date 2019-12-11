@@ -22,10 +22,16 @@ export const defNavOpts = (navigation) => {
 		),
 
 		headerRight: (
-			<Ionicons name="md-person" size={30}
-				style={{ paddingRight: 10 }}
-				onPress={() => navigation.navigate("MyProfile")}
-			/>
+			<View style={{flexDirection: "row" }}>
+				<Ionicons name="md-arrow-back" size={30}
+					style={{ paddingRight: 10 }}
+					onPress={() => navigation.goBack(null)}
+				/>
+				<Ionicons name="md-person" size={30}
+					style={{ paddingRight: 20 }}
+					onPress={() => navigation.navigate("MyProfile")}
+				/>
+			</View>
 		),
 	}
 }

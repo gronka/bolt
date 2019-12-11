@@ -12,7 +12,7 @@ import {
 	Blanket,
 	GetTacsController,
 	NewTacObj, 
-} from "../../Globals.js"
+} from "../../../Globals.js"
 
 
 class AddTacScreen extends React.Component {

@@ -3,8 +3,8 @@ import { createMaterialTopTabNavigator } from "react-navigation-tabs"
 
 import { Ctx } from "../../Globals.js"
 import CalendarView from "../../components/Planner/CalendarView.js"
-import CreateEventStack from "../../components/Events/CreateEventStack.js"
-import ListEvents from "./ListEvents.js"
+import CreateEventNavigator from "./CreateEvent/Navigator.js"
+import ListAttendingNavigator from "./Attending/Navigator.js"
 
 
 class CalendarScreen extends React.Component {
@@ -17,21 +17,10 @@ class CalendarScreen extends React.Component {
 }
 
 
-class ListAttendingScreen extends React.Component {
-	render() {
-		return (
-			<ListEvents
-				userUuid={Ctx.Storage.userUuid}
-			/>
-		)
-	}
-}
-
-
 const EventsNavigator =	createMaterialTopTabNavigator(
 	{
-		CreateEventStack: {
-			screen: CreateEventStack,
+		CreateEventNavigator: {
+			screen: CreateEventNavigator,
 			navigationOptions: {
 				title: "Add your event",
 			}
@@ -41,8 +30,8 @@ const EventsNavigator =	createMaterialTopTabNavigator(
 			screen: CalendarScreen,
 		},
 
-		ListAttendingScreen: {
-			screen: ListAttendingScreen,
+		ListAttendingNavigator: {
+			screen: ListAttendingNavigator,
 			navigationOptions: {
 				title: "All",
 			}
@@ -50,7 +39,7 @@ const EventsNavigator =	createMaterialTopTabNavigator(
 
 	},
 	{
-		initialRouteName: "CreateEventStack",
+		initialRouteName: "ListAttendingNavigator",
 		lazy: true,
 		tabBarOptions: {
 			upperCaseLabel: false,

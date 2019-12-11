@@ -17,8 +17,8 @@ export class AxService {
 	constructor(Static, FlashMsgs) {
 		this.Static = Static
 		this.FlashMsgs = FlashMsgs
-		this.makeAxiosWithDefaults("")
-		this.setAxiosInterceptors()
+		console.log(this.FlashMsgs)
+		this.remakeAxios("")
 	}
 
 	makeAxiosWithDefaults(jwt) {
@@ -34,7 +34,7 @@ export class AxService {
 
 	setAxiosInterceptors() {
 		this.ax.interceptors.response.use(
-			function(resp) {
+			(resp) => {
 				if (resp.data == null) {
 					this.FlashMsgs.addFlash("api response body was null", "error")
 				} else {
@@ -45,7 +45,7 @@ export class AxService {
 				return Promise.resolve(resp)
 			}, 
 
-			function (err) {
+			(err) => {
 				this.FlashMsgs.addFlash("Network Error", "error")
 				//alert(JSON.stringify(err))
 				//this.FlashMsgs.unpackFlashMsgs(err.response.data)

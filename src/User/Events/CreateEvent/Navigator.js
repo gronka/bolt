@@ -6,7 +6,7 @@ import EditEventScreen from "./EditEventScreen.js"
 import ManageTacsStack from "./ManageTacsStack.js"
 
 
-const CreateEventStack = createStackNavigator(
+const CreateEventNavigator = createStackNavigator(
 	{
 		CreateEventScreen: {
 			screen: CreateEventScreen,
@@ -26,4 +26,4 @@ const CreateEventStack = createStackNavigator(
 )
 
 
-export default CreateEventStack
+export default CreateEventNavigator

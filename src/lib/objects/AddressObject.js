@@ -37,8 +37,8 @@ export class AddressObject extends RequestObject {
 
 	reinitToUserLoc() {
 		this.reinit()
-		this.setLat(Ctx.Storage.loc.getLat())
-		this.setLng(Ctx.Storage.loc.getLng())
+		this.setLat(this.Ctx.Storage.loc.getLat())
+		this.setLng(this.Ctx.Storage.loc.getLng())
 	}
 
 	getUuid() {
