@@ -4,6 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { createStackNavigator } from "react-navigation-stack"
 import { createBottomTabNavigator } from "react-navigation-tabs"
 
+import { CrumbNav } from "../Globals.js"
+
 import ViewConvoScreen from "./Conversations/ViewConvoScreen.js"
 import ViewProfileScreen from "./ViewProfileScreen.js"
 import CommunityNavigator from "./Community/Navigator.js"
@@ -23,13 +25,13 @@ export const defNavOpts = (navigation) => {
 
 		headerRight: (
 			<View style={{flexDirection: "row" }}>
-				<Ionicons name="md-arrow-back" size={30}
-					style={{ paddingRight: 10 }}
-					onPress={() => navigation.goBack(null)}
-				/>
 				<Ionicons name="md-person" size={30}
 					style={{ paddingRight: 20 }}
 					onPress={() => navigation.navigate("MyProfile")}
+				/>
+				<Ionicons name="md-arrow-back" size={30}
+					style={{ paddingRight: 10 }}
+					onPress={() => CrumbNav.back(navigation)}
 				/>
 			</View>
 		),

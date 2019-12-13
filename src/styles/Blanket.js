@@ -148,4 +148,11 @@ export const BlanketStyle = StyleSheet.create({
 		//padding: 8,
 		textAlign: "center",
 	},
+
+	profileImage: {
+		height: 80,
+		width: 80,
+		margin: 10,
+		borderRadius: 50,
+	},
 })

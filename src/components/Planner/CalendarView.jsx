@@ -6,8 +6,8 @@ import {
 import { Ionicons } from "@expo/vector-icons"
 
 import { Ctx } from "../../Globals.js"
-import Agenda from "./Agenda.js"
-import Calendar	 from "./Calendar.js"
+import Agenda from "./Agenda.jsx"
+import Calendar	 from "./Calendar.jsx"
 
 
 export default class CalendarView extends React.Component {

@@ -5,27 +5,35 @@ import {
 	TouchableOpacity,
 	View, 
 } from "react-native"
-import { withNavigation } from "react-navigation"
+import { withNavigation, withNavigationFocus } from "react-navigation"
 
-import { Blanket, Ctx, NavHelper } from "../../../Globals.js"
+import { 
+	AttendingEventList,
+	Blanket, 
+	CrumbNav,
+	Ctx, 
+} from "../../../Globals.js"
 
 
 class ListEvents extends React.Component {
 	constructor(props) {
 		super(props)
 		this.ofUser = this.props.userUuid
-		this.endpoint = "event/get.byUserUuid"
+		this.endpoint = "event/get.userAdminsEvents"
 
 		this.state = {
 			updates: 0,
-			results: [],
 			refreshing: false,
 		}
 	}
 	incrementUpdates = () => { this.setState({ updates: this.state.updates + 1 }) }
 
-	componentWillMount() {
-		this.getEvents()
+	componentDidUpdate(prevProps) {
+    if (this.props.isFocused) {
+			if (AttendingEventList.shouldUpdate()) {
+				this.getEvents()
+			}
+    }
 	}
 
 	getEvents = async () => {
@@ -35,10 +43,8 @@ class ListEvents extends React.Component {
 		}
 
 		onResponse = (resp) => {
+			AttendingEventList.setList(resp.data.b.list)
 			this.incrementUpdates()
-			this.setState({
-				results: resp.data.b.results,
-			})
 		}
 
 		Ctx.Ax.blindPost(this.endpoint, data, onResponse)
@@ -47,8 +53,7 @@ class ListEvents extends React.Component {
 	}
 
 	selectEvent(event) {
-		NavHelper.setEvent(event)
-		this.props.navigation.navigate("ViewEventScreen")
+		CrumbNav.to(this.props.navigation, "ViewEventScreen", {eventUuid: event.eventUuid})
 	}
 
 	/*
@@ -97,7 +102,7 @@ class ListEvents extends React.Component {
 		return(
 			<View style={{ flex: 1 }}>
 				<FlatList
-					data={this.state.results}
+					data={AttendingEventList.getList()}
 					renderItem={this._renderItem}
 					keyExtractor={this._keyExtractor}
 					ListEmptyComponent={this._listEmptyComponent}
@@ -111,4 +116,4 @@ class ListEvents extends React.Component {
 }
 
 
-export default withNavigation(ListEvents)
+export default withNavigation(withNavigationFocus(ListEvents))

@@ -10,7 +10,7 @@ import MapView, { Marker } from "react-native-maps"
 import { withNavigation, withNavigationFocus } from "react-navigation"
 
 import { Ctx } from "../../../Globals.js"
-import LoadingModal from "../../../components/LoadingModal.js"
+import LoadingModal from "../../../components/LoadingModal.jsx"
 import ListEvents from "./ListEvents.jsx"
 
 

@@ -50,6 +50,23 @@ class Context {
 		this.Storage = Storage
 		this.Static = Static
 	}
+
+	toJSON() {
+		return "Ctx Object"
+	}
+
+	getExpireTime() {
+		let inTwo = new Date()
+		inTwo.setMinutes(inTwo.getMinutes() + 2)
+		return inTwo.getTime()
+	}
+
+	getThrottleTime() {
+		let throt = new Date()
+		throt.setSeconds(throt.getSeconds() + 6)
+		return throt.getTime()
+	}
+
 }
 
 

@@ -30,7 +30,7 @@ export class Validator {
 		return 
 	}
 
-	validateTime(float, minValue, maxValue) {
+	validateToTrue() {
 		this.isValid = true
 		return 
 	}

@@ -8,8 +8,8 @@ import {
 import { createStackNavigator } from "react-navigation-stack"
 import { withNavigation, withNavigationFocus } from "react-navigation"
 
-import MapsacAutocompleteInput from "./MapsacAutocompleteInput.js"
-import SetTacLocationScreen from "./SetTacLocationScreen.js"
+import MapsacAutocompleteInput from "./MapsacAutocompleteInput.jsx"
+import SetTacLocationScreen from "./SetTacLocationScreen.jsx"
 
 import { 
 	Blanket,

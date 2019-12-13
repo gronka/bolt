@@ -18,7 +18,7 @@ import {
 	NewTacObj,
 } from "../../../Globals.js"
 import { asLocation } from "../../../lib/helpers.js"
-import LoadingModal from "../../../components/LoadingModal.js"
+import LoadingModal from "../../../components/LoadingModal.jsx"
 
 
 class SetTacLocationScreen extends React.Component {

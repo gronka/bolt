@@ -16,10 +16,21 @@ class DateRangeInput extends React.Component {
 
 		var startDate = new Date()
 		var endDate = new Date()
+
 		startDate.setMinutes(0)
 		endDate.setMinutes(0)
-		startDate.setHours(startDate.getHours() + 1)
-		endDate.setHours(startDate.getHours() + 2)
+		const startHour = startDate.getHours()
+		if (startHour == 23) {
+			startDate.setDate(startDate.getDate() + 1)
+			endDate.setDate(endDate.getDate() + 1)
+		} else if (startHour == 22 || startHour == 21) {
+			endDate.setDate(endDate.getDate() + 1)
+		}
+		startDate.setHours(startHour + 1)
+		endDate.setHours(startHour + 3)
+
+		this.props.event.setStartTime(startDate)
+		this.props.event.setEndTime(endDate)
 
 		// tzOffset references the tzOffset at the event location
 		//this.tzOffsetMm = props.tzOffset

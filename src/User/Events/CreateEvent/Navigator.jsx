@@ -1,11 +1,13 @@
 import React from "react"
 import { createStackNavigator } from "react-navigation-stack"
 
-import CreateEventScreen from "./CreateEventScreen.js"
-import EditEventScreen from "./EditEventScreen.js"
-import ManageTacsStack from "./ManageTacsStack.js"
+import CreateEventScreen from "./CreateEventScreen.jsx"
+import ManageTacsStack from "./ManageTacsStack.jsx"
 
 
+// NOTE: we don't want to include EditEventScreen here, since we don't want
+// people to go "back" after creating an event. It's better that they modify
+// the event they just made than to create a new one
 const CreateEventNavigator = createStackNavigator(
 	{
 		CreateEventScreen: {
@@ -15,11 +17,6 @@ const CreateEventNavigator = createStackNavigator(
 
 		ManageTacsStack: {
 			screen: ManageTacsStack,
-			navigationOptions: { header: null },
-		},
-
-		EditEventScreen: {
-			screen: EditEventScreen,
 			navigationOptions: { header: null },
 		},
 	}

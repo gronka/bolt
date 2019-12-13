@@ -15,7 +15,7 @@ import {
 	MapsacLookupOneshotter,
 	NewTacObj,
 } from "../../../Globals.js"
-import LoadingModal from "../../../components/LoadingModal.js"
+import LoadingModal from "../../../components/LoadingModal.jsx"
 
 
 class MapsacAutocompleteInput extends React.Component {
@@ -57,11 +57,9 @@ class MapsacAutocompleteInput extends React.Component {
 		var placeData = {}
 		try {
 			const data = { placeId: address.place_id}
-			console.log(data)
 			const request = await this.lookupOneshotter.requestWithLoading(address.place_id, data, this)
 			placeData = request.response.data.b.place
 			this.addressObj.setFromMapsac(placeData)
-			console.log(this.addressObj.getAddress())
 			this.setState({ address: this.addressObj.getAddress() })
 
 		} catch(err) {

@@ -10,7 +10,7 @@ import {
 import Constants from "expo-constants"
 
 import { Ctx, Blanket } from "../Globals.js"
-import LoadingModal from "../components/LoadingModal.js"
+import LoadingModal from "../components/LoadingModal.jsx"
 
 
 class VerifyPhoneScreen extends React.Component {

@@ -13,7 +13,7 @@ import { decode as atob } from "base-64"
 import { withNavigation } from "react-navigation"
 
 import { Ctx } from "../Globals.js"
-import LoadingModal from "../components/LoadingModal.js"
+import LoadingModal from "../components/LoadingModal.jsx"
 
 
 class LoginForm extends React.Component {

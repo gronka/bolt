@@ -14,6 +14,10 @@ export default class Cache {
 		this.getUrl = getUrl
 	}
 
+	getEmptyItem() {
+		return new this.itemClass(this.Ctx)
+	}
+
 	setItem(uuid, item) {
 		this.cachedItems[uuid] = item
 		this.cachedTimes[uuid] = Date.now()
@@ -41,7 +45,7 @@ export default class Cache {
 
 	async getItem(uuid) {
 		if (this.shouldUpdate(uuid)) {
-			this.cachedItems[uuid] = new this.itemClass()
+			this.cachedItems[uuid] = new this.itemClass(this.Ctx)
 			this.flaggedForUpdate.delete(uuid)
 			this.cachedTimes[uuid] = Date.now()
 			await this.getItemFromApi(uuid)
@@ -56,28 +60,23 @@ export default class Cache {
 			return
 		}
 
-		try{
-			data = {}
-			data[this.itemClass.uuidName] = uuid
-			var resp = await this.Ctx.Ax.blindPost(this.getUrl, data)
-			if (resp.data.i === this.Ctx.Static["ACCEPTED"]) {
-				this.unpackResponse(resp, uuid)
-			} else {
-				console.log("Response rejected: " + JSON.stringify(resp.status))
-				this.Ctx.FlashMsgs.unpackFlashMsgs(err.response.data)
-			}
-		} catch(err) {
-			console.log(err)
-			this.Ctx.FlashMsgs.addFlash("Failed to get response from API", "error")
+		onResponse = (resp) => {
+			this.unpackResponse(resp, uuid)
 		}
+
+		const temp = new this.itemClass(this.Ctx)
+		data = {}
+		data[temp.uuidName] = uuid
+		var resp = await this.Ctx.Ax.blindPost(this.getUrl, data, onResponse)
+
 		return
 	} 
 
 	unpackResponse(resp, uuid) {
 		// TODO: can this be handled better?
-		if (resp.data.b !== undefined) {
-			var body = JSON.parse(JSON.stringify(resp.data.b))
-			this.cachedItems[uuid].unpackItemFromApi(body)
+		if (resp.data.b != null && resp.data.b.item != null) {
+			var item = JSON.parse(JSON.stringify(resp.data.b.item))
+			this.cachedItems[uuid].unpackItemFromApi(item)
 		} else {
 			console.log(uuid + " did not return correctly formatted data")
 		}

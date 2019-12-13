@@ -119,6 +119,7 @@ class RequestHandler {
 export class RequestObject {
 	constructor(Ctx) {
 		this.Ctx = Ctx
+		this.updates = 0
 	}
 
 	getUuid(Ctx) {

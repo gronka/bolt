@@ -6,7 +6,7 @@ import {
 	View, 
 } from "react-native"
 
-import MapsacAutocompleteInput from "./MapsacAutocompleteInput.js"
+import MapsacAutocompleteInput from "./MapsacAutocompleteInput.jsx"
 
 import { 
 	Blanket,

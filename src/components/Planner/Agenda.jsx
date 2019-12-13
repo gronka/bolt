@@ -52,7 +52,6 @@ export default class Agenda extends React.Component {
 				//<TouchableOpacity onPress={this.print}>
 					//<Text>{this.state.updates}</Text>
 				//</TouchableOpacity>
-		//console.log(this.state)
 		//this.setState({
 			//updates: this.state.updates + 1,
 		//})
@@ -79,8 +78,6 @@ export default class Agenda extends React.Component {
 
 class AgendaRow extends React.Component {
 	render() {
-		console.log(this.props.item)
-
 		return(
 			<View style={{ flexDirection: "row" }}>
 

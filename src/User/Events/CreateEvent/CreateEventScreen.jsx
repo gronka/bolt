@@ -15,8 +15,8 @@ import {
 	EventMapData, 
 	NewEventObj,
 } from "../../../Globals.js"
-import DateRangeInput from "./DateRangeInput.js"
-import LoadingModal from "../../../components/LoadingModal.js"
+import DateRangeInput from "./DateRangeInput.jsx"
+import LoadingModal from "../../../components/LoadingModal.jsx"
 
 
 class CreateEventScreen extends React.Component {
@@ -84,7 +84,6 @@ class CreateEventScreen extends React.Component {
 		if (this.newEvent.isValidForCreate()) {
 			const uuid = this.newEvent.getUuid()
 			const data = this.newEvent.asCreateEventJson()
-			console.log(data)
 
 			try {
 				await CreateEventController.requestWithLoading(uuid, data, this)

@@ -17,7 +17,6 @@ export class AxService {
 	constructor(Static, FlashMsgs) {
 		this.Static = Static
 		this.FlashMsgs = FlashMsgs
-		console.log(this.FlashMsgs)
 		this.remakeAxios("")
 	}
 
@@ -106,20 +105,18 @@ export class AxService {
 
 
 	async blindPost(endpoint, data, onResponse) {
-		this.ax.post(endpoint, data)
-		.then((resp) => {
+		try{
+			var resp = await this.ax.post(endpoint, data)
 			if (resp.data.i === this.Static["ACCEPTED"]) {
 				onResponse(resp)
 			} else {
-				console.log("Response rejected: " + JSON.stringify(resp.status))
+				console.log("Request rejected: " + JSON.stringify(resp.status))
 				this.FlashMsgs.unpackFlashMsgs(err.response.data)
 			}
-		})
-		.catch((err) => {
-			// TODO: pass onError?
+		} catch(err) {
 			console.log(err)
 			this.FlashMsgs.addFlash("Failed to get response from API", "error")
-		})
+		}
 		return
 	}
 

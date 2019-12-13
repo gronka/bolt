@@ -36,12 +36,18 @@ import { AgendaCacher } from "./lib/cache/AgendaCacher.js"
 //import { CalendarCacher } from "./lib/cache/CalendarCacher.js"
 import { ConvoCacher } from "./lib/cache/ConvoCacher.js"
 import { ConvoSummaryCacher } from "./lib/cache/ConvoSummaryCacher.js"
+import { EventCacher } from "./lib/cache/EventCacher.js"
 import { ProfileCacher } from "./lib/cache/ProfileCacher.js"
 export const AgendaCache = new AgendaCacher(Ctx)
 //export const CalendarCache = new CalendarCacher(Ctx)
 export const ConvoCache = new ConvoCacher(Ctx)
 export const ConvoSummaryCache = new ConvoSummaryCacher(Ctx)
+export const EventCache = new EventCacher(Ctx)
 export const ProfileCache = new ProfileCacher(Ctx)
+
+
+import { EventListCache } from "./lib/cache/EventListCache.js"
+export const AttendingEventList = new EventListCache(Ctx)
 
 
 console.log("Initialize Map Data objects")
@@ -51,6 +57,6 @@ export const RestaurantMapData = new MapDataCacher(Ctx)
 
 
 console.log("Initialize Helper objects")
-import { NavHelperClass } from "./lib/services/NavHelper.js"
-export const NavHelper = new NavHelperClass(Ctx)
+import { CrumbNavigator } from "./lib/services/CrumbNavigator.js"
+export const CrumbNav = new CrumbNavigator(Ctx)
 console.log("Initialization complete")

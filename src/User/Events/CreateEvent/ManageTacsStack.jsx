@@ -1,9 +1,9 @@
 import React from "react"
 import { createStackNavigator } from "react-navigation-stack"
 
-import SetTacLocationScreen from "./SetTacLocationScreen.js"
-import SelectTacScreen from "./SelectTacScreen.js"
-import AddTacScreen from "./AddTacScreen.js"
+import SetTacLocationScreen from "./SetTacLocationScreen.jsx"
+import SelectTacScreen from "./SelectTacScreen.jsx"
+import AddTacScreen from "./AddTacScreen.jsx"
 
 
 export default ManageTacStack = createStackNavigator(

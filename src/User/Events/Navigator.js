@@ -2,9 +2,9 @@ import React from "react"
 import { createMaterialTopTabNavigator } from "react-navigation-tabs"
 
 import { Ctx } from "../../Globals.js"
-import CalendarView from "../../components/Planner/CalendarView.js"
-import CreateEventNavigator from "./CreateEvent/Navigator.js"
-import ListAttendingNavigator from "./Attending/Navigator.js"
+import CalendarView from "../../components/Planner/CalendarView.jsx"
+import CreateEventNavigator from "./CreateEvent/Navigator.jsx"
+import ListicleNavigator from "./Listicle/Navigator.jsx"
 
 
 class CalendarScreen extends React.Component {
@@ -30,16 +30,16 @@ const EventsNavigator =	createMaterialTopTabNavigator(
 			screen: CalendarScreen,
 		},
 
-		ListAttendingNavigator: {
-			screen: ListAttendingNavigator,
+		ListicleNavigator: {
+			screen: ListicleNavigator,
 			navigationOptions: {
-				title: "All",
+				title: "Following",
 			}
 		},
 
 	},
 	{
-		initialRouteName: "ListAttendingNavigator",
+		initialRouteName: "ListicleNavigator",
 		lazy: true,
 		tabBarOptions: {
 			upperCaseLabel: false,

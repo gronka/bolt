@@ -8,7 +8,7 @@ import {
 } from "react-native"
 import { Ionicons } from '@expo/vector-icons';
 
-import { Ctx, ProfileCache } from "../Globals.js"
+import { Blanket, Ctx, ProfileCache } from "../Globals.js"
 
 
 class Profile extends React.Component {
@@ -53,13 +53,13 @@ class Profile extends React.Component {
 				<View style={{ flex: 1, alignItems: "center", margin: 20 }}>
 					{this.state.profilePicUrl ? (
 						<Image 
-							style={styles.profileImage}
+							style={Blanket.profileImage}
 							source={{uri: this.state.profilePicUrl}}
 						/>
 
 					) : (
 						<Image 
-							style={styles.profileImage}
+							style={Blanket.profileImage}
 							source={require("../../assets/blankProfile.png")}
 						/>
 					)
@@ -103,16 +103,6 @@ class Profile extends React.Component {
 		)
 	}
 }
-
-
-const styles = StyleSheet.create({
-	profileImage: {
-		height: 80,
-		width: 80,
-		margin: 10,
-		borderRadius: 50,
-	},
-})
 
 
 export default Profile

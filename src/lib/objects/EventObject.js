@@ -2,7 +2,9 @@ import { RequestObject } from "../RequestHandlers.js"
 import { 
 	AddressValue,
 	LatValue,
+	ListValue,
 	LngValue,
+	LongInfoValue,
 	NameValue,
 	QuickInfoValue,
 	DateValue,
@@ -13,6 +15,9 @@ import {
 export class EventObject extends RequestObject {
 	constructor(Ctx) {
 		super(Ctx)
+		this.uuidName = "eventUuid"
+
+		this.eventUuid = ""
 		this.title = new TitleValue()
 		this.address = new AddressValue()
 		this.lat = new LatValue()
@@ -22,24 +27,30 @@ export class EventObject extends RequestObject {
 		this.startTime = new DateValue()
 		this.endTime = new DateValue()
 		this.quickInfo = new QuickInfoValue()
+		this.longInfo = new LongInfoValue()
 
-		this.admins = []
-		this.organizers = []
+		this.admins = new ListValue()
+		this.organizers = new ListValue()
 		// TODO:?
 		//this.organizerGroups = []
 		//this.promoters = []
 	}
 
 	canUserOrganize() {
-		if (this.admins.indexOf(this.Ctx.Storage.UserUuid) > -1 || 
-				this.organizers.indexOf(this.Ctx.Storage.UserUuid) > -1) {
+		const userUuid = this.Ctx.Storage.userUuid
+		const admins = this.getAdmins()
+		const organizers = this.getOrganizers()
+		if (admins.indexOf(userUuid) > -1 || 
+				organizers.indexOf(userUuid) > -1) {
 			return true
 		}
 		return false
 	}
 
 	canUserAdmin() {
-		if (this.admins.indexOf(this.Ctx.Storage.UserUuid) > -1) {
+		const userUuid = this.Ctx.Storage.userUuid
+		const admins = this.getAdmins()
+		if (admins.indexOf(userUuid) > -1) {
 			return true
 		}
 		return false
@@ -50,8 +61,18 @@ export class EventObject extends RequestObject {
 	}
 
 	getUuid() {
+		// overwritten from RequestObjects
 		return this.getTitle() + this.getAddress()
 	}
+
+	setEventUuid(p) { this.eventUuid = p }
+	getEventUuid() { return this.eventUuid }
+
+	setAdmins(p) { this.admins.setAndValidate(p) }
+	getAdmins() { return this.admins.value }
+
+	setOrganizers(p) { this.organizers.setAndValidate(p) }
+	getOrganizers() { return this.organizers.value }
 
 	setTitle(p) { this.title.setAndValidate(p) }
 	getTitle() { return this.title.value }
@@ -78,8 +99,12 @@ export class EventObject extends RequestObject {
 	setQuickInfo(p) { this.quickInfo.setAndValidate(p) }
 	getQuickInfo() { return this.quickInfo.value }
 
+	setLongInfo(p) { this.longInfo.setAndValidate(p) }
+	getLongInfo() { return this.longInfo.value }
+
 	setFromTac(tac) {
-		this.uuid = tac.tacUuid
+		this.update()
+		this.setEventUuid(tac.tacUuid)
 		this.setTacName(tac.name)
 		this.setLat(tac.lat)
 		this.setLng(tac.lng)
@@ -149,5 +174,25 @@ export class EventObject extends RequestObject {
 
 		return true
 
+	}
+
+	unpackItemFromApi(item) {
+		this.setEventUuid(item.eventUuid)
+		this.setTacName(item.tacName)
+		this.setTitle(item.title)
+		this.setAddress(item.address)
+		this.setQuickInfo(item.quicInfo)
+		this.setAdmins(item.admins)
+		this.setStartTime(item.startTime)
+		this.setEndTime(item.endTime)
+		//EventListCache.setFromProfile(this.userUuid, body)
+	}
+
+	isOccurringNow() {
+		const nowMilli = new Date().getTime()
+		if ( nowMilli > event.startTime ) {
+			return true
+		}
+		return false
 	}
 }
