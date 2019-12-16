@@ -42,13 +42,12 @@ class ListEvents extends React.Component {
 			ofUser: this.ofUser,
 		}
 
-		onResponse = (resp) => {
+		onSuccess = (resp) => {
 			AttendingEventList.setList(resp.data.b.list)
 			this.incrementUpdates()
 		}
 
-		Ctx.Ax.blindPost(this.endpoint, data, onResponse)
-		return
+		Ctx.Ax.blindPost(this.endpoint, data, onSuccess)
 
 	}
 
@@ -59,7 +58,7 @@ class ListEvents extends React.Component {
 	/*
 	 * FlatList functions
 	 */
-	_keyExtractor = (tac, index) => tac.tacUuid
+	_keyExtractor = (event, index) => event.eventUuid
 
 	_renderItem = ({item}) => {
 		const event = item
@@ -86,7 +85,7 @@ class ListEvents extends React.Component {
 		)
 	}
 
-	_onRefresh() {
+	_onRefresh = () => {
 		this.setState({
 			refreshing: true,
 		})
@@ -106,7 +105,7 @@ class ListEvents extends React.Component {
 					renderItem={this._renderItem}
 					keyExtractor={this._keyExtractor}
 					ListEmptyComponent={this._listEmptyComponent}
-					onRefresh={() => this.onRefresh}
+					onRefresh={this._onRefresh}
 					refreshing={this.state.refreshing}
 				/>
 

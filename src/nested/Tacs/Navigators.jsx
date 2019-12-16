@@ -6,26 +6,41 @@ import SelectTacScreen from "./SelectTacScreen.jsx"
 import AddTacScreen from "./AddTacScreen.jsx"
 
 
-export default ManageTacStack = createStackNavigator(
+export const TacsStackForCreateEvent = createStackNavigator(
 	{
-		SelectTac: {
+		CeSelectTac: {
 			screen: SelectTacScreen,
 			navigationOptions: { header: null },
 		},
 
-		AddTac: {
+		CeAddTac: {
 			screen: AddTacScreen,
 			navigationOptions: { header: null },
 		},
 
-		SetTacLocation: {
+		CeSetTacLocation: {
 			screen: SetTacLocationScreen,
 			navigationOptions: { header: null },
 		},
+	}
+)
 
-		//EditTac: {
-			//screen: EditTacScreen,
-			//navigationOptions: { header: null },
-		//},
+
+export const TacsStackForEditEvent = createStackNavigator(
+	{
+		EeSelectTac: {
+			screen: SelectTacScreen,
+			navigationOptions: { header: null },
+		},
+
+		EeAddTac: {
+			screen: AddTacScreen,
+			navigationOptions: { header: null },
+		},
+
+		EeSetTacLocation: {
+			screen: SetTacLocationScreen,
+			navigationOptions: { header: null },
+		},
 	}
 )

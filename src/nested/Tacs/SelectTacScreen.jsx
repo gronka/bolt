@@ -14,16 +14,19 @@ import SetTacLocationScreen from "./SetTacLocationScreen.jsx"
 import { 
 	Blanket,
 	Ctx,
+	CrumbNav,
 	GetTacsController,
 	NewEventObj,
 	NewTacObj, 
-} from "../../../Globals.js"
+} from "../../Globals.js"
 
 
 class SelectTacScreen extends React.Component {
 	constructor(props) {
 		super(props)
 		this.endpoint = "tac/get.byUserUuid"
+		//this.event = NewEventObj
+		this.event = CrumbNav.getParam("event")
 
 		this.state = {
 			updates: 0,
@@ -44,8 +47,12 @@ class SelectTacScreen extends React.Component {
   }
 
 	selectTac(tac) {
-		NewEventObj.setFromTac(tac)
-		this.props.navigation.navigate("CreateEventScreen")
+		this.event.setFromTac(tac)
+		if (this.event.state === "create") {
+			CrumbNav.to(this.props.navigation, "CreateEventScreen", {event: this.event})
+		} else if (this.event.state === "edit") {
+			CrumbNav.to(this.props.navigation, "EditEventScreen", {event: this.event})
+		}
 	}
 
 
@@ -105,13 +112,22 @@ class SelectTacScreen extends React.Component {
 		})
 	}
 
+	navigateToAddTac = () => {
+		if (this.event.state === "create") {
+			CrumbNav.to(this.props.navigation, "CeAddTac", {event: this.event})
+			//this.props.navigation.navigate("CeAddTac")
+		} else if (this.event.state === "edit") {
+			CrumbNav.to(this.props.navigation, "EeAddTac", {event: this.event})
+		}
+	}
+
 	render() {
 		return(
 			<View style={{ flex: 1 }}>
 				<View style={{ flexDirection: "row", flex: 1, justifyContent: "space-between", maxHeight: 66 }}>
 					<Text style={Blanket.textInputLabel}>Pick your tac:</Text>
 
-					<TouchableOpacity onPress={ () => this.props.navigation.navigate("AddTac") }>
+					<TouchableOpacity onPress={ this.navigateToAddTac }>
 						<Text style={{ ...Blanket.textInputLabel, color: "green" }}>+ Add a tac</Text>
 					</TouchableOpacity>
 				</View>

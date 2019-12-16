@@ -69,9 +69,10 @@ export const BlanketStyle = StyleSheet.create({
 
 	textInputLabel: {
 		fontSize: 18,
-		color: "#666",
-		marginHorizontal: 8,
-		marginTop: 8,
+		//color: "#666",
+		color: "#000",
+		//marginHorizontal: 8,
+		//marginTop: 8,
 	},
 
 	textForLabel: {
@@ -155,4 +156,16 @@ export const BlanketStyle = StyleSheet.create({
 		margin: 10,
 		borderRadius: 50,
 	},
+
+	fieldEditButton: {
+		//height: 40, 
+		//width: 40,
+    alignItems:'center',
+    justifyContent:'center',
+		//borderRadius: 8,
+		//borderWidth: 0.5,
+		//borderColor: "#3CF",
+		//backgroundColor: "#646464",
+	},
+
 })

@@ -4,6 +4,7 @@ import { createStackNavigator } from "react-navigation-stack"
 import ListAttendingScreen from "./ListAttendingScreen.jsx"
 import ViewEventScreen from "./ViewEventScreen.jsx"
 import EditEventScreen from "./EditEventScreen.jsx"
+import { TacsStackForEditEvent } from "../../../nested/Tacs/Navigators.jsx"
 
 
 const ListicleNavigator = createStackNavigator(
@@ -20,6 +21,11 @@ const ListicleNavigator = createStackNavigator(
 
 		EditEventScreen: {
 			screen: EditEventScreen,
+			navigationOptions: { header: null },
+		},
+
+		TacsStackForEditEvent: {
+			screen: TacsStackForEditEvent,
 			navigationOptions: { header: null },
 		},
 	}

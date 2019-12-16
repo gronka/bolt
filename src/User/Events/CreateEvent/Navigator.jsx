@@ -2,7 +2,7 @@ import React from "react"
 import { createStackNavigator } from "react-navigation-stack"
 
 import CreateEventScreen from "./CreateEventScreen.jsx"
-import ManageTacsStack from "./ManageTacsStack.jsx"
+import { TacsStackForCreateEvent } from "../../../nested/Tacs/Navigators.jsx"
 
 
 // NOTE: we don't want to include EditEventScreen here, since we don't want
@@ -15,8 +15,8 @@ const CreateEventNavigator = createStackNavigator(
 			navigationOptions: { header: null },
 		},
 
-		ManageTacsStack: {
-			screen: ManageTacsStack,
+		TacsStackForCreateEvent: {
+			screen: TacsStackForCreateEvent,
 			navigationOptions: { header: null },
 		},
 	}

@@ -18,7 +18,6 @@ export class CrumbNavigator {
 
 	to(nav, path, params) {
 		console.log(path)
-		console.log(params)
 		this.history.push(this.activeCrumb)
 		this.activeCrumb = new Crumb(path, params)
 		nav.navigate(path)

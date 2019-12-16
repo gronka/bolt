@@ -16,8 +16,11 @@ export class EventObject extends RequestObject {
 	constructor(Ctx) {
 		super(Ctx)
 		this.uuidName = "eventUuid"
+		this.updateFieldUrl = "/event/field.update"
+		this.state = ""
 
 		this.eventUuid = ""
+		this.tacUuid = ""
 		this.title = new TitleValue()
 		this.address = new AddressValue()
 		this.lat = new LatValue()
@@ -38,10 +41,8 @@ export class EventObject extends RequestObject {
 
 	canUserOrganize() {
 		const userUuid = this.Ctx.Storage.userUuid
-		const admins = this.getAdmins()
 		const organizers = this.getOrganizers()
-		if (admins.indexOf(userUuid) > -1 || 
-				organizers.indexOf(userUuid) > -1) {
+		if (organizers.indexOf(userUuid) > -1) {
 			return true
 		}
 		return false
@@ -56,17 +57,33 @@ export class EventObject extends RequestObject {
 		return false
 	}
 
+	canUserEdit() {
+		const userCanAdmin = this.canUserAdmin()
+		const userCanOrganize = this.canUserOrganize()
+		if (userCanAdmin || userCanOrganize) {
+			return true
+		}
+		return false
+	}
+
 	reinit() {
-		this.constructor()
+		this.constructor(this.Ctx)
 	}
 
 	getUuid() {
+		return this.eventUuid
+	}
+
+	getReqUuid() {
 		// overwritten from RequestObjects
 		return this.getTitle() + this.getAddress()
 	}
 
 	setEventUuid(p) { this.eventUuid = p }
 	getEventUuid() { return this.eventUuid }
+
+	setTacUuid(p) { this.tacUuid = p }
+	getTacUuid() { return this.tacUuid }
 
 	setAdmins(p) { this.admins.setAndValidate(p) }
 	getAdmins() { return this.admins.value }
@@ -103,8 +120,7 @@ export class EventObject extends RequestObject {
 	getLongInfo() { return this.longInfo.value }
 
 	setFromTac(tac) {
-		this.update()
-		this.setEventUuid(tac.tacUuid)
+		this.setTacUuid(tac.tacUuid)
 		this.setTacName(tac.name)
 		this.setLat(tac.lat)
 		this.setLng(tac.lng)
@@ -129,6 +145,7 @@ export class EventObject extends RequestObject {
 			startTime: this.startTime.asUtc(),
 			endTime: this.endTime.asUtc(),
 			tzOffset: this.getTzOffset(),
+			quickInfo: this.getQuickInfo(),
 		}
 	}
 
@@ -180,8 +197,10 @@ export class EventObject extends RequestObject {
 		this.setEventUuid(item.eventUuid)
 		this.setTacName(item.tacName)
 		this.setTitle(item.title)
+		this.setLat(item.lat)
+		this.setLng(item.lng)
 		this.setAddress(item.address)
-		this.setQuickInfo(item.quicInfo)
+		this.setQuickInfo(item.quickInfo)
 		this.setAdmins(item.admins)
 		this.setStartTime(item.startTime)
 		this.setEndTime(item.endTime)

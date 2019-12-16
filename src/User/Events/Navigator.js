@@ -33,7 +33,7 @@ const EventsNavigator =	createMaterialTopTabNavigator(
 		ListicleNavigator: {
 			screen: ListicleNavigator,
 			navigationOptions: {
-				title: "Following",
+				title: "My Events",
 			}
 		},
 

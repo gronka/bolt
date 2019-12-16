@@ -8,7 +8,7 @@ export const Colors = ColorStyle
 
 import { Dimensions } from "react-native"
 export const WIDTH = Dimensions.get("window").width
-export const HEIGHT = Dimensions.get("window").width
+export const HEIGHT = Dimensions.get("window").Height
 
 
 console.log("Initialize Objects")

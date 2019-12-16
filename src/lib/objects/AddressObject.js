@@ -13,6 +13,7 @@ import {
 export class AddressObject extends RequestObject {
 	constructor(Ctx) {
 		super(Ctx)
+		this.Ctx = Ctx
 		this.uuid = ""
 		this.address = new AddressValue("")
 		this.lat = new LatValue(0)
@@ -32,16 +33,21 @@ export class AddressObject extends RequestObject {
 	}
 
 	reinit() {
-		this.constructor()
+		this.constructor(this.Ctx)
 	}
 
 	reinitToUserLoc() {
 		this.reinit()
-		this.setLat(this.Ctx.Storage.loc.getLat())
-		this.setLng(this.Ctx.Storage.loc.getLng())
+		const userLat = this.Ctx.Storage.loc.getLat()
+		const userLng = this.Ctx.Storage.loc.getLng()
+		this.setLat(userLat)
+		this.setLat(userLng)
+		//this.setLat(this.Ctx.Storage.loc.getLat())
+		//this.setLng(this.Ctx.Storage.loc.getLng())
 	}
 
-	getUuid() {
+	getReqUuid() {
+		// overwritten from RequestObjects
 		return this.getInput() + this.getLatLngString()
 	}
 

@@ -13,17 +13,19 @@ import MapView, { Marker } from "react-native-maps"
 import { 
 	AddTacController,
 	Blanket,
+	CrumbNav,
 	Ctx,
 	EventMapData,
 	NewTacObj,
-} from "../../../Globals.js"
-import { asLocation } from "../../../lib/helpers.js"
-import LoadingModal from "../../../components/LoadingModal.jsx"
+} from "../../Globals.js"
+import { asLocation } from "../../lib/helpers.js"
+import LoadingModal from "../../components/LoadingModal.jsx"
 
 
 class SetTacLocationScreen extends React.Component {
 	constructor(props) {
 		super(props)
+		this.event = CrumbNav.getParam("event")  // Only for Nav
 		this.addressObj = NewTacObj
 
 		// default case is that we are verifying location not manually setting it
@@ -88,13 +90,25 @@ class SetTacLocationScreen extends React.Component {
 		this.addressObj.setLng(this.state.markerLoc.longitude)
 
 		// TODO: send create Tac request
-		const uuid = this.addressObj.getUuid()
+		const uuid = this.addressObj.getReqUuid()
 		const data = this.addressObj.asAddTacJson()
 		try {
 			await AddTacController.requestWithLoading(uuid, data, this)
-			this.props.navigation.navigate("SelectTac")
+			if (this.event.state === "create") {
+				CrumbNav.to(this.props.navigation, "CeSelectTac", {event: this.event})
+			} else if (this.event.state === "edit") {
+				CrumbNav.to(this.props.navigation, "EeSelectTac", {event: this.event})
+			}
 		} catch(err) {
 			// don't navigate/do anything
+		}
+	}
+
+	navigateToAddTac = () => {
+		if (this.event.state === "create") {
+			CrumbNav.to(this.props.navigation, "CeAddTac", {event: this.event})
+		} else if (this.event.state === "edit") {
+			CrumbNav.to(this.props.navigation, "EeAddTac", {event: this.event})
 		}
 	}
 
@@ -123,7 +137,7 @@ class SetTacLocationScreen extends React.Component {
 						<Text style={Blanket.textInputLabel}>Is this location correct?</Text>
 						<View style={{ flexDirection: "row"}}>
 							<TouchableOpacity style={Blanket.buttonModal} 
-								onPress={() => this.props.navigation.navigate("AddTac")}>
+								onPress={ this.navigateToAddTac }>
 								<Text style={Blanket.buttonModalText}>Go Back</Text>
 							</TouchableOpacity>
 

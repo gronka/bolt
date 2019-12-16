@@ -104,11 +104,11 @@ export class AxService {
 	}
 
 
-	async blindPost(endpoint, data, onResponse) {
+	async blindPost(endpoint, data, onSuccess) {
 		try{
 			var resp = await this.ax.post(endpoint, data)
 			if (resp.data.i === this.Static["ACCEPTED"]) {
-				onResponse(resp)
+				onSuccess(resp)
 			} else {
 				console.log("Request rejected: " + JSON.stringify(resp.status))
 				this.FlashMsgs.unpackFlashMsgs(err.response.data)

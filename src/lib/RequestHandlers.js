@@ -122,7 +122,35 @@ export class RequestObject {
 		this.updates = 0
 	}
 
-	getUuid(Ctx) {
+	getReqUuid(Ctx) {
 		throw("this function must be overwritten")
+	}
+
+	getField(field) {
+		return this[field].getValue()
+	}
+
+	setField(field, value) {
+		this[field].setAndValidate(value)
+	}
+
+	checkForWarnings(field) {
+		return this[field].validator.showWarning()
+	}
+
+	getWarning(field) {
+		return this[field].validator.description
+	}
+
+	saveFieldToDb(field, onSuccess) {
+		const isValid = this[field].isValid()
+		if (isValid) {
+			data = {
+				field: field,
+				value: this.getField(field),
+			}
+			data[this.uuidName] = this.getUuid()
+			this.Ctx.Ax.blindPost(this.updateFieldUrl, data, onSuccess)
+		}
 	}
 }

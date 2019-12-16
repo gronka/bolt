@@ -12,11 +12,13 @@ import { withNavigation, withNavigationFocus } from "react-navigation"
 import { 
 	Blanket, 
 	CreateEventController,
+	CrumbNav,
 	EventMapData, 
 	NewEventObj,
 } from "../../../Globals.js"
 import DateRangeInput from "./DateRangeInput.jsx"
 import LoadingModal from "../../../components/LoadingModal.jsx"
+import ChangeEventLocation from "../../../nested/Tacs/ChangeEventLocation.jsx"
 
 
 class CreateEventScreen extends React.Component {
@@ -26,6 +28,7 @@ class CreateEventScreen extends React.Component {
 		// Note: to avoid data duplication, we simply increment state.updates in
 		// order to refresh the view
 		this.newEvent = NewEventObj
+		this.newEvent.state = "create"
 
 		this.state = {
 			loading: false,
@@ -70,24 +73,22 @@ class CreateEventScreen extends React.Component {
 		this.incrementUpdates()
 	}
 
-	updateName = (p) => {
-		this.setTacName(p)
-		this.incrementUpdates()
-	}
-
-	navigateToAddTac = () => {
+	navigateToSelectTac = () => {
 		this.setState({ tacSelected: false })
-		this.props.navigation.navigate("ManageTacsStack") 
+		//this.props.navigation.navigate("CreateEventTacsStack") 
+		CrumbNav.to(this.props.navigation, "TacsStackForCreateEvent", {event: this.newEvent})
 	}
 
 	createEvent = async () => {
 		if (this.newEvent.isValidForCreate()) {
-			const uuid = this.newEvent.getUuid()
+			const uuid = this.newEvent.getReqUuid()
 			const data = this.newEvent.asCreateEventJson()
 
 			try {
-				await CreateEventController.requestWithLoading(uuid, data, this)
-				this.props.navigation.navigate("EditEvent")
+				const req = await CreateEventController.requestWithLoading(uuid, data, this)
+				const eventUuid = req.response.data.b.event.eventUuid
+				this.newEvent.reinit()
+				CrumbNav.to(this.props.navigation, "EditEventScreen", {eventUuid: eventUuid})
 			} catch(err) {
 				// don't navigate/do anything
 			}
@@ -97,82 +98,59 @@ class CreateEventScreen extends React.Component {
 	render() {
 		return(
 			<ScrollView>
-				<LoadingModal visible={this.state.loading} />
-				<Text style={Blanket.textInputLabel}>Event name:</Text>
-				<TextInput
-					style={Blanket.textInput}
-					placeholder="Event name"
-					onChangeText={ (p) => this.updateTitle(p) }
-				/>
-				{this.newEvent.title.showWarning() && 
-					<Text style={Blanket.warning}>{this.newEvent.title.validator.description}</Text>
-				}
+				<View style={{ paddingHorizontal: 10 }}>
+					<LoadingModal visible={this.state.loading} />
+					<Text style={Blanket.textInputLabel}>Event name:</Text>
+					<TextInput
+						style={Blanket.textInput}
+						placeholder="Event name"
+						onChangeText={ (p) => this.updateTitle(p) }
+					/>
+					{this.newEvent.title.showWarning() && 
+						<Text style={Blanket.warning}>{this.newEvent.title.validator.description}</Text>
+					}
 
-				<Text style={Blanket.textInputLabel}>Quick info:</Text>
-				<TextInput
-					style={Blanket.textInput}
-					multiline={true}
-					placeholder="Short description of your event for the map view. 140 character limit!"
-					onChangeText={ (p) => this.updateQuickInfo(p) }
-				/>
-				{this.newEvent.quickInfo.showWarning() && 
-					<Text style={Blanket.warning}>{this.newEvent.quickInfo.validator.description}</Text>
-				}
+					<Text style={Blanket.textInputLabel}>Quick info:</Text>
+					<TextInput
+						style={Blanket.textInput}
+						multiline={true}
+						placeholder="Short description of your event for the map view. 140 character limit!"
+						onChangeText={ (p) => this.updateQuickInfo(p) }
+					/>
+					{this.newEvent.quickInfo.showWarning() && 
+						<Text style={Blanket.warning}>{this.newEvent.quickInfo.validator.description}</Text>
+					}
 
-				<DateRangeInput 
-					event={this.newEvent}
-				/>
+					<DateRangeInput 
+						event={this.newEvent}
+					/>
+
+				</View>
 
 				{!this.state.tacSelected ? (
-					<View>
+					<View style={{ paddingHorizontal: 10 }}>
 						<View style={{ flexDirection: "row", flex: 1, justifyContent: "space-between", maxHeight: 66 }}>
 							<Text style={Blanket.textInputLabel}>Location:</Text>
 						</View>
 
-						<TouchableOpacity onPress={ this.navigateToAddTac }>
+						<TouchableOpacity onPress={ this.navigateToSelectTac }>
 							<Text style={Blanket.textInputPlaceholder}>Set location</Text>
 						</TouchableOpacity>
 					</View>
 
 				) : (
 					<View>
-						<View style={{ flexDirection: "row", flex: 1, justifyContent: "space-between", maxHeight: 66 }}>
-							<Text style={Blanket.textInputLabel}>Location:</Text>
-
-							<TouchableOpacity onPress={ this.navigateToAddTac }>
-								<Text style={{ ...Blanket.textInputLabel, color: "aqua" }}>Change Location</Text>
-							</TouchableOpacity>
-						</View>
-
-						<Text style={Blanket.textInput}>{this.newEvent.getTacName()}</Text>
-						<Text style={Blanket.textInput}>{this.newEvent.getAddress()}</Text>
-
-						<MapView
-							style={{ flex: 1, minHeight: 300, marginTop: 10 }}
-							provider="google"
-							zoomEnabled={false}
-							scrollEnabled={false}
-							pitchEnabled={false}
-							rotateEnabled={false}
-							region={{
-								latitude: this.state.eventLat,
-								longitude: this.state.eventLng,
-								latitudeDelta: EventMapData.defaultLatDelta/2,
-								longitudeDelta: EventMapData.defaultLngDelta,
-							}}
-						>
-							<Marker coordinate={ {latitude: this.state.eventLat, longitude: this.state.eventLng} } 
-							/>
-						</MapView>
+						<ChangeEventLocation 
+							event={this.newEvent}
+							updates={this.state.updates}
+						/>
 
 						<View style={{ flexDirection: "row" }}>
-
 							<TouchableOpacity style={Blanket.buttonModal} 
 								onPress={this.createEvent}>
 								<Text style={Blanket.buttonModalText}>Create Event</Text>
 							</TouchableOpacity>
 						</View>
-
 					</View>
 				)}
 

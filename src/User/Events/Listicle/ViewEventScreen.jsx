@@ -40,7 +40,7 @@ class ViewEventScreen extends React.Component {
 	loadEvent = async () => {
 		this.event = await EventCache.getItem(this.eventUuid)
 		showEdit = this.event.canUserOrganize()
-		this.setState({ showEdit: this.event.canUserOrganize() })
+		this.setState({ showEdit: this.event.canUserEdit() })
 		this.incrementUpdates()
 	}
 
@@ -51,10 +51,37 @@ class ViewEventScreen extends React.Component {
 	}
 
 	render() {
+		const showYouAreAdmin = this.event.canUserAdmin()
+		const showYouAreOrganizer = this.event.canUserOrganize()
 		// TODO: number attending
 		return(
 			<ScrollView>
 				<View style={{ flex: 1, alignItems: "center", margin: 20 }}>
+					{showYouAreAdmin &&
+						<Text style={{ fontSize: 14 }}> You are an event admin. </Text>
+					}
+					{showYouAreOrganizer &&
+						<Text style={{ fontSize: 14 }}> You are an event organizer. </Text>
+					}
+
+					{this.state.showEdit &&
+						<View>
+							<TouchableOpacity style={{ flexDirection: "row", margin: 8 }}
+								onPress={this.navToEditEvent}>
+									<Ionicons name="md-create" size={16}
+									/>
+								<Text style={{ fontSize: 16, paddingLeft: 4 }}> Edit this event </Text>
+							</TouchableOpacity>
+
+							<TouchableOpacity style={{ flexDirection: "row", margin: 8 }}
+								onPress={this.navToEditEvent}>
+									<Ionicons name="md-ice-cream" size={14}
+									/>
+								<Text style={{ fontSize: 14, paddingLeft: 4 }}> Generate Invitation key </Text>
+							</TouchableOpacity>
+						</View>
+					}
+					
 					{this.event.picUrl ? (
 						<Image 
 							style={Blanket.profileImage}
@@ -69,29 +96,31 @@ class ViewEventScreen extends React.Component {
 					)
 					}
 
-					<Text style={{ fontSize: 20, margin: 10 }}>
+					<Text style={{ fontSize: 22, margin: 10 }}>
 						{this.event.getTitle()}
 					</Text>
+					<Text style={{ fontSize: 14, margin: 2 }}>Going counter</Text>
 
-					{this.state.showEdit &&
-					<TouchableOpacity style={{ flexDirection: "row" }}
-						onPress={this.navToEditEvent}>
-							<Ionicons name="md-create" size={16}
-								style={{ paddingLeft: 6 }}
-							/>
-							<Text style={{ fontSize: 16, margin: 10 }}> Edit </Text>
-						</TouchableOpacity>
-					}
 
-					<View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-						<Text style={{ fontSize: 18, margin: 10 }}>Attending</Text>
-						<Text style={{ fontSize: 18, margin: 10 }}>Interested</Text>
-						<Text style={{ fontSize: 18, margin: 10 }}>Not attending</Text>
-					</View>
 
 				</View>
 
 				<View style={{ marginHorizontal: 10 }}>
+
+					<View style={{ flexDirection: "row" }}>
+						<Text style={{ fontSize: 14, margin: 2 }}>Public/Secret</Text>
+						<Text style={{ fontSize: 14, margin: 2 }}>Hosted by ...</Text>
+					</View>
+
+					<Text style={{ fontSize: 14, margin: 2 }}>Date</Text>
+
+					<View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+						<Text style={{ fontSize: 18, margin: 10 }}>Going</Text>
+						<Text style={{ fontSize: 18, margin: 10 }}>Interested</Text>
+						<Text style={{ fontSize: 18, margin: 10 }}>Share</Text>
+						<Text style={{ fontSize: 18, margin: 10 }}>More</Text>
+					</View>
+
 					<Text style={{ textAlign: "left" }}> test </Text>
 					<Text style={{ textAlign: "left" }}> {this.event.getQuickInfo()} </Text>
 					<Text style={{ textAlign: "left" }}> {this.event.getLongInfo()} </Text>

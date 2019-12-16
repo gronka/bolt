@@ -35,7 +35,7 @@ export class DataValue {
 		}
 	}
 
-	get() {
+	getValue() {
 		return this.value
 	}
 

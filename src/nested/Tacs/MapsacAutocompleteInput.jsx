@@ -11,16 +11,18 @@ import { withNavigation } from "react-navigation"
 
 import { 
 	Blanket,
+	CrumbNav,
 	MapsacAutocompleteOneshotter,
 	MapsacLookupOneshotter,
 	NewTacObj,
-} from "../../../Globals.js"
-import LoadingModal from "../../../components/LoadingModal.jsx"
+} from "../../Globals.js"
+import LoadingModal from "../../components/LoadingModal.jsx"
 
 
 class MapsacAutocompleteInput extends React.Component {
 	constructor(props) {
 		super(props)
+		this.event = CrumbNav.getParam("event")  // only for Nav
 		this.oneshotter = MapsacAutocompleteOneshotter
 		this.lookupOneshotter = MapsacLookupOneshotter
 		this.addressObj = NewTacObj
@@ -41,7 +43,7 @@ class MapsacAutocompleteInput extends React.Component {
 		this.incrementUpdates()
 
 		if (this.addressObj.getAddress().length > 2) {
-			const uuid = this.addressObj.getUuid()
+			const uuid = this.addressObj.getReqUuid()
 			const data = this.addressObj.asMapsacAutocompleteJson()
 			try {
 				const request = await this.oneshotter.request(uuid, data)
@@ -81,7 +83,11 @@ class MapsacAutocompleteInput extends React.Component {
 
 	checkAndProceedToSetLocation = () => {
 		if (this.addressObj.isValidForSetLocation()) {
-			this.props.navigation.navigate("SetTacLocation")
+			if (this.event.state === "create") {
+				CrumbNav.to(this.props.navigation, "CeSetTacLocation", {event: this.event})
+			} else if (this.event.state === "edit") {
+				CrumbNav.to(this.props.navigation, "EeSetTacLocation", {event: this.event})
+			}
 		} else {
 			// do nothing
 		}
