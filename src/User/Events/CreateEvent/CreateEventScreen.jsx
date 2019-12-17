@@ -30,6 +30,10 @@ class CreateEventScreen extends React.Component {
 		this.newEvent = NewEventObj
 		this.newEvent.state = "create"
 
+		this.scrollRef = React.createRef()
+		this.titleRef = React.createRef()
+		this.quickInfoRef = React.createRef()
+
 		this.state = {
 			loading: false,
 			failed: false,
@@ -40,6 +44,15 @@ class CreateEventScreen extends React.Component {
 			eventLat: 0,
 			eventLng: 0,
 		}
+	}
+
+	resetForm = () => {
+		console.log("resetting form")
+		this.newEvent.reinit()
+		this.scrollRef.scrollTo({x: 0, y: 0, animated: true})
+		this.titleRef.setNativeProps({ text: "" })
+		this.quickInfoRef.setNativeProps({ text: "" })
+		this.setState({ tacSelected: false })
 	}
 
 	incrementUpdates = () => { this.setState({ updates: this.state.updates + 1 }) }
@@ -87,7 +100,7 @@ class CreateEventScreen extends React.Component {
 			try {
 				const req = await CreateEventController.requestWithLoading(uuid, data, this)
 				const eventUuid = req.response.data.b.event.eventUuid
-				this.newEvent.reinit()
+				this.resetForm()
 				CrumbNav.to(this.props.navigation, "EditEventScreen", {eventUuid: eventUuid})
 			} catch(err) {
 				// don't navigate/do anything
@@ -97,7 +110,9 @@ class CreateEventScreen extends React.Component {
 
 	render() {
 		return(
-			<ScrollView>
+			<ScrollView
+					ref={ (ref) => this.scrollRef = ref }
+			>
 				<View style={{ paddingHorizontal: 10 }}>
 					<LoadingModal visible={this.state.loading} />
 					<Text style={Blanket.textInputLabel}>Event name:</Text>
@@ -105,6 +120,7 @@ class CreateEventScreen extends React.Component {
 						style={Blanket.textInput}
 						placeholder="Event name"
 						onChangeText={ (p) => this.updateTitle(p) }
+						ref={ (ref) => this.titleRef = ref }
 					/>
 					{this.newEvent.title.showWarning() && 
 						<Text style={Blanket.warning}>{this.newEvent.title.validator.description}</Text>
@@ -116,6 +132,7 @@ class CreateEventScreen extends React.Component {
 						multiline={true}
 						placeholder="Short description of your event for the map view. 140 character limit!"
 						onChangeText={ (p) => this.updateQuickInfo(p) }
+						ref={ (ref) => this.quickInfoRef = ref }
 					/>
 					{this.newEvent.quickInfo.showWarning() && 
 						<Text style={Blanket.warning}>{this.newEvent.quickInfo.validator.description}</Text>

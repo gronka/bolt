@@ -107,11 +107,13 @@ export class AxService {
 	async blindPost(endpoint, data, onSuccess) {
 		try{
 			var resp = await this.ax.post(endpoint, data)
+			// TODO: should we catch error codes > 300 here?
 			if (resp.data.i === this.Static["ACCEPTED"]) {
 				onSuccess(resp)
 			} else {
-				console.log("Request rejected: " + JSON.stringify(resp.status))
-				this.FlashMsgs.unpackFlashMsgs(err.response.data)
+				const msg = "Request rejected: " + JSON.stringify(resp.status)
+				console.log(msg)
+				this.FlashMsgs.unpackFlashMsgs(resp.data)
 			}
 		} catch(err) {
 			console.log(err)

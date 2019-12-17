@@ -128,6 +128,7 @@ class EditableField extends React.Component {
 
 		this.setState({ saving: true })
 		await this.target.saveFieldToDb(this.field, onSuccess)
+		// TODO: set flag to update this event in cache
 		this.setState({ saving: false })
 	}
 
