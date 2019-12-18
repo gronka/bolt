@@ -139,6 +139,7 @@ export class EventObject extends RequestObject {
 		return {
 			title: this.getTitle(),
 			address: this.getAddress(),
+			tacUuid: this.getTacUuid(),
 			tacName: this.getTacName(),
 			lat: this.getLat(),
 			lng: this.getLng(),
@@ -213,5 +214,13 @@ export class EventObject extends RequestObject {
 			return true
 		}
 		return false
+	}
+
+	updateLocationWithLoading(component, onResponse) {
+		const data = {
+			eventUuid: this.getEventUuid(),
+			tacUuid: this.getTacUuid(),
+		}
+		this.Ctx.Ax.submitWithLoading(component, "/event/location.change", data, onResponse)
 	}
 }

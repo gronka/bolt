@@ -31,7 +31,6 @@ class ChangeEventLocation extends React.Component {
 			updates: 0,
 			tacSelected: this.props.tacSelected,
 
-			title: "",
 			eventLat: this.event.getLat(),
 			eventLng: this.event.getLng(),
 		}

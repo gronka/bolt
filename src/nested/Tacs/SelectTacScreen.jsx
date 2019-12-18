@@ -47,11 +47,19 @@ class SelectTacScreen extends React.Component {
   }
 
 	selectTac(tac) {
+		console.log("state: " + this.event.state)
+		console.log("tac: " + JSON.stringify(tac))
 		this.event.setFromTac(tac)
 		if (this.event.state === "create") {
 			CrumbNav.to(this.props.navigation, "CreateEventScreen", {event: this.event})
 		} else if (this.event.state === "edit") {
-			CrumbNav.to(this.props.navigation, "EditEventScreen", {event: this.event})
+			try {
+				this.event.updateLocationWithLoading(this, () => {
+					CrumbNav.to(this.props.navigation, "EditEventScreen", {eventUuid: this.event.eventUuid})
+				})
+			} catch(err) {
+				// don't navigate/do anything
+			}
 		}
 	}
 

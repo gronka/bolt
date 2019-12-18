@@ -16,8 +16,20 @@ export class CrumbNavigator {
 		this.activeCrumb = new Crumb()
 	}
 
+	resetHistory() {
+		this.history = []
+	}
+
 	to(nav, path, params) {
 		console.log(path)
+		this.history.push(this.activeCrumb)
+		this.activeCrumb = new Crumb(path, params)
+		nav.navigate(path)
+	}
+
+	toWithReset(nav, path, params) {
+		console.log(path + " with reset")
+		this.resetHistory()
 		this.history.push(this.activeCrumb)
 		this.activeCrumb = new Crumb(path, params)
 		nav.navigate(path)

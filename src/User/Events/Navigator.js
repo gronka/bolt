@@ -40,6 +40,7 @@ const EventsNavigator =	createMaterialTopTabNavigator(
 	},
 	{
 		initialRouteName: "ListicleNavigator",
+		swipeEnabled: false,
 		lazy: true,
 		tabBarOptions: {
 			upperCaseLabel: false,

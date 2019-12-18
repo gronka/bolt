@@ -4,9 +4,9 @@
 //
 
 let protocol = "http://"
-let url = "192.168.1.209"
+//let url = "192.168.1.209"
 //let url = "192.168.8.221"
-//let url = "192.168.43.27"
+let url = "192.168.43.27"
 let port = ":9090"
 let version = "/v1"
 let kapi = protocol + url + port + version
