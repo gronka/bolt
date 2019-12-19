@@ -47,8 +47,6 @@ class SelectTacScreen extends React.Component {
   }
 
 	selectTac(tac) {
-		console.log("state: " + this.event.state)
-		console.log("tac: " + JSON.stringify(tac))
 		this.event.setFromTac(tac)
 		if (this.event.state === "create") {
 			CrumbNav.to(this.props.navigation, "CreateEventScreen", {event: this.event})
