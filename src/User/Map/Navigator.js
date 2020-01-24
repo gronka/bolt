@@ -17,7 +17,12 @@ class EventsMap extends React.Component {
 		this.map = React.createRef()
 	}
 
-	onRegionChangeComplete(region) => {
+	onRegionChangeComplete = (region) => {
+		try{
+			EventMapData.getPinsFromApi(region)
+		} catch(err) {
+			console.log(err)
+		}
 
 	}
 

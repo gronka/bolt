@@ -1,3 +1,7 @@
+import Constants from 'expo-constants';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
+
 import { AsyncStorage } from "react-native"
 
 
@@ -14,43 +18,46 @@ function isNullFromStorage(value) {
 }
 
 
-class Location {
+class UserLocation {
 	// TODO: implement geolocation.watchPosition
-	timestamp = 0.0
-	speed = 0
 	// TODO: localize the default lat/lng somehow
-	enabled = false
 
 	constructor(Static) {
+		this.speed = 0.0
+		this.expiresAt = 0.0
 		this.lat = Static.defaultLat
 		this.lng = Static.defaultLng
 	}
 
 	async update() {
-		await navigator.geolocation.getCurrentPosition(
-			position => {
-			this.loc = JSON.stringify(position)
-			this.timestamp = position.timestamp
-			this.speed = position.coords.speed
-			this.lat = position.coords.latitude
-			this.lng = position.coords.longitude
-			this.enabled = true
-		},
-		error => {
+		// TODO: ask for geolocation position on app launch, or maybe put a banner
+		// on the map
+		try {
+			var location = await Location.getCurrentPositionAsync()
+		} catch(err) {
+			console.log(err)
 			alert("Error getting location, search results will be impacted.")
-		})
+		}
+		if (location.coords == null) {
+			return
+		}
+
+		var oneMin = 1 * 60 * 1000
+		this.expiresAt = Date.now() + oneMin
+		this.speed = location.coords.speed
+		this.lat = location.coords.latitude
+		this.lng = location.coords.longitude
 	}
 
 	mustUpdate() {
 		if (isNullFromStorage(this.lat) ||
 				isNullFromStorage(this.lng) ||
-			  isNullFromStorage(this.timestamp)) {
+			  isNullFromStorage(this.expiresAt)) {
 			return true
 		} else {
 			// TODO: check this
-			let fiveMins = 5 * 60 * 1000
-			let timeDiff = this.timestamp - fiveMins
-			if (timeDiff < 0) {
+			var now = Date.now()
+			if (now > this.expiresAt) {
 				return true
 			}
 		}
@@ -88,7 +95,7 @@ export class StorageService {
 		this.jwt = ""
 		this.language = ""
 
-		this.loc = new Location(Static)
+		this.loc = new UserLocation(Static)
 
 	}
 
@@ -112,12 +119,10 @@ export class StorageService {
 
 			this.loc.setLat(await AsyncStorage.getItem("lat"))
 			this.loc.setLng(await AsyncStorage.getItem("lng"))
-			this.loc.timestamp  = await AsyncStorage.getItem("locTimestamp")  
+			this.loc.expiresAt  = await AsyncStorage.getItem("locExpiresAt")  
 			if (this.loc.mustUpdate()) {
 				this.loc.update()
-			} else {
-				this.enabled = true
-			}
+			} 
 
 		} else {
 			// not signed in

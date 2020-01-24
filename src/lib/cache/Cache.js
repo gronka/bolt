@@ -3,15 +3,14 @@
 // REQUIREMENTS:
 // items being cached must have the function unpackItemFromApi defined
 export default class Cache {
-	cachedItems = {}
-	cachedTimes = {}
-	flaggedForUpdate = new Set([])
-
 	constructor(Ctx, itemClass, getUrl) {
 		this.Ctx = Ctx
 		// itemClass is the class of items which will be cached
 		this.itemClass = itemClass
 		this.getUrl = getUrl
+		this.cachedItems = {}
+		this.cachedTimes = {}
+		this.flaggedForUpdate = new Set([])
 	}
 
 	getEmptyItem() {
@@ -43,18 +42,18 @@ export default class Cache {
 		return false
 	}
 
-	async getItem(uuid) {
+	async getItem(uuid, data={}) {
 		if (this.shouldUpdate(uuid)) {
 			this.cachedItems[uuid] = new this.itemClass(this.Ctx)
 			this.flaggedForUpdate.delete(uuid)
 			this.cachedTimes[uuid] = Date.now()
-			await this.getItemFromApi(uuid)
+			await this.getItemFromApi(uuid, data)
 		} 
 		//alert(JSON.stringify(this.cachedItems[uuid]))
 		return this.cachedItems[uuid]
 	}
 
-	async getItemFromApi(uuid) {
+	async getItemFromApi(uuid, data) {
 		// TODO: Does this need to be handled better?
 		if (uuid == null) {
 			return
@@ -65,7 +64,6 @@ export default class Cache {
 		}
 
 		const temp = new this.itemClass(this.Ctx)
-		data = {}
 		data[temp.uuidName] = uuid
 		var resp = await this.Ctx.Ax.blindPost(this.getUrl, data, onResponse)
 

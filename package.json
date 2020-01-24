@@ -28,7 +28,9 @@
     "react-navigation-stack": "^1.9.4",
     "react-navigation-tabs": "^2.5.6",
     "tipsi-stripe": "^7.5.1",
-    "react-native-reanimated": "~1.2.0"
+    "react-native-reanimated": "~1.2.0",
+    "expo-location": "~7.0.0",
+    "expo-permissions": "~7.0.0"
   },
   "devDependencies": {
     "babel-preset-expo": "^7.0.0"
